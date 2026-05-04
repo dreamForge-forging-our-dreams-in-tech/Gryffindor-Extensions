@@ -12,7 +12,7 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
         getInfo() {
             return {
                 id: extension_id,
-                name: 'JS Code Maker',
+                name: 'Turbowarp Extension Builder',
                 blocks: [
                     {
                         opcode: 'defineExtensionHat',
@@ -29,6 +29,18 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
                         opcode: 'generateExtensionMetaData',
                         blockType: Scratch.BlockType.CONDITIONAL,
                         text: 'Define extension meta data',
+                        branchCount: 1 // This is the magic property
+                    },
+                    {
+                        opcode: 'generateExtensionBlocks',
+                        blockType: Scratch.BlockType.CONDITIONAL,
+                        text: 'Define extension blocks',
+                        branchCount: 1 // This is the magic property
+                    },
+                    {
+                        opcode: 'generateExtensionBlocksMetaData',
+                        blockType: Scratch.BlockType.CONDITIONAL,
+                        text: 'Define block meta data',
                         branchCount: 1 // This is the magic property
                     },
                     {
@@ -65,7 +77,10 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
                             { text: 'ID', value: 'id' },
                             { text: 'Name', value: 'name' },
                             { text: 'Block Color', value: 'color1' },
-                            { text: 'Hover Color', value: 'color2' }
+                            { text: 'Hover Color', value: 'color2' },
+                            { text: 'Function', value: 'opcode' },
+                            { text: 'Type', value: 'blockType' },
+                            { text: 'Text', value: 'text' }
                         ]
                     }
                 }
@@ -82,6 +97,13 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
             while (currentId) {
                 const block = target.blocks.getBlock(currentId);
                 const opcode = block.opcode;
+
+                let substackId = null;
+                try {
+                    substackId = block.inputs.SUBSTACK ? block.inputs.SUBSTACK.block : null;
+                } catch (e) {
+                    console.error(`Error processing block ${opcode}:`, e);
+                }
 
                 // Helper to get a clean value for any input
                 const getVal = (name) => this.resolveInput(block, name, target);
@@ -103,14 +125,23 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
                         break;
 
                     case `${extension_id}_generateExtensionMetaData`:
-                        const substackId = block.inputs.SUBSTACK ? block.inputs.SUBSTACK.block : null;
-                        lines.push(`export default {`);
                         lines.push(`  getInfo() {`);
                         lines.push(`    return {`);
                         if (substackId) lines.push(this.transpile(substackId, target));
                         lines.push(`    };`);
                         lines.push(`  }`);
-                        lines.push(`};`);
+                        break;
+
+                    case `${extension_id}_generateExtensionBlocks`:
+                        lines.push(`blocks: [`);
+                        if (substackId) lines.push(this.transpile(substackId, target));
+                        lines.push(`]`);
+                        break;
+
+                    case `${extension_id}_generateExtensionBlocksMetaData`:
+                        lines.push(`{`);
+                        if (substackId) lines.push(this.transpile(substackId, target));
+                        lines.push(`}`);
                         break;
 
                     default:
@@ -167,7 +198,7 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
 
             // 3. Generate the class string
             const body = this.transpile(target.blocks.getNextBlock(hatId), target); // pass the hat id here instead of in the transpile function so we ca nreuse the transpile function
-            this.generatedCode = `class ${extensionName} {\n  constructor() {\n super();\n  }\n ${body}\n }`;
+            this.generatedCode = `class ${extensionName} {\n  constructor() {}\n ${body}\n }\n Scratch.extensions.register(new ${extensionName}());`;
             console.log(this.generatedCode);
         }
 
