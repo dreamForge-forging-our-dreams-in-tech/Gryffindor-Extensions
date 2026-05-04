@@ -46,6 +46,7 @@ You can set the type of the block using to block type reporter block.
 ![alt text](image-7.png)
 
 ## defining multiple blocks
+Each "define block meta data" block defines a new block, so you can just simple add new ones of those to create new blocks.
 ![alt text](image-8.png)
 
 # generating extension code
