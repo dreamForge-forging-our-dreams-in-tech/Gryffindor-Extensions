@@ -4,6 +4,8 @@
 Must run unsandboxed!
 If not ran unsandboxed the extension wont be able to render or compile your extension correctly.
 
+Must have some understanding of turbowarp [extensions](https://docs.turbowarp.org/development/extensions/introduction)
+
 # defining a extension class
 To define a extension you drag the define turbowarp extension into the workspace and enter the class name for the extension.
 ![alt text](image.png)
