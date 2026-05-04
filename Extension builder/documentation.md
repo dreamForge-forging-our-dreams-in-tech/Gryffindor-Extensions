@@ -32,7 +32,7 @@ First drag a "Define extension blocks" block into the "define extension meta dat
 Then into this block you can drag the "define block meta data" block, basically this is what defines each new block.
 ![alt text](image-5.png)
 
-Then into those blocks you can drag a meta block into.
+Then you can drag a meta tag block into the "defineblock meta data" block
 ![alt text](image-6.png)
 
 | Name       | Description |
@@ -44,6 +44,9 @@ Then into those blocks you can drag a meta block into.
 ## setting block types
 You can set the type of the block using to block type reporter block.
 ![alt text](image-7.png)
+
+## defining multiple blocks
+![alt text](image-8.png)
 
 # generating extension code
 
