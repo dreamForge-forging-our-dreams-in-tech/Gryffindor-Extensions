@@ -41,8 +41,34 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
                         opcode: 'updateCode',
                         blockType: Scratch.BlockType.COMMAND,
                         text: 'Log code'
+                    },
+                    {
+                        opcode: 'setMetaData',
+                        blockType: Scratch.BlockType.COMMAND,
+                        text: 'set [METATAG] to [VALUE]',
+                        arguments: {
+                            METATAG: {
+                                type: Scratch.ArgumentType.STRING,
+                                menu: 'metaData' // Must match the key in the menus object
+                            },
+                            VALUE: {
+                                type: Scratch.ArgumentType.STRING,
+                                defaultValue: 'Default Value'
+                            }
+                        }
                     }
-                ]
+                ],
+                menus: {
+                    metaData: {
+                        acceptReporters: false, // Allows users to drop a round block into the menu
+                        items: [
+                            { text: 'ID', value: 'id' },
+                            { text: 'Name', value: 'name' },
+                            { text: 'Block Color', value: 'color1' },
+                            { text: 'Hover Color', value: 'color2' }
+                        ]
+                    }
+                }
             };
         }
 
@@ -57,32 +83,38 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
                 const block = target.blocks.getBlock(currentId);
                 const opcode = block.opcode;
 
-                console.log(opcode)
-                // Simple Translation Map
-                if (opcode === 'motion_movesteps') {
-                    const steps = target.blocks.getBlock(block.inputs.STEPS.block).fields.NUM.value;
-                    lines.push(`    this.move(${steps});`);
-                } else if (opcode === 'looks_say') {
-                    const message = target.blocks.getBlock(block.inputs.MESSAGE.block).fields.TEXT.value;
-                    lines.push(`    console.log("${message}");`);
-                } else if (opcode === `${extension_id}_generateExtensionMetaData`) {
-                    // 1. Get the ID of the block literally inside the mouth
-                    const branchInput = block.inputs.SUBSTACK;
-                    const branchBlockId = branchInput ? branchInput.block : null;
+                // Helper to get a clean value for any input
+                const getVal = (name) => this.resolveInput(block, name, target);
 
-                    // 2. Transpile that branch (using a helper or the same function)
-                    let branchCode = "";
-                    if (branchBlockId) {
-                        branchCode = this.transpile(branchBlockId, target);
-                    }
+                switch (opcode) {
+                    case 'motion_movesteps':
+                        lines.push(`sprite.moveSteps(${getVal('STEPS')});`);
+                        break;
 
-                    lines.push(`  getInfo() {`);
-                    lines.push(`    return {`);
-                    lines.push(branchCode); // Put the contents of the mouth here
-                    lines.push(`    };`);
-                    lines.push(`  }`);
-                } else {
-                    lines.push(`    // Unknown block: ${opcode}`);
+                    case 'looks_say':
+                        lines.push(`sprite.say(${getVal('MESSAGE')});`);
+                        break;
+
+                    case `${extension_id}_setMetaData`:
+                        const tag = block.fields.METATAG.value;
+                        const val = getVal('VALUE');
+                        // Formatting for your JSON/Object view
+                        lines.push(`  ${tag}: ${val},`);
+                        break;
+
+                    case `${extension_id}_generateExtensionMetaData`:
+                        const substackId = block.inputs.SUBSTACK ? block.inputs.SUBSTACK.block : null;
+                        lines.push(`export default {`);
+                        lines.push(`  getInfo() {`);
+                        lines.push(`    return {`);
+                        if (substackId) lines.push(this.transpile(substackId, target));
+                        lines.push(`    };`);
+                        lines.push(`  }`);
+                        lines.push(`};`);
+                        break;
+
+                    default:
+                        lines.push(`// Logic for ${opcode} not yet implemented`);
                 }
 
                 currentId = target.blocks.getNextBlock(currentId);
@@ -90,13 +122,25 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
             return lines.join('\n');
         }
 
-        generateExtensionMetaData() {
-            return `
-            getInfo() {
-    return {
-    };
-  }
-`;
+        resolveInput(parentBlock, inputName, target) {
+            const input = parentBlock.inputs[inputName];
+            if (!input || !input.block) return 'null';
+
+            const inputBlock = target.blocks.getBlock(input.block);
+
+            // 1. Check for Shadow Blocks (Simple inputs)
+            // Opcode 'text' is the white bubble for strings
+            // Opcode 'math_number' is the white bubble for numbers
+            if (inputBlock.opcode === 'text') {
+                return `"${inputBlock.fields.TEXT.value}"`;
+            }
+            if (inputBlock.opcode === 'math_number') {
+                return inputBlock.fields.NUM.value;
+            }
+
+            // 2. Check for Reporter Blocks (e.g. "x position", "my variable")
+            // If it's a real block, transpile it to get its "code" representation
+            return this.transpile(input.block, target).trim();
         }
 
         updateCode(args, util) {
