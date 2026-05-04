@@ -68,6 +68,17 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
                                 defaultValue: 'Default Value'
                             }
                         }
+                    },
+                    {
+                        opcode: 'buildBlockType',
+                        blockType: Scratch.BlockType.REPORTER,
+                        text: 'block type[TYPE]',
+                        arguments: {
+                            TYPE: {
+                                type: Scratch.ArgumentType.STRING,
+                                menu: 'blockTypes' // Must match the key in the menus object
+                            }
+                        }
                     }
                 ],
                 menus: {
@@ -81,6 +92,18 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
                             { text: 'Function', value: 'opcode' },
                             { text: 'Type', value: 'blockType' },
                             { text: 'Text', value: 'text' }
+                        ]
+                    },
+                    blockTypes: {
+                        acceptReporters: false, // Allows users to drop a round block into the menu
+                        items: [
+                            { text: 'Command', value: 'Scratch.BlockType.COMMAND' },
+                            { text: 'Reporter', value: 'Scratch.BlockType.REPORTER' },
+                            { text: 'Boolean', value: 'Scratch.BlockType.BOOLEAN' },
+                            { text: 'Conditional', value: 'Scratch.BlockType.CONDITIONAL' },
+                            { text: 'Loop', value: 'Scratch.BlockType.LOOP' },
+                            { text: 'Hat', value: 'Scratch.BlockType.HAT' },
+                            { text: 'Hat', value: 'Scratch.BlockType.EVENT' }
                         ]
                     }
                 }
@@ -142,6 +165,10 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
                         lines.push(`{`);
                         if (substackId) lines.push(this.transpile(substackId, target));
                         lines.push(`}`);
+                        break;
+
+                    case `${extension_id}_buildBlockType`:
+                        lines.push(block.fields.TYPE.value);
                         break;
 
                     default:

@@ -23,6 +23,28 @@ The define extension meta data is a block where you can drag in any meta data bl
 
 ![alt text](image-3.png)
 
+# defining custom blocks
+Defining custom blocks is just as simple as defining the meta data.
+
+First drag a "Define extension blocks" block into the "define extension meta data" block
+![alt text](image-4.png)
+
+Then into this block you can drag the "define block meta data" block, basically this is what defines each new block.
+![alt text](image-5.png)
+
+Then into those blocks you can drag a meta block into.
+![alt text](image-6.png)
+
+| Name       | Description |
+| ---------------| -------- |
+| Function             | The name of the function that will execute when this block is called |
+| Type           | The kind of type you want the block to be.   |
+| Text    | The text that appears on the block, follows the same strucutre as the scratchblocks tool does. |
+
+## setting block types
+You can set the type of the block using to block type reporter block.
+![alt text](image-7.png)
+
 # generating extension code
 
 To generate the code for the extension you can press the Log code block in the toolbox, dont drag it into the workspace but click it.
@@ -31,3 +53,8 @@ This then logs the generated code to the console and updates the "Display genera
 ![alt text](image-1.png)
 
 Note: this is a temporary way to acces the code, im working on changes to how this works but right now i just want to test everything before going into more "advanced" directions.
+
+# FAQ
+
+## my blocks are still not appearing
+* Have you checked whether the name provided in the block meta tags Function value actually exists? IF it doesnt exist turbowarp will not render your block!
