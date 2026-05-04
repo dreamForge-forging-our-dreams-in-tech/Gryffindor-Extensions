@@ -7,7 +7,7 @@ class ASD_COMMAND {
     getInfo() {
         return {
             id: 'gryffindorjstools', // Ensure this is lowercase/no symbols
-            name: 'JS Tools',
+            name: 'ASD',
             color1: '#0088ff', // Main block color
             color2: '#0066cc', // Hover/Outline color
             blocks: [
