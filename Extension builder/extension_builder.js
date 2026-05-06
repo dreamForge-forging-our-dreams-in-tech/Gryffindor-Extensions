@@ -206,9 +206,8 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
                     default:
                         const scratchVMTarget = Scratch.vm.runtime.getEditingTarget();
                         lines.push(`
-                            let sprite = util.target;
                             const ${opcode} = this.runtime.getOpcodeFunction(${opcode});
-                            ${opcode}(JSON.parse(${this.getBlockArguments(block, target)}),util);
+                            await ${opcode}(JSON.parse(${this.getBlockArguments(block, target)}),util);
                             `);
                 }
 
@@ -335,7 +334,7 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
                 const opcode_name = allBlocks[opcode_name_block_id].fields.TEXT.value || "opcode_name";
 
                 const hat_body = this.transpile(target.blocks.getNextBlock(hatId), target);
-                opcode_body += `\n  ${opcode_name} (args, util) {\n${hat_body}\n  }\n`.replaceAll('"', ''); // Remove quotes if any
+                opcode_body += `\n async ${opcode_name} (args, util) {\n${hat_body}\n  }\n`.replaceAll('"', ''); // Remove quotes if any
             });
 
             this.generatedCode = `class ${extensionName} {\n  constructor(runtime) {\n    this.runtime = runtime;\n  }\n ${body}\n \n ${opcode_body}\n\n}\n Scratch.extensions.register(new ${extensionName}(Scratch.vm.runtime));`;
@@ -377,11 +376,11 @@ class MyCoolAndAwesomeExtension {
     }
 
 
-    opcode_name(args, util) {
+    async opcode_name(args, util) {
 
         let sprite = util.target;
         const motion_turnright = this.runtime.getOpcodeFunction('motion_turnright');
-        motion_turnright({ DEGREES: 15 }, util);
+        await motion_turnright({ DEGREES: 15 }, util);
 
     }
 
