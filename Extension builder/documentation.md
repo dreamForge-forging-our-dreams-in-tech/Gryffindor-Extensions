@@ -69,6 +69,11 @@ now that you have defined your arguments for the block you can tell turbowarp wh
 You do this by using [ARGUMENTNAME] in the blocks "text" definition, you can type this anywhere and as many times in your block.
 ![alt text](image-18.png)
 
+## defining the blocks opcode code
+Custom blocks always need to know what to do, custom javascript functions are connected to them via the set opcode in the blocks meta tag field, however you still need to define this opcode, to do so you can use the "Define block opcode" hat.
+Just enter the corresponding opcode name and attach any block you like to give it a functionality.
+![alt text](image-19.png)
+
 # generating and viewing extension code
 During the development of your extension you can preview a live view of the code, any change you make is updated and you can manually update the code view by clicking the "Display generated code"
 

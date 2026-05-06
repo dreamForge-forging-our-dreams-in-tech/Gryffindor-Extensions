@@ -204,10 +204,11 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
                         break;
 
                     default:
-                        const target = Scratch.vm.runtime.getEditingTarget();
-                        const spriteName = target.sprite.name;
 
-                        lines.push(`${spriteName}.${opcode}(${this.getBlockArguments(block, target)});\n`);
+                        lines.push(`
+                                                    const scratchVMTarget = Scratch.vm.runtime.getEditingTarget();
+                        const spriteName = scratchVMTarget.sprite.name;
+                            scratchVMTarget[spriteName].${opcode}(${this.getBlockArguments(block, scratchVMTarget)});\n`);
                 }
 
                 currentId = target.blocks.getNextBlock(currentId);
