@@ -156,7 +156,8 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
             while (currentId) {
                 const block = target.blocks.getBlock(currentId);
                 const opcode = block.opcode;
-                console.log(opcode)
+                console.log(block)
+
                 let substackId = null;
                 try {
                     substackId = block.inputs.SUBSTACK ? block.inputs.SUBSTACK.block : null;
@@ -197,12 +198,44 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
                         break;
 
                     default:
-                        lines.push(opcode + `();\n`);
+                        const target = Scratch.vm.runtime.getEditingTarget();
+                        const spriteName = target.sprite.name;
+
+                        lines.push(`${spriteName}.${opcode}(${this.getBlockArguments(block, target)});\n`);
                 }
 
                 currentId = target.blocks.getNextBlock(currentId);
             }
             return lines.join('\n');
+        }
+
+        isReporter(opcode) {
+            // Get the block definition from the runtime
+            const blockDef = Scratch.vm.runtime.getBlocksXML().find(b => b.opcode === opcode);
+
+            // Check if it's a reporter (round) or a boolean (hexagonal)
+            // These are the blocks that return values rather than executing 'next' blocks
+            return blockDef && (blockDef.blockType === 'reporter' || blockDef.blockType === 'boolean');
+        }
+
+        getBlockArguments(block, target) {
+            const args = [];
+            for (const inputName in block.inputs) {
+                const input = block.inputs[inputName];
+
+                // Check if the input is a simple value (shadow) or another block (reporter)
+                if (input.shadow && !input.block) {
+                    // It's a direct value like a number or string
+                    const value = target.blocks.getBlock(input.shadow).fields.VALUE.value;
+                    args.push(JSON.stringify(value)); // JSON.stringify adds quotes to strings automatically
+                } else if (input.block) {
+                    // It's a nested reporter block (e.g., 'distance to mouse')
+                    // You would recursively call a 'generateCode' function here
+                    console.log(input.block)
+                    args.push(this.transpile(input.block, target)); // Recursively transpile the nested block
+                }
+            }
+            return args.join(', ');
         }
 
         buildDefinition(definitionType, lines, substackId, target) {
