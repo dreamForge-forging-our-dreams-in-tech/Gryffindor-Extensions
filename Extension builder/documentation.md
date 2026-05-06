@@ -49,6 +49,26 @@ Repeat step 2 and 3 to create multiple blocks
 You can set the type of the block using to block type reporter block.
 ![alt text](image-7.png)
 
+## defining block arguments
+
+Defining block arguments, is a bit more advanced but follows the same structure as usual.
+
+Drag in a "define extension meta data block" into the "define block meta data" block, switch its dropdown value to "Define block arguments".
+![alt text](image-16.png)
+
+Then into the "define block arguments" block you can drag a "Define argument" block, type the argument name(must be UPPERCASE and unique), argument type and the default value of the argument.
+![alt text](image-17.png)
+
+| Name       | Description |
+| ---------------| -------- |
+| String             | The argument will only accept text as its input |
+| Number           |The argument will only accept numeric inputs |
+| Boolean    | The argument will only accept boolean arguments (true/false) |
+
+now that you have defined your arguments for the block you can tell turbowarp where to display them.
+You do this by using [ARGUMENTNAME] in the blocks "text" definition, you can type this anywhere and as many times in your block.
+![alt text](image-18.png)
+
 # generating and viewing extension code
 During the development of your extension you can preview a live view of the code, any change you make is updated and you can manually update the code view by clicking the "Display generated code"
 

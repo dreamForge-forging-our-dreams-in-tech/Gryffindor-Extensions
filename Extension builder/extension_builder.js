@@ -44,6 +44,25 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
                         disableMonitor: false
                     },
                     {
+                        opcode: 'defineArguments',
+                        blockType: Scratch.BlockType.COMMAND,
+                        text: 'Define argument [NAME] as [TYPE] with defaultValue [DEFAULT]',
+                        arguments: {
+                            NAME: {
+                                type: Scratch.ArgumentType.STRING,
+                                defaultValue: 'Argument Name'
+                            },
+                            TYPE: {
+                                type: Scratch.ArgumentType.STRING,
+                                menu: 'argumentTypes' // Must match the key in the menus object
+                            },
+                            DEFAULT: {
+                                type: Scratch.ArgumentType.STRING,
+                                defaultValue: 'Default Value'
+                            }
+                        }
+                    },
+                    {
                         opcode: 'setMetaData',
                         blockType: Scratch.BlockType.COMMAND,
                         text: 'set [METATAG] to [VALUE]',
@@ -95,12 +114,21 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
                             { text: 'Hat', value: 'Scratch.BlockType.EVENT' }
                         ]
                     },
+                    argumentTypes: {
+                        acceptReporters: false, // Allows users to drop a round block into the menu
+                        items: [
+                            { text: 'String', value: 'Scratch.ArgumentType.STRING' },
+                            { text: 'Number', value: 'Scratch.ArgumentType.NUMBER' },
+                            { text: 'Boolean', value: 'Scratch.ArgumentType.BOOLEAN' }
+                        ]
+                    },
                     definitionTypes: {
                         acceptReporters: false, // Allows users to drop a round block into the menu
                         items: [
                             { text: 'Extension meta data', value: 'emd' },
                             { text: 'Extension blocks', value: 'eb' },
                             { text: 'Block meta data', value: 'bmd' },
+                            { text: 'Block arguments', value: 'bargs' },
                         ]
                     }
                 }
@@ -154,6 +182,17 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
                         lines.push(block.fields.TYPE.value);
                         break;
 
+                    case `${extension_id}_defineArguments`:
+                        let arg_type = block.fields.TYPE.value;
+                        let arg_default = getVal('DEFAULT');
+                        let arg_name = getVal('NAME');
+
+                        lines.push(arg_name + `: {`);
+                        lines.push(`  type: ${arg_type},`);
+                        lines.push(`  defaultValue: ${arg_default}`);
+                        lines.push(`}`);
+                        break;
+
                     default:
                         lines.push(`// Logic for ${opcode} not yet implemented`);
                 }
@@ -181,6 +220,12 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
 
                 case 'bmd':
                     lines.push(`{`);
+                    if (substackId) lines.push(this.transpile(substackId, target));
+                    lines.push(`}`);
+                    break;
+
+                case 'bargs':
+                    lines.push(`arguments: {`);
                     if (substackId) lines.push(this.transpile(substackId, target));
                     lines.push(`}`);
                     break;
