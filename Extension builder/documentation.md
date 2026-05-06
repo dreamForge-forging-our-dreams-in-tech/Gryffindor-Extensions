@@ -72,6 +72,7 @@ You do this by using [ARGUMENTNAME] in the blocks "text" definition, you can typ
 ## defining the blocks opcode code
 Custom blocks always need to know what to do, custom javascript functions are connected to them via the set opcode in the blocks meta tag field, however you still need to define this opcode, to do so you can use the "Define block opcode" hat.
 Just enter the corresponding opcode name and attach any block you like to give it a functionality.
+You can use all the build in blocks and any installed extension (aslong as the user also installs them!)
 ![alt text](image-19.png)
 
 # generating and viewing extension code
