@@ -158,6 +158,13 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
                 const opcode = block.opcode;
                 console.log(block)
 
+                if (block.fields && block.fields.NUM) {
+                    return block.fields.NUM.value; // Returns "2"
+                }
+                if (block.fields && block.fields.TEXT) {
+                    return `"${block.fields.TEXT.value}"`; // Returns "Hello"
+                }
+
                 let substackId = null;
                 try {
                     substackId = block.inputs.SUBSTACK ? block.inputs.SUBSTACK.block : null;

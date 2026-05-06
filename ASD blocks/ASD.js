@@ -18,7 +18,7 @@ class ASD_COMMAND {
                     arguments: {
                         CODE: {
                             type: Scratch.ArgumentType.STRING,
-                            defaultValue: 'a * 2'
+                            defaultValue: '2 * 2'
                         },
 
                     }
@@ -30,7 +30,7 @@ class ASD_COMMAND {
                     arguments: {
                         CODE: {
                             type: Scratch.ArgumentType.STRING,
-                            defaultValue: 'a * 2'
+                            defaultValue: '2 * 2'
                         },
 
                     }
