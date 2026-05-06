@@ -50,11 +50,6 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
                         disableMonitor: false
                     },
                     {
-                        opcode: 'updateCode',
-                        blockType: Scratch.BlockType.COMMAND,
-                        text: 'Log code'
-                    },
-                    {
                         opcode: 'setMetaData',
                         blockType: Scratch.BlockType.COMMAND,
                         text: 'set [METATAG] to [VALUE]',
@@ -229,7 +224,8 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
             console.log(this.generatedCode);
         }
 
-        getCode() {
+        getCode(args, util) {
+            this.updateCode(args, util); // Ensure code is up-to-date before returning
             return this.generatedCode;
         }
 

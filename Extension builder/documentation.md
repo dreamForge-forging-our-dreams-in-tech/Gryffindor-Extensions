@@ -51,14 +51,10 @@ You can set the type of the block using to block type reporter block.
 Each "define block meta data" block defines a new block, so you can just simple add new ones of those to create new blocks.
 ![alt text](image-8.png)
 
-# generating extension code
+# generating and viewing extension code
+During the development of your extension you can preview a live view of the code, any change you make is updated and you can manually update the code view by clicking the "Display generated code"
 
-To generate the code for the extension you can press the Log code block in the toolbox, dont drag it into the workspace but click it.
-This then logs the generated code to the console and updates the "Display generated code" Variable (in case you want to view the code together with the live block preview.)
-
-![alt text](image-1.png)
-
-Note: this is a temporary way to acces the code, im working on changes to how this works but right now i just want to test everything before going into more "advanced" directions.
+![alt text](image-9.png)
 
 # FAQ
 
