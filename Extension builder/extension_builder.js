@@ -207,7 +207,9 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
                         const scratchVMTarget = Scratch.vm.runtime.getEditingTarget();
                         lines.push(`
                             let sprite = util.target;
-                            sprite.${opcode}(${this.getBlockArguments(block, scratchVMTarget)});\n`);
+                            const ${opcode} = this.runtime.getOpcodeFunction(${opcode});
+                            ${opcode}(JSON.parse(${this.getBlockArguments(block, target)}),util);
+                            `);
                 }
 
                 currentId = target.blocks.getNextBlock(currentId);
@@ -225,7 +227,7 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
         }
 
         getBlockArguments(block, target) {
-            const args = [];
+            const args = {};
             for (const inputName in block.inputs) {
                 const input = block.inputs[inputName];
 
@@ -233,15 +235,15 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
                 if (input.shadow && !input.block) {
                     // It's a direct value like a number or string
                     const value = target.blocks.getBlock(input.shadow).fields.VALUE.value;
-                    args.push(JSON.stringify(value)); // JSON.stringify adds quotes to strings automatically
+                    args[inputName] = JSON.stringify(value); // JSON.stringify adds quotes to strings automatically
                 } else if (input.block) {
                     // It's a nested reporter block (e.g., 'distance to mouse')
                     // You would recursively call a 'generateCode' function here
                     console.log(input.block)
-                    args.push(this.transpile(input.block, target)); // Recursively transpile the nested block
+                    args[inputName] = this.transpile(input.block, target); // Recursively transpile the nested block
                 }
             }
-            return args.join(', ');
+            return JSON.stringify(args); // Convert the args object to a string for code generation
         }
 
         buildDefinition(definitionType, lines, substackId, target) {
@@ -336,7 +338,7 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
                 opcode_body += `\n  ${opcode_name} (args, util) {\n${hat_body}\n  }\n`.replaceAll('"', ''); // Remove quotes if any
             });
 
-            this.generatedCode = `class ${extensionName} {\n  constructor() {}\n ${body}\n \n ${opcode_body}\n\n}\n Scratch.extensions.register(new ${extensionName}());`;
+            this.generatedCode = `class ${extensionName} {\n  constructor(runtime) {\n    this.runtime = runtime;\n  }\n ${body}\n \n ${opcode_body}\n\n}\n Scratch.extensions.register(new ${extensionName}(Scratch.vm.runtime));`;
             console.log(this.generatedCode);
         }
 
@@ -355,18 +357,20 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
 })(Scratch);
 
 class MyCoolAndAwesomeExtension {
-    constructor() { }
+    constructor(runtime) {
+        this.runtime = runtime;
+    }
     getInfo() {
         return {
-            id: "afaw",
+            id: "aaaaa",
             name: "Default Value",
             color1: "#008dcd",
             color2: "#008dcd",
             blocks: [
                 {
                     opcode: "opcode_name",
-                    blockType: Scratch.BlockType.COMMAND,
-                    text: "Alert",
+                    type: Scratch.BlockType.COMMAND,
+                    text: "ROTATE",
                 }
             ]
         };
@@ -374,13 +378,13 @@ class MyCoolAndAwesomeExtension {
 
 
     opcode_name(args, util) {
-        let sprite = util.target;
 
-        console.log(sprite);
-        sprite.motion_movesteps(10);
+        let sprite = util.target;
+        const motion_turnright = this.runtime.getOpcodeFunction('motion_turnright');
+        motion_turnright({ DEGREES: 15 }, util);
 
     }
 
 
 }
-Scratch.extensions.register(new MyCoolAndAwesomeExtension());
+Scratch.extensions.register(new MyCoolAndAwesomeExtension(Scratch.vm.runtime));
