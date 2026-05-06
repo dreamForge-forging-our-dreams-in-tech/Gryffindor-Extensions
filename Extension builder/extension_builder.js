@@ -26,6 +26,17 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
                         }
                     },
                     {
+                        opcode: 'defineBlockFunction',
+                        blockType: Scratch.BlockType.HAT,
+                        text: 'Define block opcode [OPCODENAME]',
+                        arguments: {
+                            OPCODENAME: {
+                                type: Scratch.ArgumentType.STRING,
+                                defaultValue: 'opcode_name'
+                            }
+                        }
+                    },
+                    {
                         opcode: 'generateExtensionMetaData',
                         blockType: Scratch.BlockType.CONDITIONAL,
                         text: 'Define [DEFINITIONTYPE]',
@@ -145,7 +156,7 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
             while (currentId) {
                 const block = target.blocks.getBlock(currentId);
                 const opcode = block.opcode;
-
+                console.log(opcode)
                 let substackId = null;
                 try {
                     substackId = block.inputs.SUBSTACK ? block.inputs.SUBSTACK.block : null;
@@ -157,14 +168,6 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
                 const getVal = (name) => this.resolveInput(block, name, target);
 
                 switch (opcode) {
-                    case 'motion_movesteps':
-                        lines.push(`sprite.moveSteps(${getVal('STEPS')});`);
-                        break;
-
-                    case 'looks_say':
-                        lines.push(`sprite.say(${getVal('MESSAGE')});`);
-                        break;
-
                     case `${extension_id}_setMetaData`:
                         const tag = block.fields.METATAG.value;
                         const val = getVal('VALUE');
@@ -194,7 +197,7 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
                         break;
 
                     default:
-                        lines.push(`// Logic for ${opcode} not yet implemented`);
+                        lines.push(opcode + `();\n`);
                 }
 
                 currentId = target.blocks.getNextBlock(currentId);
@@ -262,10 +265,14 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
 
             // 1. Find our "Define" Hat block in the workspace
             let hatId = null;
+            let opcode_hats = [];
             for (const id in allBlocks) {
                 if (allBlocks[id].opcode === `${extension_id}_defineExtensionHat`) {
-                    hatId = id;
-                    break;
+                    if (!hatId) {
+                        hatId = id;
+                    }
+                } else if (allBlocks[id].opcode === `${extension_id}_defineBlockFunction`) {
+                    opcode_hats.push(id);
                 }
             }
 
@@ -280,7 +287,17 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
 
             // 3. Generate the class string
             const body = this.transpile(target.blocks.getNextBlock(hatId), target); // pass the hat id here instead of in the transpile function so we ca nreuse the transpile function
-            this.generatedCode = `class ${extensionName} {\n  constructor() {}\n ${body}\n }\n Scratch.extensions.register(new ${extensionName}());`;
+
+            let opcode_body = '';
+            opcode_hats.forEach(hatId => {
+                const opcode_name_block_id = allBlocks[hatId].inputs.OPCODENAME.block;
+                const opcode_name = allBlocks[opcode_name_block_id].fields.TEXT.value || "opcode_name";
+
+                const hat_body = this.transpile(target.blocks.getNextBlock(hatId), target);
+                opcode_body += `\n  ${opcode_name} (args, util) {\n${hat_body}\n  }\n`.replaceAll('"', ''); // Remove quotes if any
+            });
+
+            this.generatedCode = `class ${extensionName} {\n  constructor() {}\n ${body}\n \n ${opcode_body}\n\n}\n Scratch.extensions.register(new ${extensionName}());`;
             console.log(this.generatedCode);
         }
 
