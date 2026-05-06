@@ -204,11 +204,10 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
                         break;
 
                     default:
-
+                        const scratchVMTarget = Scratch.vm.runtime.getEditingTarget();
                         lines.push(`
-                                                    const scratchVMTarget = Scratch.vm.runtime.getEditingTarget();
-                        const spriteName = scratchVMTarget.sprite.name;
-                            scratchVMTarget[spriteName].${opcode}(${this.getBlockArguments(block, scratchVMTarget)});\n`);
+                            let sprite = util.target;
+                            sprite.${opcode}(${this.getBlockArguments(block, scratchVMTarget)});\n`);
                 }
 
                 currentId = target.blocks.getNextBlock(currentId);
@@ -354,3 +353,34 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
 
     Scratch.extensions.register(new CodeGeneratorExtension());
 })(Scratch);
+
+class MyCoolAndAwesomeExtension {
+    constructor() { }
+    getInfo() {
+        return {
+            id: "afaw",
+            name: "Default Value",
+            color1: "#008dcd",
+            color2: "#008dcd",
+            blocks: [
+                {
+                    opcode: "opcode_name",
+                    blockType: Scratch.BlockType.COMMAND,
+                    text: "Alert",
+                }
+            ]
+        };
+    }
+
+
+    opcode_name(args, util) {
+        let sprite = util.target;
+
+        console.log(sprite);
+        sprite.motion_movesteps(10);
+
+    }
+
+
+}
+Scratch.extensions.register(new MyCoolAndAwesomeExtension());
