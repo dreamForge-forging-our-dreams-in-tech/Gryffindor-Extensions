@@ -111,7 +111,7 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
                             { text: 'Conditional', value: 'Scratch.BlockType.CONDITIONAL' },
                             { text: 'Loop', value: 'Scratch.BlockType.LOOP' },
                             { text: 'Hat', value: 'Scratch.BlockType.HAT' },
-                            { text: 'Hat', value: 'Scratch.BlockType.EVENT' }
+                            { text: 'Event', value: 'Scratch.BlockType.EVENT' }
                         ]
                     },
                     argumentTypes: {
