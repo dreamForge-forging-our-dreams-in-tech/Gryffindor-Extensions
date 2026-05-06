@@ -21,21 +21,23 @@ The define extension meta data is a block where you can drag in any meta data bl
 | Block Color    | The color of the block provided as a HEX color (e.g. #008dcd)   |
 | Hover Color    |The color of the block when the user hovers over it, provided as a HEX color (e.g. #008dcd)   |
 
-![alt text](image-2.png)
+![alt text](image-10.png)
 
-![alt text](image-3.png)
+![alt text](image-11.png)
 
 # defining custom blocks
 Defining custom blocks is just as simple as defining the meta data.
 
-First drag a "Define extension blocks" block into the "define extension meta data" block
-![alt text](image-4.png)
+First drag a "Define extension meta data" block into the "define extension meta data" block and change its dropdown menu to "Extension blocks"
+![alt text](image-12.png)
 
-Then into this block you can drag the "define block meta data" block, basically this is what defines each new block.
-![alt text](image-5.png)
+Then into this block you drag another "Define extension meta data" block and change the dropdown selection to "Block meta data", basically this is what defines each new block.
+![alt text](image-14.png)
 
-Then you can drag a meta tag block into the "defineblock meta data" block
-![alt text](image-6.png)
+Then you can drag a meta tag block into the "define block meta data" block
+![alt text](image-15.png)
+
+Repeat step 2 and 3 to create multiple blocks
 
 | Name       | Description |
 | ---------------| -------- |
@@ -46,10 +48,6 @@ Then you can drag a meta tag block into the "defineblock meta data" block
 ## setting block types
 You can set the type of the block using to block type reporter block.
 ![alt text](image-7.png)
-
-## defining multiple blocks
-Each "define block meta data" block defines a new block, so you can just simple add new ones of those to create new blocks.
-![alt text](image-8.png)
 
 # generating and viewing extension code
 During the development of your extension you can preview a live view of the code, any change you make is updated and you can manually update the code view by clicking the "Display generated code"

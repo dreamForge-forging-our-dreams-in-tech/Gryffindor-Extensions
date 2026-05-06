@@ -28,20 +28,14 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
                     {
                         opcode: 'generateExtensionMetaData',
                         blockType: Scratch.BlockType.CONDITIONAL,
-                        text: 'Define extension meta data',
-                        branchCount: 1 // This is the magic property
-                    },
-                    {
-                        opcode: 'generateExtensionBlocks',
-                        blockType: Scratch.BlockType.CONDITIONAL,
-                        text: 'Define extension blocks',
-                        branchCount: 1 // This is the magic property
-                    },
-                    {
-                        opcode: 'generateExtensionBlocksMetaData',
-                        blockType: Scratch.BlockType.CONDITIONAL,
-                        text: 'Define block meta data',
-                        branchCount: 1 // This is the magic property
+                        text: 'Define [DEFINITIONTYPE]',
+                        branchCount: 1, // This is the magic property
+                        arguments: {
+                            DEFINITIONTYPE: {
+                                type: Scratch.ArgumentType.STRING,
+                                menu: 'definitionTypes' // Must match the key in the menus object
+                            }
+                        }
                     },
                     {
                         opcode: 'getCode',
@@ -100,6 +94,14 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
                             { text: 'Hat', value: 'Scratch.BlockType.HAT' },
                             { text: 'Hat', value: 'Scratch.BlockType.EVENT' }
                         ]
+                    },
+                    definitionTypes: {
+                        acceptReporters: false, // Allows users to drop a round block into the menu
+                        items: [
+                            { text: 'Extension meta data', value: 'emd' },
+                            { text: 'Extension blocks', value: 'eb' },
+                            { text: 'Block meta data', value: 'bmd' },
+                        ]
                     }
                 }
             };
@@ -143,23 +145,9 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
                         break;
 
                     case `${extension_id}_generateExtensionMetaData`:
-                        lines.push(`  getInfo() {`);
-                        lines.push(`    return {`);
-                        if (substackId) lines.push(this.transpile(substackId, target));
-                        lines.push(`    };`);
-                        lines.push(`  }`);
-                        break;
+                        const definitionType = block.fields.DEFINITIONTYPE.value;
 
-                    case `${extension_id}_generateExtensionBlocks`:
-                        lines.push(`blocks: [`);
-                        if (substackId) lines.push(this.transpile(substackId, target));
-                        lines.push(`]`);
-                        break;
-
-                    case `${extension_id}_generateExtensionBlocksMetaData`:
-                        lines.push(`{`);
-                        if (substackId) lines.push(this.transpile(substackId, target));
-                        lines.push(`}`);
+                        this.buildDefinition(definitionType, lines, substackId, target);
                         break;
 
                     case `${extension_id}_buildBlockType`:
@@ -173,6 +161,33 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
                 currentId = target.blocks.getNextBlock(currentId);
             }
             return lines.join('\n');
+        }
+
+        buildDefinition(definitionType, lines, substackId, target) {
+            switch (definitionType) {
+                case 'emd':
+                    lines.push(`  getInfo() {`);
+                    lines.push(`    return {`);
+                    if (substackId) lines.push(this.transpile(substackId, target));
+                    lines.push(`    };`);
+                    lines.push(`  }`);
+                    break;
+
+                case 'eb':
+                    lines.push(`blocks: [`);
+                    if (substackId) lines.push(this.transpile(substackId, target));
+                    lines.push(`]`);
+                    break;
+
+                case 'bmd':
+                    lines.push(`{`);
+                    if (substackId) lines.push(this.transpile(substackId, target));
+                    lines.push(`}`);
+                    break;
+
+                default:
+                    lines.push(`// Unknown definition type: ${definitionType}`);
+            }
         }
 
         resolveInput(parentBlock, inputName, target) {
