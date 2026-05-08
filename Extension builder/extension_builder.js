@@ -261,7 +261,7 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
                     // You would recursively call a 'generateCode' function here
                     let transpiledCode = this.transpile(input.block, target).replaceAll('\n', '').trim(); // Recursively transpile the nested block and clean up the code
                     if (transpiledCode[0] === '"' && transpiledCode[transpiledCode.length - 1] === '"') {
-                        transpiledCode = "'" + transpiledCode.slice(1, -1) + "'"; // Convert double quotes to single quotes for string literals to avoid issues in the generated code when "" are removed
+                        transpiledCode = transpiledCode.replaceAll('"', "'"); // Convert double quotes to single quotes for string literals to avoid issues in the generated code when "" are removed
                     }
                     args[inputName] = transpiledCode;
                     console.log(transpiledCode);
@@ -382,23 +382,3 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
 
     Scratch.extensions.register(new CodeGeneratorExtension());
 })(Scratch);
-
-class MyCoolAndAwesomeExtension {
-    constructor(runtime) {
-        this.runtime = runtime;
-        this.looks_sayforsecs = this.runtime.getOpcodeFunction('looks_sayforsecs');
-        this.looks_size = this.runtime.getOpcodeFunction('looks_size');
-
-    }
-
-
-
-    async opcode_name(args, util) {
-
-        await this.looks_sayforsecs({ MESSAGE: await this.looks_size({}, util) , SECS: 2 }, util);
-
-    }
-
-
-}
-Scratch.extensions.register(new MyCoolAndAwesomeExtension(Scratch.vm.runtime));
