@@ -45,7 +45,7 @@ Repeat step 2 and 3 to create multiple blocks
 | Type           | The kind of type you want the block to be.   |
 | Text    | The text that appears on the block, follows the same strucutre as the scratchblocks tool does. |
 | Branch Count (number)   | Adds branches to the block, a branch is the c shaped part of a block where you can put other blocks into, its often called a substack |
-![A forever loop with 1 branch](image-21.png)
+| ![A forever loop with 1 branch](image-21.png) | A substack/C shaped block part/Branch
 
 ## setting block types
 You can set the type of the block using to block type reporter block.
