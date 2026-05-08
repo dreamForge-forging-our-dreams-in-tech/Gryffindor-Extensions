@@ -379,6 +379,10 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
             return false;
         }
 
+        defineBlockFunction () {
+            return false;
+        }
+
     }
 
     Scratch.extensions.register(new CodeGeneratorExtension());
