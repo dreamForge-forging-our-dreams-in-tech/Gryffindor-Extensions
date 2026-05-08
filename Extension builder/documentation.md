@@ -84,7 +84,7 @@ You can acces the value a user has entered into the arguments with the "get valu
 # generating and viewing extension code
 During the development of your extension you can preview a live view of the code, any change you make is updated and you can manually update the code view by clicking the "Display generated code"
 
-The code will automatically be logged to the console
+The code will automatically be logged to the console.
 
 ![alt text](image-9.png)
 

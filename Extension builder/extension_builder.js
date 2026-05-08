@@ -264,7 +264,7 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
                     if (transpiledCode[0] === '"' && transpiledCode[transpiledCode.length - 1] === '"') {
                         transpiledCode = transpiledCode.replaceAll('"', "'"); // Convert double quotes to single quotes for string literals to avoid issues in the generated code when "" are removed
                     }
-                    args[inputName] = transpiledCode;
+                    args[inputName] = transpiledCode.replace(';',''); // remove semicolons to avoid issues in the generated code when ";" are removed. This is a bit hacky but it allows users to write blocks that return values without worrying about semicolons breaking their code.
                     console.log(transpiledCode);
                 }
             }
@@ -386,4 +386,4 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
     }
 
     Scratch.extensions.register(new CodeGeneratorExtension());
-})(Scratch);
+})(Scratch);    
