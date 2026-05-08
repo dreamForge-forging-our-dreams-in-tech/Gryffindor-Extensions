@@ -194,6 +194,11 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
                         lines.push(`  ${tag}: ${val},`);
                         break;
 
+                    case `${extension_id}_getArgumentValue`:
+                        const argName = getVal('NAME').replaceAll('"', ''); // Remove quotes if it's a string
+                        return `args.${argName}`; // This allows users to get the value of an argument in their code blocks by using the "get value of argument" block and specifying the argument name.
+                        break;
+
                     case `${extension_id}_generateExtensionMetaData`:
                         const definitionType = block.fields.DEFINITIONTYPE.value;
 
@@ -221,8 +226,9 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
                         if (this.presetCode.includes(`this.${opcode} =`)) break; // If the preset code already contains this opcode, skip it to avoid duplicates
 
                         this.presetCode += `this.${opcode} = this.runtime.getOpcodeFunction('${opcode}');\n`;
+                        // remove all "" so that functions will still work.
                         lines.push(`
-                            await this.${opcode}(${this.getBlockArguments(block, target)}, util);
+                            await this.${opcode}(${this.getBlockArguments(block, target).replaceAll('"', ' ')}, util);
                             `);
                 }
 
@@ -253,7 +259,12 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
                 } else if (input.block) {
                     // It's a nested reporter block (e.g., 'distance to mouse')
                     // You would recursively call a 'generateCode' function here
-                    args[inputName] = this.transpile(input.block, target).replaceAll('\n', '').trim(); // Recursively transpile the nested block and clean up the code
+                    let transpiledCode = this.transpile(input.block, target).replaceAll('\n', '').trim(); // Recursively transpile the nested block and clean up the code
+                    if (transpiledCode[0] === '"' && transpiledCode[transpiledCode.length - 1] === '"') {
+                        transpiledCode = "'" + transpiledCode.slice(1, -1) + "'"; // Convert double quotes to single quotes for string literals to avoid issues in the generated code when "" are removed
+                    }
+                    args[inputName] = transpiledCode;
+                    console.log(transpiledCode);
                 }
             }
             return JSON.stringify(args); // Convert the args object to a string for code generation
@@ -367,12 +378,27 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
             return false;
         }
 
-        getArgumentValue(args, util) {
-            // This is a helper block to allow users to get the value of an argument in their code blocks
-            const name = args.NAME;
-            return `args.${name}`;
-        }
     }
 
     Scratch.extensions.register(new CodeGeneratorExtension());
 })(Scratch);
+
+class MyCoolAndAwesomeExtension {
+    constructor(runtime) {
+        this.runtime = runtime;
+        this.looks_sayforsecs = this.runtime.getOpcodeFunction('looks_sayforsecs');
+        this.looks_size = this.runtime.getOpcodeFunction('looks_size');
+
+    }
+
+
+
+    async opcode_name(args, util) {
+
+        await this.looks_sayforsecs({ MESSAGE: await this.looks_size({}, util) , SECS: 2 }, util);
+
+    }
+
+
+}
+Scratch.extensions.register(new MyCoolAndAwesomeExtension(Scratch.vm.runtime));
