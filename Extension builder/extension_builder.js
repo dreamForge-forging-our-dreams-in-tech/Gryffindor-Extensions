@@ -220,7 +220,7 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
 
                         if (this.presetCode.includes(`this.${opcode} =`)) break; // If the preset code already contains this opcode, skip it to avoid duplicates
 
-                        this.presetCode += `\nthis.${opcode} = this.runtime.getOpcodeFunction('${opcode}');\n`;
+                        this.presetCode += `this.${opcode} = this.runtime.getOpcodeFunction('${opcode}');\n`;
                         lines.push(`
                             await this.${opcode}(${this.getBlockArguments(block, target)}, util);
                             `);
@@ -317,6 +317,8 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
         updateCode(args, util) {
             const target = util.target;
             const allBlocks = target.blocks._blocks;
+
+            this.presetCode = ''; // Reset preset code on each update to avoid duplicates
 
             // 1. Find our "Define" Hat block in the workspace
             let hatId = null;
