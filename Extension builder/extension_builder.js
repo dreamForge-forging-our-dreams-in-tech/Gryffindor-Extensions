@@ -122,7 +122,8 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
                             { text: 'Hover Color', value: 'color2' },
                             { text: 'Function', value: 'opcode' },
                             { text: 'Type', value: 'blockType' },
-                            { text: 'Text', value: 'text' }
+                            { text: 'Text', value: 'text' },
+                            { text: 'Branch Count', value: 'branchCount' }
                         ]
                     },
                     blockTypes: {

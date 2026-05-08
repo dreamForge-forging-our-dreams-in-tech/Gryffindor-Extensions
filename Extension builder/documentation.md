@@ -44,6 +44,8 @@ Repeat step 2 and 3 to create multiple blocks
 | Function             | The name of the function that will execute when this block is called |
 | Type           | The kind of type you want the block to be.   |
 | Text    | The text that appears on the block, follows the same strucutre as the scratchblocks tool does. |
+| Branch Count (number)   | Adds branches to the block, a branch is the c shaped part of a block where you can put other blocks into, its often called a substack |
+![A forever loop with 1 branch](image-21.png)
 
 ## setting block types
 You can set the type of the block using to block type reporter block.
