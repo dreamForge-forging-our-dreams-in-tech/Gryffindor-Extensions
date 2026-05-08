@@ -222,7 +222,7 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
 
                         this.presetCode += `\nthis.${opcode} = this.runtime.getOpcodeFunction('${opcode}');\n`;
                         lines.push(`
-                            await this.${opcode}(JSON.parse(${this.getBlockArguments(block, target)}),util);
+                            await this.${opcode}(${this.getBlockArguments(block, target)}, util);
                             `);
                 }
 
@@ -386,13 +386,33 @@ class MyCoolAndAwesomeExtension {
 
         this.looks_size = this.runtime.getOpcodeFunction('looks_size');
 
-    }
+        this.motion_movesteps = this.runtime.getOpcodeFunction('motion_movesteps');
 
+        this.looks_sayforsecs = this.runtime.getOpcodeFunction('looks_sayforsecs');
+
+        this.looks_think = this.runtime.getOpcodeFunction('looks_think');
+
+    }
+    getInfo() {
+        return {
+            id: "aaaaaa",
+            name: "Default Value",
+            color1: "#008dcd",
+            color2: "#008dcd",
+            blocks: [
+                {
+                    opcode: "opcode_name",
+                    blockType: Scratch.BlockType.COMMAND,
+                    text: "Default Value",
+                }
+            ]
+        };
+    }
 
 
     async opcode_name(args, util) {
 
-        await this.looks_say(JSON.parse({ MESSAGE: \n                            await this.looks_size(JSON.parse({}), util); \n }), util);
+        await this.looks_think({ MESSAGE: 'Hmm...' }, util);
 
     }
 
