@@ -75,6 +75,10 @@ Just enter the corresponding opcode name and attach any block you like to give i
 You can use all the build in blocks and any installed extension (aslong as the user also installs them!)
 ![alt text](image-19.png)
 
+### accesing argument values in the opcode hat
+You can acces the value a user has entered into the arguments with the "get value of argument [NAME]" block.
+![alt text](image-20.png)
+
 # generating and viewing extension code
 During the development of your extension you can preview a live view of the code, any change you make is updated and you can manually update the code view by clicking the "Display generated code"
 
