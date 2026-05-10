@@ -81,6 +81,10 @@ You can use all the build in blocks and any installed extension (aslong as the u
 You can acces the value a user has entered into the arguments with the "get value of argument [NAME]" block.
 ![alt text](image-20.png)
 
+### checking if a function exists (for if the user hasnt installed the extension or its missing functions)
+Using the "check if function [FUNCTIONNAME] is available block you can check if certain blocks are available inside of the users project, it returns true if available and flase if unavailable.
+![alt text](image-22.png)
+
 # generating and viewing extension code
 During the development of your extension you can preview a live view of the code, any change you make is updated and you can manually update the code view by clicking the "Display generated code"
 
