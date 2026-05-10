@@ -205,6 +205,13 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
                         lines.push(`!String(this.runtime.getOpcodeFunction('${functionName}')) === 'undefined'\n`);
                         break;
 
+                    case `${extension_id}_executeBranchBlocks`:
+                        const actionType = block.fields.ACTIONTYPE.value; // "loop" or "execute"
+                        const branchNumber = getVal('BRANCHNUMBER'); // 1, 2, or 3
+                        
+                        lines.push(`util.startBranch(${branchNumber}, ${actionType == 'loop'});`); // Start the specified branch
+
+                        break;
                     default:
                         const scratchVMTarget = Scratch.vm.runtime.getEditingTarget();
 
@@ -410,9 +417,37 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
                                 defaultValue: 'ARGUMENTNAME'
                             }
                         }
+                    },
+                    {
+                        opcode: 'executeBranchBlocks',
+                        blockType: Scratch.BlockType.COMMAND,
+                        text: "[ACTIONTYPE] branch [BRANCHNUMBER]'s blocks",
+                        arguments: {
+                            ACTIONTYPE: {
+                                type: Scratch.ArgumentType.STRING,
+                                menu: 'loopBranch' // Must match the key in the menus object
+                            },
+                            BRANCHNUMBER: {
+                                type: Scratch.ArgumentType.NUMBER,
+                                defaultValue: 1
+                            }
+                        }
                     }
                 ],
+                menus: {
+                    loopBranch: {
+                        acceptReporters: false, // Allows users to drop a round block into the menu
+                        items: [
+                            { text: 'Loop', value: 'loop' },
+                            { text: 'Execute', value: 'execute' },
+                        ]
+                    },
+                }
             };
+        }
+
+        executeBranchBlocks () {
+            return false; // The actual execution of the blocks is handled in the generated code, this block just serves as a trigger for users to indicate they want to execute branch blocks and to specify which branch number they want to execute.
         }
 
         checkFunctionAvailability() {

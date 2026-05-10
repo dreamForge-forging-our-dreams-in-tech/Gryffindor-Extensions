@@ -85,6 +85,12 @@ You can acces the value a user has entered into the arguments with the "get valu
 Using the "check if function [FUNCTIONNAME] is available block you can check if certain blocks are available inside of the users project, it returns true if available and flase if unavailable.
 ![alt text](image-22.png)
 
+### executing branches in blocks
+To execute or loop branches you can use the [LOOP/EXECUTE] branch [BRANCHNUMBER]'s blocks
+This blocks tells the Scratch VM to run the blocks placed inside of the specified branch.
+NOTE: branches will only work if your block type is CONDITIONAL!
+![alt text](image-23.png)
+
 # generating and viewing extension code
 During the development of your extension you can preview a live view of the code, any change you make is updated and you can manually update the code view by clicking the "Display generated code"
 

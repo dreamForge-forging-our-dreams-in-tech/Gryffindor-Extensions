@@ -1,20 +1,21 @@
 class MyCoolAndAwesomeExtension {
     constructor(runtime) {
         this.runtime = runtime;
-        this.looks_sayforsecs = this.runtime.getOpcodeFunction('looks_sayforsecs');
+        this.dreamforgeturbowarpextensionbuilder_executeBranchBlocks = this.runtime.getOpcodeFunction('dreamforgeturbowarpextensionbuilder_executeBranchBlocks');
 
     }
     getInfo() {
         return {
-            id: "asda",
+            id: "afasf",
             name: "Default Value",
             color1: "#008dcd",
             color2: "#008dcd",
             blocks: [
                 {
                     opcode: "opcode_name",
-                    blockType: "Default Value",
-                    text: "Default Value",
+                    blockType: Scratch.BlockType.CONDITIONAL,
+                    text: "opcode_name",
+                    branchCount: "1",
                 }
             ]
         };
@@ -22,8 +23,7 @@ class MyCoolAndAwesomeExtension {
 
 
     async opcode_name(args, util) {
-
-        await this.looks_sayforsecs({ MESSAGE: !String(this.runtime.getOpcodeFunction('asdfddd')) === 'undefined', SECS: 5 }, util);
+        util.startBranch(1, false);     // Start branch 1
 
     }
 
