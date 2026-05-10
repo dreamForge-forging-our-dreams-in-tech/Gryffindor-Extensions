@@ -15,7 +15,7 @@ class MyCoolAndAwesomeExtension {
                     opcode: "opcode_name",
                     blockType: Scratch.BlockType.CONDITIONAL,
                     text: "opcode_name",
-                    branchCount: "1",
+                    branchCount: "3",
                 }
             ]
         };

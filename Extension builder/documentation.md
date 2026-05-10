@@ -82,7 +82,9 @@ You can acces the value a user has entered into the arguments with the "get valu
 ![alt text](image-20.png)
 
 ### checking if a function exists (for if the user hasnt installed the extension or its missing functions)
-Using the "check if function [FUNCTIONNAME] is available block you can check if certain blocks are available inside of the users project, it returns true if available and flase if unavailable.
+Using the "check if function [FUNCTIONNAME] is available block you can check if certain blocks are available inside of the users project, it returns true if available and false if unavailable.
+
+The name entered must be the block id that turbowarp or scratch provided the blocks with, e.g. move(10)steps = motion_movesteps
 ![alt text](image-22.png)
 
 ### executing branches in blocks
