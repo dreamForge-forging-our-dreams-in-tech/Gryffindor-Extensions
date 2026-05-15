@@ -115,6 +115,13 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
                         lines.push(`  ${tag}: ${val},`);
                         break;
 
+                    case `${extension_id}_createListItem`:
+                        lines.push(` {`);
+                        lines.push(`  text: ${getVal('NAME')},`);
+                        lines.push(`  value: ${getVal('VALUE')}`);
+                        lines.push(`},`);
+                        break;
+
                     case `${extension_id}_getArgumentValue`:
                         const argName = getVal('NAME').replaceAll('"', ''); // Remove quotes if it's a string
                         return `args.${argName}`; // This allows users to get the value of an argument in their code blocks by using the "get value of argument" block and specifying the argument name.
@@ -122,16 +129,26 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
 
                     case `${extension_id}_generateExtensionMetaData`:
                         let blockHats = this.getAllHats('defineExtensionBlock', allBlocks); // Get all hats that define block functions
+                        let menuHats = this.getAllHats('defineExtensionMenus', allBlocks); // Get all hats that define block functions
 
                         let blocks = this.getHatCode(blockHats, allBlocks, target);
-                        this.buildDefinition(block.fields.DEFINITIONTYPE.value, lines, substackId, target, blocks);
+                        let menuBlocks = this.getHatCode(menuHats, allBlocks, target);
 
+                        let sendingCode = `blocks: [\n${blocks}\n],\nmenus: {\n${menuBlocks}\n},\n`; // This is the code that will be injected into the extension metadata. It includes both the blocks and the menus.
+                        this.buildDefinition(block.fields.DEFINITIONTYPE.value, lines, substackId, target, sendingCode);
                         break;
 
                     case `${extension_id}_generateBlockMetaData`:
                         const definitionType = block.fields.DEFINITIONTYPE.value;
 
                         this.buildDefinition(definitionType, lines, substackId, target);
+                        break;
+
+                    case `${extension_id}_generateMenu`:
+                        const menuName = getVal('MENUNAME');
+                        const menuItems = [];
+
+                        this.buildDefinition('menu', lines, substackId, target, menuName);
                         break;
 
                     case `${extension_id}_buildBlockType`:
@@ -142,10 +159,11 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
                         let arg_type = block.fields.TYPE.value;
                         let arg_default = getVal('DEFAULT');
                         let arg_name = getVal('NAME');
+                        let type = getVal('INPUT');
 
                         lines.push(arg_name + `: {`);
                         lines.push(`  type: ${arg_type},`);
-                        lines.push(`  defaultValue: ${arg_default}`);
+                        lines.push(`  ${type}: ${arg_default}`);
                         lines.push(`}`);
                         break;
 
@@ -220,9 +238,8 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
                     lines.push(`    return {`);
                     if (substackId) lines.push(this.transpile(substackId, target));
 
-                    lines.push(`blocks: [`);
                     lines.push(injectionBlocks); // Add the generated blocks code to the extension metadata
-                    lines.push(`]`);
+
                     lines.push(`    };`);
                     lines.push(`  }`);
                     break;
@@ -230,6 +247,15 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
                 case 'bmd':
                     lines.push(`{`);
                     if (substackId) lines.push(this.transpile(substackId, target));
+                    lines.push(`}`);
+                    break;
+
+                case 'menu':
+                    lines.push(injectionBlocks + ` :{`); // reuse injectionBlocks here just for menu names.
+                    lines.push('acceptReporters: false,'); // Allows users to drop a round block into the menu
+                    lines.push(`items: [`);
+                    if (substackId) lines.push(this.transpile(substackId, target));
+                    lines.push(`]`);
                     lines.push(`}`);
                     break;
 
@@ -360,6 +386,11 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
                         text: 'define extension block',
                     },
                     {
+                        opcode: 'defineExtensionMenus',
+                        blockType: Scratch.BlockType.HAT,
+                        text: 'define extension menus',
+                    },
+                    {
                         opcode: 'generateBlockMetaData',
                         blockType: Scratch.BlockType.CONDITIONAL,
                         text: 'Define [DEFINITIONTYPE]',
@@ -368,6 +399,18 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
                             DEFINITIONTYPE: {
                                 type: Scratch.ArgumentType.STRING,
                                 menu: 'definitionTypes' // Must match the key in the menus object
+                            }
+                        }
+                    },
+                    {
+                        opcode: 'generateMenu',
+                        blockType: Scratch.BlockType.CONDITIONAL,
+                        text: 'Define [MENUNAME]',
+                        branchCount: 1, // This is the magic property
+                        arguments: {
+                            MENUNAME: {
+                                type: Scratch.ArgumentType.STRING,
+                                defaultValue: 'Menu Name'
                             }
                         }
                     },
@@ -420,6 +463,21 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
                             }
                         }
                     },
+                    {
+                        opcode: 'createListItem',
+                        blockType: Scratch.BlockType.COMMAND,
+                        text: 'create item with [NAME] and value [VALUE]',
+                        arguments: {
+                            NAME: {
+                                type: Scratch.ArgumentType.STRING,
+                                defaultValue: 'Item Name'
+                            },
+                            VALUE: {
+                                type: Scratch.ArgumentType.STRING,
+                                defaultValue: 'Default Value'
+                            }
+                        }
+                    },
                 ],
                 menus: {
                     blockTypes: {
@@ -448,7 +506,7 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
                             { text: 'Function', value: 'opcode' },
                             { text: 'Type', value: 'blockType' },
                             { text: 'Text', value: 'text' },
-                            { text: 'Branch Count', value: 'branchCount' }
+                            { text: 'Branch Count', value: 'branchCount' },
                         ]
                     },
                     argumentDropdownTypes: {
@@ -467,6 +525,14 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
                     }
                 }
             };
+        }
+
+        defineExtensionMenus() {
+            return false;
+        }
+
+        generateMenu() {
+            return false;
         }
 
         generateBlockMetaData() {

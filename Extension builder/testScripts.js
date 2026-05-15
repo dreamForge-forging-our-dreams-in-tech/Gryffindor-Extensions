@@ -40,7 +40,7 @@ class MyCoolAndAwesomeExtension {
 
     getInfo() {
         return {
-            id: "afsfaf",
+            id: "asasfdasf",
             name: "Default Value",
             color1: "#008dcd",
             color2: "#008dcd",
@@ -52,12 +52,33 @@ class MyCoolAndAwesomeExtension {
                     arguments: {
                         "MESSAGE": {
                             type: Scratch.ArgumentType.STRING,
-                            defaultValue: "Default Value"
+                            menu: "MESSAGES"
                         }
                     }
                 },
 
-            ]
+            ],
+            menus: {
+                "MESSAGES": {
+                    acceptReporters: false,
+                    items: [
+                        {
+                            text: "a",
+                            value: "a"
+                        },
+                        {
+                            text: "b",
+                            value: "b"
+                        },
+                        {
+                            text: "c",
+                            value: "c"
+                        },
+                    ]
+                },
+
+            },
+
         };
     }
 
