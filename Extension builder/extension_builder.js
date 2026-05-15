@@ -40,12 +40,6 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
                         }
                     },
                     {
-                        opcode: 'getCode',
-                        blockType: Scratch.BlockType.REPORTER,
-                        text: 'Display generated code',
-                        disableMonitor: false
-                    },
-                    {
                         opcode: 'defineArguments',
                         blockType: Scratch.BlockType.COMMAND,
                         text: 'Define argument [NAME] as [TYPE] with defaultValue [DEFAULT]',
@@ -360,14 +354,8 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
             console.log(this.generatedCode);
         }
 
-        getCode(args, util) {
-            this.updateCode(args, util); // Ensure code is up-to-date before returning
-            return this.generatedCode;
-        }
-
-        // The Hat block itself doesn't need to do anything special to "run"
-        defineExtensionHat() {
-            return false;
+        defineExtensionHat(args, util) {
+            this.updateCode(args, util); // allows the user to press the green flag to update and print the generated code.
         }
 
     }
