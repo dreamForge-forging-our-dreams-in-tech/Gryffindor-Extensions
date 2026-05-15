@@ -40,25 +40,6 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
                         }
                     },
                     {
-                        opcode: 'defineArguments',
-                        blockType: Scratch.BlockType.COMMAND,
-                        text: 'Define argument [NAME] as [TYPE] with defaultValue [DEFAULT]',
-                        arguments: {
-                            NAME: {
-                                type: Scratch.ArgumentType.STRING,
-                                defaultValue: 'Argument Name'
-                            },
-                            TYPE: {
-                                type: Scratch.ArgumentType.STRING,
-                                menu: 'argumentTypes' // Must match the key in the menus object
-                            },
-                            DEFAULT: {
-                                type: Scratch.ArgumentType.STRING,
-                                defaultValue: 'Default Value'
-                            }
-                        }
-                    },
-                    {
                         opcode: 'setMetaData',
                         blockType: Scratch.BlockType.COMMAND,
                         text: 'set [METATAG] to [VALUE]',
@@ -73,17 +54,6 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
                             }
                         }
                     },
-                    {
-                        opcode: 'buildBlockType',
-                        blockType: Scratch.BlockType.REPORTER,
-                        text: 'block type[TYPE]',
-                        arguments: {
-                            TYPE: {
-                                type: Scratch.ArgumentType.STRING,
-                                menu: 'blockTypes' // Must match the key in the menus object
-                            }
-                        }
-                    },
                 ],
                 menus: {
                     metaData: {
@@ -93,39 +63,13 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
                             { text: 'Name', value: 'name' },
                             { text: 'Block Color', value: 'color1' },
                             { text: 'Hover Color', value: 'color2' },
-                            { text: 'Function', value: 'opcode' },
-                            { text: 'Type', value: 'blockType' },
-                            { text: 'Text', value: 'text' },
-                            { text: 'Branch Count', value: 'branchCount' }
-                        ]
-                    },
-                    blockTypes: {
-                        acceptReporters: false, // Allows users to drop a round block into the menu
-                        items: [
-                            { text: 'Command', value: 'Scratch.BlockType.COMMAND' },
-                            { text: 'Reporter', value: 'Scratch.BlockType.REPORTER' },
-                            { text: 'Boolean', value: 'Scratch.BlockType.BOOLEAN' },
-                            { text: 'Conditional', value: 'Scratch.BlockType.CONDITIONAL' },
-                            { text: 'Loop', value: 'Scratch.BlockType.LOOP' },
-                            { text: 'Hat', value: 'Scratch.BlockType.HAT' },
-                            { text: 'Event', value: 'Scratch.BlockType.EVENT' }
-                        ]
-                    },
-                    argumentTypes: {
-                        acceptReporters: false, // Allows users to drop a round block into the menu
-                        items: [
-                            { text: 'String', value: 'Scratch.ArgumentType.STRING' },
-                            { text: 'Number', value: 'Scratch.ArgumentType.NUMBER' },
-                            { text: 'Boolean', value: 'Scratch.ArgumentType.BOOLEAN' }
+
                         ]
                     },
                     definitionTypes: {
                         acceptReporters: false, // Allows users to drop a round block into the menu
                         items: [
                             { text: 'Extension meta data', value: 'emd' },
-                            { text: 'Extension blocks', value: 'eb' },
-                            { text: 'Block meta data', value: 'bmd' },
-                            { text: 'Block arguments', value: 'bargs' },
                         ]
                     }
                 }
@@ -137,6 +81,8 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
          * and turns them into a JS string.
          */
         transpile(currentId, target) {
+            const allBlocks = target.blocks._blocks;
+
             let lines = [];
 
             while (currentId) {
@@ -162,6 +108,7 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
 
                 switch (opcode) {
                     case `${extension_id}_setMetaData`:
+                    case `${extension_id}_setMetaDataBlocks`:
                         const tag = block.fields.METATAG.value;
                         const val = getVal('VALUE');
                         // Formatting for your JSON/Object view
@@ -174,6 +121,14 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
                         break;
 
                     case `${extension_id}_generateExtensionMetaData`:
+                        let blockHats = this.getAllHats('defineExtensionBlock', allBlocks); // Get all hats that define block functions
+
+                        let blocks = this.getHatCode(blockHats, allBlocks, target);
+                        this.buildDefinition(block.fields.DEFINITIONTYPE.value, lines, substackId, target, blocks);
+
+                        break;
+
+                    case `${extension_id}_generateBlockMetaData`:
                         const definitionType = block.fields.DEFINITIONTYPE.value;
 
                         this.buildDefinition(definitionType, lines, substackId, target);
@@ -202,7 +157,7 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
                     case `${extension_id}_executeBranchBlocks`:
                         const actionType = block.fields.ACTIONTYPE.value; // "loop" or "execute"
                         const branchNumber = getVal('BRANCHNUMBER'); // 1, 2, or 3
-                        
+
                         lines.push(`util.startBranch(${branchNumber}, ${actionType == 'loop'});`); // Start the specified branch
 
                         break;
@@ -256,20 +211,20 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
             return JSON.stringify(args); // Convert the args object to a string for code generation
         }
 
-        buildDefinition(definitionType, lines, substackId, target) {
+        // injectionBlocks is a string that contains the code for the blocks that should be injected into the extension metadata or anywhere else.
+
+        buildDefinition(definitionType, lines, substackId, target, injectionBlocks = '') {
             switch (definitionType) {
                 case 'emd':
                     lines.push(`  getInfo() {`);
                     lines.push(`    return {`);
                     if (substackId) lines.push(this.transpile(substackId, target));
+
+                    lines.push(`blocks: [`);
+                    lines.push(injectionBlocks); // Add the generated blocks code to the extension metadata
+                    lines.push(`]`);
                     lines.push(`    };`);
                     lines.push(`  }`);
-                    break;
-
-                case 'eb':
-                    lines.push(`blocks: [`);
-                    if (substackId) lines.push(this.transpile(substackId, target));
-                    lines.push(`]`);
                     break;
 
                 case 'bmd':
@@ -318,14 +273,12 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
 
             // 1. Find our "Define" Hat block in the workspace
             let hatId = null;
-            let opcode_hats = [];
+            let opcode_hats = this.getAllHats('defineBlockFunction', allBlocks); // Get all hats that define block functions
             for (const id in allBlocks) {
                 if (allBlocks[id].opcode === `${extension_id}_defineExtensionHat`) {
                     if (!hatId) {
                         hatId = id;
                     }
-                } else if (allBlocks[id].opcode === `${extension_id}_defineBlockFunction`) {
-                    opcode_hats.push(id);
                 }
             }
 
@@ -341,17 +294,49 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
             // 3. Generate the class string
             const body = this.transpile(target.blocks.getNextBlock(hatId), target); // pass the hat id here instead of in the transpile function so we ca nreuse the transpile function
 
-            let opcode_body = '';
-            opcode_hats.forEach(hatId => {
-                const opcode_name_block_id = allBlocks[hatId].inputs.OPCODENAME.block;
-                const opcode_name = allBlocks[opcode_name_block_id].fields.TEXT.value || "opcode_name";
+            let opcode_body = this.getHatCode(opcode_hats, allBlocks, target); // Generate code for all opcode hats
 
-                const hat_body = this.transpile(target.blocks.getNextBlock(hatId), target);
-                opcode_body += `\n async ${opcode_name} (args, util) {\n${hat_body}\n  }\n`;
+            this.generatedCode = `
+            class ${extensionName} {
+            constructor(runtime) {
+            this.runtime = runtime;
+            ${this.presetCode}
+            }
+
+            ${body}
+              
+            ${opcode_body}
+            }
+            Scratch.extensions.register(new ${extensionName}(Scratch.vm.runtime));`;
+            console.log(this.generatedCode);
+        }
+
+        getAllHats(opcode, allBlocks) { // gets all hats with the specified opcode
+            let hats = [];
+            for (const id in allBlocks) {
+                if (allBlocks[id].opcode === `${extension_id}_${opcode}`) {
+                    hats.push(id);
+                }
+            }
+            return hats;
+        }
+
+        getHatCode(hats, allBlocks, target) { // gets all the code for the list of the hats provided
+            let code = '';
+            hats.forEach(hatId => {
+                try {
+                    const opcode_name_block_id = allBlocks[hatId].inputs.OPCODENAME.block;
+                    const opcode_name = allBlocks[opcode_name_block_id].fields.TEXT.value || "opcode_name";
+
+                    const hat_body = this.transpile(target.blocks.getNextBlock(hatId), target);
+                    code += `\n async ${opcode_name} (args, util) {\n${hat_body}\n  }\n`;
+                } catch (e) {
+                    const hat_body = this.transpile(target.blocks.getNextBlock(hatId), target);
+                    code += hat_body + ',\n';
+                }
             });
 
-            this.generatedCode = `class ${extensionName} {\n  constructor(runtime) {\n    this.runtime = runtime;\n ${this.presetCode} \n  }\n ${body}\n \n ${opcode_body}\n\n}\n Scratch.extensions.register(new ${extensionName}(Scratch.vm.runtime));`;
-            console.log(this.generatedCode);
+            return code;
         }
 
         defineExtensionHat(args, util) {
@@ -360,12 +345,142 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
 
     }
 
-    class extensionCodeBlocks {
-        constructor(runtime) {
-            this.runtime = runtime;
-            this.generatedCode = "";
-            this.presetCode = `// This code is generated by the Turbowarp Extension Builder extension by dreamForge. You can edit the blocks in the workspace to change this code.\n\n`; // You can use this variable to preset some code that you want to be included in every block, for example if you want to always include a certain variable or function definition in every block.
+    class ExtensionBlockDefinitions {
+        constructor(runtime) { }
+
+        getInfo() {
+            return {
+                id: extension_id,
+                name: 'Extension Block Definitions Blocks',
+                color1: '#5c9ba5', // Main block color
+                blocks: [
+                    {
+                        opcode: 'defineExtensionBlock',
+                        blockType: Scratch.BlockType.HAT,
+                        text: 'define extension block',
+                    },
+                    {
+                        opcode: 'generateBlockMetaData',
+                        blockType: Scratch.BlockType.CONDITIONAL,
+                        text: 'Define [DEFINITIONTYPE]',
+                        branchCount: 1, // This is the magic property
+                        arguments: {
+                            DEFINITIONTYPE: {
+                                type: Scratch.ArgumentType.STRING,
+                                menu: 'definitionTypes' // Must match the key in the menus object
+                            }
+                        }
+                    },
+                    {
+                        opcode: 'defineArguments',
+                        blockType: Scratch.BlockType.COMMAND,
+                        text: 'Define argument [NAME] as [TYPE] with [INPUT] [DEFAULT]',
+                        arguments: {
+                            NAME: {
+                                type: Scratch.ArgumentType.STRING,
+                                defaultValue: 'Argument Name'
+                            },
+                            TYPE: {
+                                type: Scratch.ArgumentType.STRING,
+                                menu: 'argumentTypes' // Must match the key in the menus object
+                            },
+                            DEFAULT: {
+                                type: Scratch.ArgumentType.STRING,
+                                defaultValue: 'Default Value'
+                            },
+                            INPUT: {
+                                type: Scratch.ArgumentType.STRING,
+                                menu: 'argumentDropdownTypes' // Must match the key in the menus object
+                            }
+                        }
+                    },
+                    {
+                        opcode: 'buildBlockType',
+                        blockType: Scratch.BlockType.REPORTER,
+                        text: 'block type[TYPE]',
+                        arguments: {
+                            TYPE: {
+                                type: Scratch.ArgumentType.STRING,
+                                menu: 'blockTypes' // Must match the key in the menus object
+                            }
+                        }
+                    },
+                    {
+                        opcode: 'setMetaDataBlocks',
+                        blockType: Scratch.BlockType.COMMAND,
+                        text: 'set [METATAG] to [VALUE]',
+                        arguments: {
+                            METATAG: {
+                                type: Scratch.ArgumentType.STRING,
+                                menu: 'metaData' // Must match the key in the menus object
+                            },
+                            VALUE: {
+                                type: Scratch.ArgumentType.STRING,
+                                defaultValue: 'Default Value'
+                            }
+                        }
+                    },
+                ],
+                menus: {
+                    blockTypes: {
+                        acceptReporters: false, // Allows users to drop a round block into the menu
+                        items: [
+                            { text: 'Command', value: 'Scratch.BlockType.COMMAND' },
+                            { text: 'Reporter', value: 'Scratch.BlockType.REPORTER' },
+                            { text: 'Boolean', value: 'Scratch.BlockType.BOOLEAN' },
+                            { text: 'Conditional', value: 'Scratch.BlockType.CONDITIONAL' },
+                            { text: 'Loop', value: 'Scratch.BlockType.LOOP' },
+                            { text: 'Hat', value: 'Scratch.BlockType.HAT' },
+                            { text: 'Event', value: 'Scratch.BlockType.EVENT' }
+                        ]
+                    },
+                    argumentTypes: {
+                        acceptReporters: false, // Allows users to drop a round block into the menu
+                        items: [
+                            { text: 'String', value: 'Scratch.ArgumentType.STRING' },
+                            { text: 'Number', value: 'Scratch.ArgumentType.NUMBER' },
+                            { text: 'Boolean', value: 'Scratch.ArgumentType.BOOLEAN' }
+                        ]
+                    },
+                    metaData: {
+                        acceptReporters: false, // Allows users to drop a round block into the menu
+                        items: [
+                            { text: 'Function', value: 'opcode' },
+                            { text: 'Type', value: 'blockType' },
+                            { text: 'Text', value: 'text' },
+                            { text: 'Branch Count', value: 'branchCount' }
+                        ]
+                    },
+                    argumentDropdownTypes: {
+                        acceptReporters: false, // Allows users to drop a round block into the menu
+                        items: [
+                            { text: 'Default Value', value: 'defaultValue' },
+                            { text: 'Menu', value: 'menu' },
+                        ]
+                    },
+                    definitionTypes: {
+                        acceptReporters: false, // Allows users to drop a round block into the menu
+                        items: [
+                            { text: 'Block meta data', value: 'bmd' },
+                            { text: 'Block arguments', value: 'bargs' },
+                        ]
+                    }
+                }
+            };
         }
+
+        generateBlockMetaData() {
+            return false; // The actual generation of the block meta data is handled in the generated code, this block just serves as a trigger for users to indicate they want to generate block meta data and to specify which type of meta data they want to generate.
+        }
+
+        defineExtensionBlock() {
+            return false;
+        }
+
+    }
+
+    class extensionCodeBlocks {
+        constructor(runtime) { }
 
         getInfo() {
             return {
@@ -434,7 +549,7 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
             };
         }
 
-        executeBranchBlocks () {
+        executeBranchBlocks() {
             return false; // The actual execution of the blocks is handled in the generated code, this block just serves as a trigger for users to indicate they want to execute branch blocks and to specify which branch number they want to execute.
         }
 
@@ -449,5 +564,6 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
     }
 
     Scratch.extensions.register(new ExtensionDefinitionBlocks());
+    Scratch.extensions.register(new ExtensionBlockDefinitions());
     Scratch.extensions.register(new extensionCodeBlocks());
 })(Scratch);    
