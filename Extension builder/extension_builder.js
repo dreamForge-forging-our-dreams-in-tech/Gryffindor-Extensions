@@ -158,7 +158,7 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
                         let arg_type = block.fields.TYPE.value;
                         let arg_default = getVal('DEFAULT');
                         let arg_name = getVal('NAME');
-                        let type = block.fields.INPUT.vlaue;
+                        let type = block.fields.INPUT.value;
 
                         lines.push(arg_name + `: {`);
                         lines.push(`  type: ${arg_type},`);
@@ -294,6 +294,8 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
             const target = util.target;
             const allBlocks = target.blocks._blocks;
 
+            let pre_production_code = '';
+
             this.presetCode = ''; // Reset preset code on each update to avoid duplicates
 
             // 1. Find our "Define" Hat block in the workspace
@@ -321,7 +323,7 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
 
             let opcode_body = this.getHatCode(opcode_hats, allBlocks, target); // Generate code for all opcode hats
 
-            this.generatedCode = `
+            pre_production_code = `
             class ${extensionName} {
             constructor(runtime) {
             this.runtime = runtime;
@@ -333,7 +335,11 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
             ${opcode_body}
             }
             Scratch.extensions.register(new ${extensionName}(Scratch.vm.runtime));`;
-            console.log(this.generatedCode);
+
+            if(pre_production_code === this.generatedCode) return; // If the generated code is the same as the previous generated code, don't log it again to avoid spamming the console with duplicate code.
+
+            this.generatedCode = pre_production_code; // Store the generated code in a variable so we can compare it on the next update to avoid duplicates.
+            console.log(pre_production_code);
         }
 
         getAllHats(opcode, allBlocks) { // gets all hats with the specified opcode

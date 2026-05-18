@@ -6,28 +6,28 @@ class MyCoolAndAwesomeExtension {
 
     getInfo() {
         return {
-            id: "dreamforge debugging extension",
+            id: "dreamforge_debugging",
             name: "Debugging",
             blocks: [
                 {
-                    opcode: "console_logging",
+                    opcode: "console_log",
                     blockType: Scratch.BlockType.COMMAND,
                     text: "Log [MESSAGE] as [TYPE] to the console",
                     arguments: {
-                        "MESSGAE": {
+                        "MESSAGE": {
                             type: Scratch.ArgumentType.STRING,
-                            null: "Message"
-                        }
-"TYPE": {
+                            undefined: "message"
+                        },
+                        "TYPE": {
                             type: Scratch.ArgumentType.STRING,
-                            null: "LOG_TYPE"
-                        }
+                            undefined: "log-types"
+                        },
                     }
                 },
 
             ],
             menus: {
-                "LOG_TYPE": {
+                "log-types": {
                     acceptReporters: false,
                     items: [
                         {
@@ -35,7 +35,7 @@ class MyCoolAndAwesomeExtension {
                             value: "log"
                         },
                         {
-                            text: "Warning",
+                            text: "Warn",
                             value: "warn"
                         },
                         {
@@ -51,9 +51,9 @@ class MyCoolAndAwesomeExtension {
     }
 
 
-    async console_logging(args, util) {
+    async console_log(args, util) {
 
     }
 
 }
-Scratch.extensions.register(new MyCoolAndAwesomeExtension(Scratch.vm.runtime)); 
+Scratch.extensions.register(new MyCoolAndAwesomeExtension(Scratch.vm.runtime));
