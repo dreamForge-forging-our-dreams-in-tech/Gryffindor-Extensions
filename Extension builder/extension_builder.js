@@ -146,7 +146,6 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
 
                     case `${extension_id}_generateMenu`:
                         const menuName = getVal('MENUNAME');
-                        const menuItems = [];
 
                         this.buildDefinition('menu', lines, substackId, target, menuName);
                         break;
@@ -159,12 +158,12 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
                         let arg_type = block.fields.TYPE.value;
                         let arg_default = getVal('DEFAULT');
                         let arg_name = getVal('NAME');
-                        let type = getVal('INPUT');
+                        let type = block.fields.INPUT.vlaue;
 
                         lines.push(arg_name + `: {`);
                         lines.push(`  type: ${arg_type},`);
                         lines.push(`  ${type}: ${arg_default}`);
-                        lines.push(`}`);
+                        lines.push(`},`);
                         break;
 
                     case `${extension_id}_checkFunctionAvailability`:
