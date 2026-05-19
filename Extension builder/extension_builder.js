@@ -1,5 +1,14 @@
 let extension_id = 'dreamforgeturbowarpextensionbuilder';
 
+function fetchJson (file_name) {
+    return fetch(`./block_menus/${file_name}.json`)
+    .then(response => response.json())
+    .catch(error => {
+        console.error(`Error loading ${file_name}.json:`, error);
+        return {}; // Return an empty object on error to prevent crashes
+    });
+}
+
 (function (Scratch) {
     'use strict';
 
@@ -56,22 +65,7 @@ let extension_id = 'dreamforgeturbowarpextensionbuilder';
                     },
                 ],
                 menus: {
-                    metaData: {
-                        acceptReporters: false, // Allows users to drop a round block into the menu
-                        items: [
-                            { text: 'ID', value: 'id' },
-                            { text: 'Name', value: 'name' },
-                            { text: 'Block Color', value: 'color1' },
-                            { text: 'Hover Color', value: 'color2' },
-
-                        ]
-                    },
-                    definitionTypes: {
-                        acceptReporters: false, // Allows users to drop a round block into the menu
-                        items: [
-                            { text: 'Extension meta data', value: 'emd' },
-                        ]
-                    }
+                    metaData: fetchJson('extensions_definition_menus').then(data => data.metaData),
                 }
             };
         }

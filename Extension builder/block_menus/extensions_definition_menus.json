@@ -1,0 +1,32 @@
+{
+    "metaData": {
+        "acceptReporters": false, 
+        "items": [
+            {
+                "text": "ID",
+                "value": "id"
+            },
+            {
+                "text": "Name",
+                "value": "name"
+            },
+            {
+                "text": "Block Color",
+                "value": "color1"
+            },
+            {
+                "text": "Hover Color",
+                "value": "color2"
+            }
+        ]
+    },
+    "definitionTypes": {
+        "acceptReporters": false, 
+        "items": [
+            {
+                "text": "Extension meta data",
+                "value": "emd"
+            }
+        ]
+    }
+}
