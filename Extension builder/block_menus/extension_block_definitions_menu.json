@@ -1,0 +1,45 @@
+{
+                    "blockTypes": {
+                        "acceptReporters": false,
+                        "items": [
+                            { "text": "Command", "value": "Scratch.BlockType.COMMAND" },
+                            { "text": "Reporter", "value": "Scratch.BlockType.REPORTER" },
+                            { "text": "Boolean", "value": "Scratch.BlockType.BOOLEAN" },
+                            { "text": "Conditional", "value": "Scratch.BlockType.CONDITIONAL" },
+                            { "text": "Loop", "value": "Scratch.BlockType.LOOP" },
+                            { "text": "Hat", "value": "Scratch.BlockType.HAT" },
+                            { "text": "Event", "value": "Scratch.BlockType.EVENT" }
+                        ]
+                    },
+                    "argumentTypes": {
+                        "acceptReporters": false,
+                        "items": [
+                            { "text": "String", "value": "Scratch.ArgumentType.STRING" },
+                            { "text": "Number", "value": "Scratch.ArgumentType.NUMBER" },
+                            { "text": "Boolean", "value": "Scratch.ArgumentType.BOOLEAN" }
+                        ]
+                    },
+                    "metaData": {
+                        "acceptReporters": false,
+                        "items": [
+                            { "text": "Function", "value": "opcode" },
+                            { "text": "Type", "value": "blockType" },
+                            { "text": "Text", "value": "text" },
+                            { "text": "Branch Count", "value": "branchCount" }
+                        ]
+                    },
+                    "argumentDropdownTypes": {
+                        "acceptReporters": false,
+                        "items": [
+                            { "text": "Default Value", "value": "defaultValue" },
+                            { "text": "Menu", "value": "menu" }
+                        ]
+                    },
+                    "definitionTypes": {
+                        "acceptReporters": false, 
+                        "items": [
+                            { "text": "Block meta data", "value": "bmd" },
+                            { "text": "Block arguments", "value": "bargs" }
+                        ]
+                    }
+                }

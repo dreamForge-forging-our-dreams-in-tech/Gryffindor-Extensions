@@ -20,7 +20,11 @@ function fetchJson(file_name) {
 (async function (Scratch) {
     'use strict';
 
+    //load all extension block menus from the github raw url
+    //Allowed us to easily edit block menus and make things more readable.
     let ExtensionDefinitionBlocksMenus = await fetchJson('extensions_definition_menus');
+    let extension_block_definition_menus = await fetchJson('extension_block_definitions_menu');
+    let  extension_code_blocks_menus = await fetchJson('extension_code_blocks_menus');
 
     class ExtensionDefinitionBlocks {
         constructor(runtime) {
@@ -485,51 +489,7 @@ function fetchJson(file_name) {
                         }
                     },
                 ],
-                menus: {
-                    blockTypes: {
-                        acceptReporters: false, // Allows users to drop a round block into the menu
-                        items: [
-                            { text: 'Command', value: 'Scratch.BlockType.COMMAND' },
-                            { text: 'Reporter', value: 'Scratch.BlockType.REPORTER' },
-                            { text: 'Boolean', value: 'Scratch.BlockType.BOOLEAN' },
-                            { text: 'Conditional', value: 'Scratch.BlockType.CONDITIONAL' },
-                            { text: 'Loop', value: 'Scratch.BlockType.LOOP' },
-                            { text: 'Hat', value: 'Scratch.BlockType.HAT' },
-                            { text: 'Event', value: 'Scratch.BlockType.EVENT' }
-                        ]
-                    },
-                    argumentTypes: {
-                        acceptReporters: false, // Allows users to drop a round block into the menu
-                        items: [
-                            { text: 'String', value: 'Scratch.ArgumentType.STRING' },
-                            { text: 'Number', value: 'Scratch.ArgumentType.NUMBER' },
-                            { text: 'Boolean', value: 'Scratch.ArgumentType.BOOLEAN' }
-                        ]
-                    },
-                    metaData: {
-                        acceptReporters: false, // Allows users to drop a round block into the menu
-                        items: [
-                            { text: 'Function', value: 'opcode' },
-                            { text: 'Type', value: 'blockType' },
-                            { text: 'Text', value: 'text' },
-                            { text: 'Branch Count', value: 'branchCount' },
-                        ]
-                    },
-                    argumentDropdownTypes: {
-                        acceptReporters: false, // Allows users to drop a round block into the menu
-                        items: [
-                            { text: 'Default Value', value: 'defaultValue' },
-                            { text: 'Menu', value: 'menu' },
-                        ]
-                    },
-                    definitionTypes: {
-                        acceptReporters: false, // Allows users to drop a round block into the menu
-                        items: [
-                            { text: 'Block meta data', value: 'bmd' },
-                            { text: 'Block arguments', value: 'bargs' },
-                        ]
-                    }
-                }
+                menus: extension_block_definition_menus,
             };
         }
 
@@ -609,15 +569,7 @@ function fetchJson(file_name) {
                         }
                     }
                 ],
-                menus: {
-                    loopBranch: {
-                        acceptReporters: false, // Allows users to drop a round block into the menu
-                        items: [
-                            { text: 'Loop', value: 'loop' },
-                            { text: 'Execute', value: 'execute' },
-                        ]
-                    },
-                }
+                menus: extension_code_blocks_menus,
             };
         }
 
