@@ -1,16 +1,26 @@
 let extension_id = 'dreamforgeturbowarpextensionbuilder';
 
-function fetchJson (file_name) {
-    return fetch(`./block_menus/${file_name}.json`)
-    .then(response => response.json())
-    .catch(error => {
-        console.error(`Error loading ${file_name}.json:`, error);
-        return {}; // Return an empty object on error to prevent crashes
-    });
+function fetchJson(file_name) {
+    return fetch(`https://raw.githubusercontent.com/dreamForge-forging-our-dreams-in-tech/Gryffindor-Extensions/refs/heads/main/Extension%20builder/block_menus/${file_name}.json`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        }).then(data => {
+            console.log(data)
+            return data;
+        })
+        .catch(error => {
+            console.error(`Error loading ${file_name}.json:`, error);
+            return {}; // Return an empty object on error to prevent crashes
+        });
 }
 
-(function (Scratch) {
+(async function (Scratch) {
     'use strict';
+
+    let ExtensionDefinitionBlocksMenus = await fetchJson('extensions_definition_menus');
 
     class ExtensionDefinitionBlocks {
         constructor(runtime) {
@@ -64,9 +74,7 @@ function fetchJson (file_name) {
                         }
                     },
                 ],
-                menus: {
-                    metaData: fetchJson('extensions_definition_menus').then(data => data.metaData),
-                }
+                menus: ExtensionDefinitionBlocksMenus,
             };
         }
 
@@ -329,7 +337,7 @@ function fetchJson (file_name) {
             }
             Scratch.extensions.register(new ${extensionName}(Scratch.vm.runtime));`;
 
-            if(pre_production_code === this.generatedCode) return; // If the generated code is the same as the previous generated code, don't log it again to avoid spamming the console with duplicate code.
+            if (pre_production_code === this.generatedCode) return; // If the generated code is the same as the previous generated code, don't log it again to avoid spamming the console with duplicate code.
 
             this.generatedCode = pre_production_code; // Store the generated code in a variable so we can compare it on the next update to avoid duplicates.
             console.log(pre_production_code);
