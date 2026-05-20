@@ -1,9 +1,15 @@
 {
-                    "loopBranch": {
-                        "acceptReporters": false,
-                        "items": [
-                            { "text": "Loop", "value": "loop" },
-                            { "text": "Execute", "value": "execute" }
-                        ]
-                    }
-                }
+    "loopBranch": {
+        "acceptReporters": false,
+        "items": [
+            {
+                "text": "Loop",
+                "value": "loop"
+            },
+            {
+                "text": "Execute",
+                "value": "execute"
+            }
+        ]
+    }
+}

@@ -1,7 +1,7 @@
 let extension_id = 'dreamforgeturbowarpextensionbuilder';
 
-function fetchJson(file_name) {
-    return fetch(`https://raw.githubusercontent.com/dreamForge-forging-our-dreams-in-tech/Gryffindor-Extensions/refs/heads/main/Extension%20builder/block_menus/${file_name}.json`)
+function fetchJson(file_name, folder = 'block_menus') {
+    return fetch(`https://raw.githubusercontent.com/dreamForge-forging-our-dreams-in-tech/Gryffindor-Extensions/refs/heads/main/Extension%20builder/${folder}/${file_name}.json`)
         .then(response => {
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
@@ -17,14 +17,25 @@ function fetchJson(file_name) {
         });
 }
 
+//makes a fetch request to get the block json
+async function buildBlocks (file_name) {
+    let json = await fetchJson(file_name, 'blocks');
+    alert(json)
+
+    //Turn any blockType strings (e.g. HAT or COMMAND) into the corresponding Scratch.BlockType value.
+    if(json['blockYpe']) {
+        json.blockType = Scratch.BlockType[json.blockType];
+    }
+}
+
 (async function (Scratch) {
     'use strict';
 
     //load all extension block menus from the github raw url
     //Allowed us to easily edit block menus and make things more readable.
-    let ExtensionDefinitionBlocksMenus = await fetchJson('extensions_definition_menus');
-    let extension_block_definition_menus = await fetchJson('extension_block_definitions_menu');
-    let  extension_code_blocks_menus = await fetchJson('extension_code_blocks_menus');
+    let ExtensionDefinitionBlocksMenus = await fetchJson('extensions_definition_menus', 'block_menus');
+    let extension_block_definition_menus = await fetchJson('extension_block_definitions_menu', 'block_menus');
+    let  extension_code_blocks_menus = await fetchJson('extension_code_blocks_menus', 'block_menus');
 
     class ExtensionDefinitionBlocks {
         constructor(runtime) {
