@@ -18,7 +18,7 @@ function fetchJson(file_name, folder = 'block_menus') {
 }
 
 //makes a fetch request to get the block json
-async function buildBlocks(file_name, blockType_reference) {
+async function buildBlocks(file_name, Scratch) {
     let json = await fetchJson(file_name, 'blocks');
 
     let i;
@@ -27,7 +27,7 @@ async function buildBlocks(file_name, blockType_reference) {
 
         //Turn any blockType strings (e.g. HAT or COMMAND) into the corresponding Scratch.BlockType value.
         if (json[i]['blockType']) {
-            json[i].blockType = blockType_reference[json[i].blockType];
+            json[i].blockType = Scratch.BlockType[json[i].blockType];
         }
 
         //turn any argument type strings into the corresponding Scratch.ArgumentType value.
@@ -35,8 +35,8 @@ async function buildBlocks(file_name, blockType_reference) {
             let argName;
             for(argName in json[i]['arguments']) {
                 let arg = json[i]['arguments'][argName];
-                if(arg['type'] && blockType_reference[arg['type']]) {
-                    arg['type'] = blockType_reference[arg['type']];
+                if(arg['type'] && Scratch.ArgumentType[arg['type']]) {
+                    arg['type'] = Scratch.ArgumentType[arg['type']];
                 }
             }
         }
@@ -55,7 +55,7 @@ async function buildBlocks(file_name, blockType_reference) {
     let extension_block_definition_menus = await fetchJson('extension_block_definitions_menu', 'block_menus');
     let extension_code_blocks_menus = await fetchJson('extension_code_blocks_menus', 'block_menus');
 
-    let extension_definition_blocks = await fetchJson('extension_definition_blocks', 'blocks'); //await buildBlocks('extension_definition_blocks', Scratch.BlockType);
+    let extension_definition_blocks = await buildBlocks('extension_definition_blocks', Scratch.BlockType);
 
     class ExtensionDefinitionBlocks {
         constructor(runtime) {
