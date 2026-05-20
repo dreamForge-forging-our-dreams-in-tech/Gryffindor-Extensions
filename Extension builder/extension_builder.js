@@ -55,15 +55,15 @@ async function buildBlocks(file_name, Scratch) {
 
     //load all extension block menus from the github raw url
     //Allowed us to easily edit block menus and make things more readable.
-    let ExtensionDefinitionBlocksMenus = await fetchJson('extensions_definition_menus', 'block_menus');
-    let extension_block_definition_menus = await fetchJson('extension_block_definitions_menu', 'block_menus');
-    let extension_code_blocks_menus = await fetchJson('extension_code_blocks_menus', 'block_menus');
+    let definition_block_menus = await fetchJson('definition_menus', 'block_menus');
+    let block_definition_menus = await fetchJson('block_definitions_menu', 'block_menus');
+    let code_blocks_menus = await fetchJson('code_blocks_menus', 'block_menus');
 
-    let extension_definition_blocks = await buildBlocks('extension_definition_blocks', Scratch);
-    let extension_block_definition_blocks = await buildBlocks('extension_block_definition_blocks', Scratch);
-    let extension_code_blocks = await buildBlocks('extension_code_blocks', Scratch);
+    let definition_blocks = await buildBlocks('definition_blocks', Scratch);
+    let block_definition_blocks = await buildBlocks('block_definition_blocks', Scratch);
+    let code_blocks = await buildBlocks('code_blocks', Scratch);
 
-    class ExtensionDefinitionBlocks {
+    class definitionBlocks {
         constructor(runtime) {
             this.runtime = runtime;
             this.generatedCode = "";
@@ -75,8 +75,8 @@ async function buildBlocks(file_name, Scratch) {
                 id: extension_id,
                 name: 'Extension Definition Blocks',
                 color1: '#9595eb', // Main block color
-                blocks: extension_definition_blocks,
-                menus: ExtensionDefinitionBlocksMenus,
+                blocks: definition_blocks,
+                menus: definition_block_menus,
             };
         }
 
@@ -379,7 +379,7 @@ async function buildBlocks(file_name, Scratch) {
 
     }
 
-    class ExtensionBlockDefinitions {
+    class blockDefinitionBlocks {
         constructor(runtime) { }
 
         getInfo() {
@@ -387,8 +387,8 @@ async function buildBlocks(file_name, Scratch) {
                 id: extension_id,
                 name: 'Extension Block Definitions Blocks',
                 color1: '#5c9ba5', // Main block color
-                blocks: extension_block_definition_blocks,
-                menus: extension_block_definition_menus,
+                blocks: block_definition_blocks,
+                menus: block_definition_menus,
             };
         }
 
@@ -410,7 +410,7 @@ async function buildBlocks(file_name, Scratch) {
 
     }
 
-    class extensionCodeBlocks {
+    class codeBlocks {
         constructor(runtime) { }
 
         getInfo() {
@@ -418,8 +418,8 @@ async function buildBlocks(file_name, Scratch) {
                 id: extension_id,
                 name: 'Extension Code Blocks',
                 color1: '#725ca5', // Main block color
-                blocks: extension_code_blocks,
-                menus: extension_code_blocks_menus,
+                blocks: code_blocks,
+                menus: code_blocks_menus,
             };
         }
 
@@ -437,7 +437,7 @@ async function buildBlocks(file_name, Scratch) {
 
     }
 
-    Scratch.extensions.register(new ExtensionDefinitionBlocks());
-    Scratch.extensions.register(new ExtensionBlockDefinitions());
-    Scratch.extensions.register(new extensionCodeBlocks());
+    Scratch.extensions.register(new definitionBlocks());
+    Scratch.extensions.register(new blockDefinitionBlocks());
+    Scratch.extensions.register(new codeBlocks());
 })(Scratch);    
