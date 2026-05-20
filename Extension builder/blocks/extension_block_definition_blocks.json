@@ -1,0 +1,100 @@
+[
+    {
+        "opcode": "defineExtensionBlock",
+        "blockType": "HAT",
+        "text": "define extension block"
+    },
+    {
+        "opcode": "defineExtensionMenus",
+        "blockType": "HAT",
+        "text": "define extension menus"
+    },
+    {
+        "opcode": "generateBlockMetaData",
+        "blockType": "CONDITIONAL",
+        "text": "Define [DEFINITIONTYPE]",
+        "branchCount": 1,
+        "arguments": {
+            "DEFINITIONTYPE": {
+                "type": "STRING",
+                "menu": "argumentDropdownTypes"
+            }
+        }
+    },
+    {
+        "opcode": "generateMenu",
+        "blockType": "CONDITIONAL",
+        "text": "Define [MENUNAME]",
+        "branchCount": 1,
+        "arguments": {
+            "MENUNAME": {
+                "type": "STRING",
+                "defaultValue": "Menu Name"
+            }
+        }
+    },
+    {
+        "opcode": "defineArguments",
+        "blockType": "COMMAND",
+        "text": "Define argument [NAME] as [TYPE] with [INPUT] [DEFAULT]",
+        "arguments": {
+            "NAME": {
+                "type": "STRING",
+                "defaultValue": "Argument Name"
+            },
+            "TYPE": {
+                "type": "STRING",
+                "menu": "argumentTypes"
+            },
+            "DEFAULT": {
+                "type": "STRING",
+                "defaultValue": "Default Value"
+            },
+            "INPUT": {
+                "type": "STRING",
+                "menu": "argumentDropdownTypes"
+            }
+        }
+    },
+    {
+        "opcode": "buildBlockType",
+        "blockType": "REPORTER",
+        "text": "block type[TYPE]",
+        "arguments": {
+            "TYPE": {
+                "type": "STRING",
+                "menu": "blockTypes"
+            }
+        }
+    },
+    {
+        "opcode": "setMetaDataBlocks",
+        "blockType": "COMMAND",
+        "text": "set [METATAG] to [VALUE]",
+        "arguments": {
+            "METATAG": {
+                "type": "STRING",
+                "menu": "metaData"
+            },
+            "VALUE": {
+                "type": "STRING",
+                "defaultValue": "Default Value"
+            }
+        }
+    },
+    {
+        "opcode": "createListItem",
+        "blockType": "COMMAND",
+        "text": "create item with [NAME] and value [VALUE]",
+        "arguments": {
+            "NAME": {
+                "type": "STRING",
+                "defaultValue": "Item Name"
+            },
+            "VALUE": {
+                "type": "STRING",
+                "defaultValue": "Default Value"
+            }
+        }
+    }
+]

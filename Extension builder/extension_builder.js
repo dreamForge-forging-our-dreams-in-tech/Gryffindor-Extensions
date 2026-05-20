@@ -18,6 +18,10 @@ function fetchJson(file_name, folder = 'block_menus') {
 }
 
 //makes a fetch request to get the block json
+// NOTE: when making new block json you no longer need to enter Scrtch.BlockType or Scratch.ArgumentType in the json,
+// you can just enter the string (e.g. "HAT" or "STRING") and the buildBlocks function will convert it to the corresponding Scratch.BlockType or Scratch.ArgumentType value.
+// This is to make the json more readable and easier to edit.
+
 async function buildBlocks(file_name, Scratch) {
     let json = await fetchJson(file_name, 'blocks');
 
@@ -31,11 +35,11 @@ async function buildBlocks(file_name, Scratch) {
         }
 
         //turn any argument type strings into the corresponding Scratch.ArgumentType value.
-        if(json[i]['arguments']) {
+        if (json[i]['arguments']) {
             let argName;
-            for(argName in json[i]['arguments']) {
+            for (argName in json[i]['arguments']) {
                 let arg = json[i]['arguments'][argName];
-                if(arg['type'] && Scratch.ArgumentType[arg['type']]) {
+                if (arg['type'] && Scratch.ArgumentType[arg['type']]) {
                     arg['type'] = Scratch.ArgumentType[arg['type']];
                 }
             }
@@ -55,7 +59,9 @@ async function buildBlocks(file_name, Scratch) {
     let extension_block_definition_menus = await fetchJson('extension_block_definitions_menu', 'block_menus');
     let extension_code_blocks_menus = await fetchJson('extension_code_blocks_menus', 'block_menus');
 
-    let extension_definition_blocks = await buildBlocks('extension_definition_blocks', Scratch.BlockType);
+    let extension_definition_blocks = await buildBlocks('extension_definition_blocks', Scratch);
+    let extension_block_definition_blocks = await buildBlocks('extension_block_definition_blocks', Scratch);
+    let extension_code_blocks = await buildBlocks('extension_code_blocks', Scratch);
 
     class ExtensionDefinitionBlocks {
         constructor(runtime) {
@@ -381,106 +387,7 @@ async function buildBlocks(file_name, Scratch) {
                 id: extension_id,
                 name: 'Extension Block Definitions Blocks',
                 color1: '#5c9ba5', // Main block color
-                blocks: [
-                    {
-                        opcode: 'defineExtensionBlock',
-                        blockType: Scratch.BlockType.HAT,
-                        text: 'define extension block',
-                    },
-                    {
-                        opcode: 'defineExtensionMenus',
-                        blockType: Scratch.BlockType.HAT,
-                        text: 'define extension menus',
-                    },
-                    {
-                        opcode: 'generateBlockMetaData',
-                        blockType: Scratch.BlockType.CONDITIONAL,
-                        text: 'Define [DEFINITIONTYPE]',
-                        branchCount: 1, // This is the magic property
-                        arguments: {
-                            DEFINITIONTYPE: {
-                                type: Scratch.ArgumentType.STRING,
-                                menu: 'definitionTypes' // Must match the key in the menus object
-                            }
-                        }
-                    },
-                    {
-                        opcode: 'generateMenu',
-                        blockType: Scratch.BlockType.CONDITIONAL,
-                        text: 'Define [MENUNAME]',
-                        branchCount: 1, // This is the magic property
-                        arguments: {
-                            MENUNAME: {
-                                type: Scratch.ArgumentType.STRING,
-                                defaultValue: 'Menu Name'
-                            }
-                        }
-                    },
-                    {
-                        opcode: 'defineArguments',
-                        blockType: Scratch.BlockType.COMMAND,
-                        text: 'Define argument [NAME] as [TYPE] with [INPUT] [DEFAULT]',
-                        arguments: {
-                            NAME: {
-                                type: Scratch.ArgumentType.STRING,
-                                defaultValue: 'Argument Name'
-                            },
-                            TYPE: {
-                                type: Scratch.ArgumentType.STRING,
-                                menu: 'argumentTypes' // Must match the key in the menus object
-                            },
-                            DEFAULT: {
-                                type: Scratch.ArgumentType.STRING,
-                                defaultValue: 'Default Value'
-                            },
-                            INPUT: {
-                                type: Scratch.ArgumentType.STRING,
-                                menu: 'argumentDropdownTypes' // Must match the key in the menus object
-                            }
-                        }
-                    },
-                    {
-                        opcode: 'buildBlockType',
-                        blockType: Scratch.BlockType.REPORTER,
-                        text: 'block type[TYPE]',
-                        arguments: {
-                            TYPE: {
-                                type: Scratch.ArgumentType.STRING,
-                                menu: 'blockTypes' // Must match the key in the menus object
-                            }
-                        }
-                    },
-                    {
-                        opcode: 'setMetaDataBlocks',
-                        blockType: Scratch.BlockType.COMMAND,
-                        text: 'set [METATAG] to [VALUE]',
-                        arguments: {
-                            METATAG: {
-                                type: Scratch.ArgumentType.STRING,
-                                menu: 'metaData' // Must match the key in the menus object
-                            },
-                            VALUE: {
-                                type: Scratch.ArgumentType.STRING,
-                                defaultValue: 'Default Value'
-                            }
-                        }
-                    },
-                    {
-                        opcode: 'createListItem',
-                        blockType: Scratch.BlockType.COMMAND,
-                        text: 'create item with [NAME] and value [VALUE]',
-                        arguments: {
-                            NAME: {
-                                type: Scratch.ArgumentType.STRING,
-                                defaultValue: 'Item Name'
-                            },
-                            VALUE: {
-                                type: Scratch.ArgumentType.STRING,
-                                defaultValue: 'Default Value'
-                            }
-                        }
-                    },
-                ],
+                blocks: extension_block_definition_blocks,
                 menus: extension_block_definition_menus,
             };
         }
@@ -511,56 +418,7 @@ async function buildBlocks(file_name, Scratch) {
                 id: extension_id,
                 name: 'Extension Code Blocks',
                 color1: '#725ca5', // Main block color
-                blocks: [
-                    {
-                        opcode: 'defineBlockFunction',
-                        blockType: Scratch.BlockType.HAT,
-                        text: 'Define block opcode [OPCODENAME]',
-                        arguments: {
-                            OPCODENAME: {
-                                type: Scratch.ArgumentType.STRING,
-                                defaultValue: 'opcode_name'
-                            }
-                        }
-                    },
-                    {
-                        opcode: 'getArgumentValue',
-                        blockType: Scratch.BlockType.REPORTER,
-                        text: 'get value of argument[NAME]',
-                        arguments: {
-                            NAME: {
-                                type: Scratch.ArgumentType.STRING,
-                                defaultValue: 'ARGUMENTNAME'
-                            }
-                        }
-                    },
-                    {
-                        opcode: 'checkFunctionAvailability',
-                        blockType: Scratch.BlockType.BOOLEAN,
-                        text: 'check if function [NAME] is available',
-                        arguments: {
-                            NAME: {
-                                type: Scratch.ArgumentType.STRING,
-                                defaultValue: 'ARGUMENTNAME'
-                            }
-                        }
-                    },
-                    {
-                        opcode: 'executeBranchBlocks',
-                        blockType: Scratch.BlockType.COMMAND,
-                        text: "[ACTIONTYPE] branch [BRANCHNUMBER]'s blocks",
-                        arguments: {
-                            ACTIONTYPE: {
-                                type: Scratch.ArgumentType.STRING,
-                                menu: 'loopBranch' // Must match the key in the menus object
-                            },
-                            BRANCHNUMBER: {
-                                type: Scratch.ArgumentType.NUMBER,
-                                defaultValue: 1
-                            }
-                        }
-                    }
-                ],
+                blocks: extension_code_blocks,
                 menus: extension_code_blocks_menus,
             };
         }

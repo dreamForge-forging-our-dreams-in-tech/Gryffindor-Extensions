@@ -1,0 +1,50 @@
+[
+    {
+        "opcode": "defineBlockFunction",
+        "blockType": "HAT",
+        "text": "Define block opcode [OPCODENAME]",
+        "arguments": {
+            "OPCODENAME": {
+                "type": "STRING",
+                "defaultValue": "opcode_name"
+            }
+        }
+    },
+    {
+        "opcode": "getArgumentValue",
+        "blockType": "REPORTER",
+        "text": "get value of argument[NAME]",
+        "arguments": {
+            "NAME": {
+                "type": "STRING",
+                "defaultValue": "ARGUMENTNAME"
+            }
+        }
+    },
+    {
+        "opcode": "checkFunctionAvailability",
+        "blockType": "BOOLEAN",
+        "text": "check if function [NAME] is available",
+        "arguments": {
+            "NAME": {
+                "type": "STRING",
+                "defaultValue": "ARGUMENTNAME"
+            }
+        }
+    },
+    {
+        "opcode": "executeBranchBlocks",
+        "blockType": "COMMAND",
+        "text": "[ACTIONTYPE] branch [BRANCHNUMBER]'s blocks",
+        "arguments": {
+            "ACTIONTYPE": {
+                "type": "STRING",
+                "menu": "loopBranch"
+            },
+            "BRANCHNUMBER": {
+                "type": "NUMBER",
+                "defaultValue": 1
+            }
+        }
+    }
+]
