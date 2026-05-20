@@ -67,6 +67,10 @@
             {
                 "text": "Branch Count",
                 "value": "branchCount"
+            },
+            {
+                "text": "isTerminal",
+                "value": "isTerminal"
             }
         ]
     },

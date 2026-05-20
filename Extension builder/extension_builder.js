@@ -125,6 +125,10 @@ async function buildBlocks(file_name, Scratch) {
                         lines.push(`  value: ${getVal('VALUE')}`);
                         lines.push(`},`);
                         break;
+                    
+                    case `${extension_id}_returnResult`:
+                        lines.push(`return ${getVal('RESULT')};`); // This allows users to return a value from their block functions by using the "return result" block and specifying the value they want to return.
+                        break;
 
                     case `${extension_id}_getArgumentValue`:
                         const argName = getVal('NAME').replaceAll('"', ''); // Remove quotes if it's a string
