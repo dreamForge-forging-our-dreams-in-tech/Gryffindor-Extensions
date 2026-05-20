@@ -27,7 +27,6 @@ async function buildBlocks(file_name, blockType_reference) {
 
         //Turn any blockType strings (e.g. HAT or COMMAND) into the corresponding Scratch.BlockType value.
         if (json[i]['blockType']) {
-            console.log(blockType_reference[json[i].blockType])
             json[i].blockType = blockType_reference[json[i].blockType];
         }
 
@@ -56,7 +55,7 @@ async function buildBlocks(file_name, blockType_reference) {
     let extension_block_definition_menus = await fetchJson('extension_block_definitions_menu', 'block_menus');
     let extension_code_blocks_menus = await fetchJson('extension_code_blocks_menus', 'block_menus');
 
-    let extension_definition_blocks = await buildBlocks('extension_definition_blocks', Scratch.BlockType);
+    let extension_definition_blocks = await fetchJson('extension_definition_blocks', 'blocks'); //await buildBlocks('extension_definition_blocks', Scratch.BlockType);
 
     class ExtensionDefinitionBlocks {
         constructor(runtime) {

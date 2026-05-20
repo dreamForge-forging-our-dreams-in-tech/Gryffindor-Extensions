@@ -1,38 +1,38 @@
 [
                     {
                         "opcode": "defineExtensionHat",
-                        "blockType": "HAT",
+                        "blockType": "hat",
                         "text": "define turbowarp extension [NAME]",
                         "arguments": {
                             "NAME": {
-                                "type": "STRING",
+                                "type": "string",
                                 "defaultValue": "MyCoolAndAwesomeExtension"
                             }
                         }
                     },
                     {
                         "opcode": "generateExtensionMetaData",
-                        "blockType": "CONDITIONAL",
+                        "blockType": "conditional",
                         "text": "Define [DEFINITIONTYPE]",
                         "branchCount": 1, 
                         "arguments": {
                             "DEFINITIONTYPE": {
-                                "type": "STRING",
+                                "type": "string",
                                 "menu": "definitionTypes" 
                             }
                         }
                     },
                     {
                         "opcode": "setMetaData",
-                        "blockType": "COMMAND",
+                        "blockType": "command",
                         "text": "set [METATAG] to [VALUE]",
                         "arguments": {
                             "METATAG": {
-                                "type": "STRING",
+                                "type": "string",
                                 "menu": "metaData"
                             },
                             "VALUE": {
-                                "type": "STRING",
+                                "type": "string",
                                 "defaultValue": "Default Value"
                             }
                         }
