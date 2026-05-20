@@ -125,7 +125,7 @@ async function buildBlocks(file_name, Scratch) {
                         lines.push(`  value: ${getVal('VALUE')}`);
                         lines.push(`},`);
                         break;
-                    
+
                     case `${extension_id}_returnResult`:
                         lines.push(`return ${getVal('RESULT')};`); // This allows users to return a value from their block functions by using the "return result" block and specifying the value they want to return.
                         break;
@@ -186,11 +186,22 @@ async function buildBlocks(file_name, Scratch) {
                         lines.push(`util.startBranch(${branchNumber}, ${actionType == 'loop'});`); // Start the specified branch
 
                         break;
+
+                    case `dreamForgeJSTools_evalCode`:
+                    case `dreamForgeJSTools_evalCode_Reporter`:
+                        const codeToEval = getVal('CODE');
+                        lines.push(`try {`);
+                        lines.push(`  const fn = new Function('a', \`return ${codeToEval}\`);`); // Create a new function with the code to evaluate
+                        lines.push(`  return fn();`); // Call the function and return the result (for reporters)
+                        lines.push(`} catch (e) {`);
+                        lines.push(`  return \`Error: \${e.message}\`;`); // Return the error message if there's an error
+                        lines.push(`}`);
+                        break;
                     default: //default to getting the VM refrence to the block if the block doesnt exist in the transpiler.
                         const scratchVMTarget = Scratch.vm.runtime.getEditingTarget();
 
                         // If the preset code already contains this opcode, skip it to avoid duplicates
-                        if (!this.presetCode.includes(`this.${opcode} =`)) { 
+                        if (!this.presetCode.includes(`this.${opcode} =`)) {
                             this.presetCode += `this.${opcode} = this.runtime.getOpcodeFunction('${opcode}');\n`;
                         }
                         // remove all "" so that functions will still work.

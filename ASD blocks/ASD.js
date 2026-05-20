@@ -6,7 +6,7 @@
 class ASD_COMMAND {
     getInfo() {
         return {
-            id: 'gryffindorjstools', // Ensure this is lowercase/no symbols
+            id: 'dreamForgeJSTools', // Ensure this is lowercase/no symbols
             name: 'ASD',
             color1: '#0088ff', // Main block color
             color2: '#0066cc', // Hover/Outline color
