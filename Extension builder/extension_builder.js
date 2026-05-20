@@ -8,7 +8,7 @@ function fetchJson(file_name, folder = 'block_menus') {
             }
             return response.json();
         }).then(data => {
-            console.log(data)
+            // console.log(data)
             return data;
         })
         .catch(error => {
@@ -18,14 +18,22 @@ function fetchJson(file_name, folder = 'block_menus') {
 }
 
 //makes a fetch request to get the block json
-async function buildBlocks (file_name) {
+async function buildBlocks(file_name, blockType_reference) {
     let json = await fetchJson(file_name, 'blocks');
-    alert(json)
 
-    //Turn any blockType strings (e.g. HAT or COMMAND) into the corresponding Scratch.BlockType value.
-    if(json['blockYpe']) {
-        json.blockType = Scratch.BlockType[json.blockType];
+    let i;
+
+    for (i in json) {
+        console.log(i)
+        //Turn any blockType strings (e.g. HAT or COMMAND) into the corresponding Scratch.BlockType value.
+        if (json[i]['blockType']) {
+            console.log(blockType_reference[json[i].blockType])
+            json[i].blockType = blockType_reference[json[i].blockType];
+        }
     }
+
+    console.log(json)
+    return json;
 }
 
 (async function (Scratch) {
@@ -35,7 +43,9 @@ async function buildBlocks (file_name) {
     //Allowed us to easily edit block menus and make things more readable.
     let ExtensionDefinitionBlocksMenus = await fetchJson('extensions_definition_menus', 'block_menus');
     let extension_block_definition_menus = await fetchJson('extension_block_definitions_menu', 'block_menus');
-    let  extension_code_blocks_menus = await fetchJson('extension_code_blocks_menus', 'block_menus');
+    let extension_code_blocks_menus = await fetchJson('extension_code_blocks_menus', 'block_menus');
+
+    let extension_definition_blocks = await fetchJson('extension_definition_blocks', 'block'); //await buildBlocks('extension_definition_blocks', Scratch.BlockType);
 
     class ExtensionDefinitionBlocks {
         constructor(runtime) {
@@ -49,46 +59,7 @@ async function buildBlocks (file_name) {
                 id: extension_id,
                 name: 'Extension Definition Blocks',
                 color1: '#9595eb', // Main block color
-                blocks: [
-                    {
-                        opcode: 'defineExtensionHat',
-                        blockType: Scratch.BlockType.HAT,
-                        text: 'define turbowarp extension [NAME]',
-                        arguments: {
-                            NAME: {
-                                type: Scratch.ArgumentType.STRING,
-                                defaultValue: 'MyCoolAndAwesomeExtension'
-                            }
-                        }
-                    },
-                    {
-                        opcode: 'generateExtensionMetaData',
-                        blockType: Scratch.BlockType.CONDITIONAL,
-                        text: 'Define [DEFINITIONTYPE]',
-                        branchCount: 1, // This is the magic property
-                        arguments: {
-                            DEFINITIONTYPE: {
-                                type: Scratch.ArgumentType.STRING,
-                                menu: 'definitionTypes' // Must match the key in the menus object
-                            }
-                        }
-                    },
-                    {
-                        opcode: 'setMetaData',
-                        blockType: Scratch.BlockType.COMMAND,
-                        text: 'set [METATAG] to [VALUE]',
-                        arguments: {
-                            METATAG: {
-                                type: Scratch.ArgumentType.STRING,
-                                menu: 'metaData' // Must match the key in the menus object
-                            },
-                            VALUE: {
-                                type: Scratch.ArgumentType.STRING,
-                                defaultValue: 'Default Value'
-                            }
-                        }
-                    },
-                ],
+                blocks: extension_definition_blocks,
                 menus: ExtensionDefinitionBlocksMenus,
             };
         }
