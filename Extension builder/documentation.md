@@ -102,3 +102,7 @@ Once you pressed the green flag every change you made will automatically b e gen
 
 ## my blocks are still not appearing
 * Have you checked whether the name provided in the block meta tags Function value actually exists? IF it doesnt exist turbowarp will not render your block!
+
+## I want to use JS in my extensions
+This is absolutely possible!
+The extension builder has built in support for the ASD blocks extension which allows you to use JS code inside of your extensions and the best part is that this will work even when the user doesnt have the ASD blocks extension installed!

@@ -190,12 +190,7 @@ async function buildBlocks(file_name, Scratch) {
                     case `dreamForgeJSTools_evalCode`:
                     case `dreamForgeJSTools_evalCode_Reporter`:
                         const codeToEval = getVal('CODE');
-                        lines.push(`try {`);
-                        lines.push(`  const fn = new Function('a', \`return ${codeToEval}\`);`); // Create a new function with the code to evaluate
-                        lines.push(`  return fn();`); // Call the function and return the result (for reporters)
-                        lines.push(`} catch (e) {`);
-                        lines.push(`  return \`Error: \${e.message}\`;`); // Return the error message if there's an error
-                        lines.push(`}`);
+                        lines.push(codeToEval.replaceAll('"', '')); 
                         break;
                     default: //default to getting the VM refrence to the block if the block doesnt exist in the transpiler.
                         const scratchVMTarget = Scratch.vm.runtime.getEditingTarget();
