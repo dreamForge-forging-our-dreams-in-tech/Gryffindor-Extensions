@@ -186,16 +186,15 @@ async function buildBlocks(file_name, Scratch) {
                         lines.push(`util.startBranch(${branchNumber}, ${actionType == 'loop'});`); // Start the specified branch
 
                         break;
-                    default:
+                    default: //default to getting the VM refrence to the block if the block doesnt exist in the transpiler.
                         const scratchVMTarget = Scratch.vm.runtime.getEditingTarget();
 
-                        if (this.presetCode.includes(`this.${opcode} =`)) break; // If the preset code already contains this opcode, skip it to avoid duplicates
-
-                        this.presetCode += `this.${opcode} = this.runtime.getOpcodeFunction('${opcode}');\n`;
+                        // If the preset code already contains this opcode, skip it to avoid duplicates
+                        if (!this.presetCode.includes(`this.${opcode} =`)) { 
+                            this.presetCode += `this.${opcode} = this.runtime.getOpcodeFunction('${opcode}');\n`;
+                        }
                         // remove all "" so that functions will still work.
-                        lines.push(`
-                            await this.${opcode}(${this.getBlockArguments(block, target).replaceAll('"', ' ')}, util);
-                            `);
+                        lines.push(`await this.${opcode}(${this.getBlockArguments(block, target).replaceAll('"', ' ')}, util);`);
                 }
 
                 currentId = target.blocks.getNextBlock(currentId);

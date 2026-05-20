@@ -1,25 +1,48 @@
 class MyCoolAndAwesomeExtension {
     constructor(runtime) {
         this.runtime = runtime;
-        this.control_expandableIf = this.runtime.getOpcodeFunction('control_expandableIf');
-        this.operator_trueBoolean = this.runtime.getOpcodeFunction('operator_trueBoolean');
         this.sensing_askandwait = this.runtime.getOpcodeFunction('sensing_askandwait');
+        this.sensing_answer = this.runtime.getOpcodeFunction('sensing_answer');
 
     }
 
     getInfo() {
         return {
-            id: "ttestesteste",
-            name: "test",
+            id: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            name: "Advanced Ask",
+            color1: "#008dcd",
             blocks: [
                 {
                     opcode: "opcode_name",
-                    blockType: Scratch.BlockType.COMMAND,
-                    text: "Test",
+                    blockType: Scratch.BlockType.REPORTER,
+                    text: "Ask for [MESSAGE] with input type [INPUT] and wait",
+                    arguments: {
+                        "MESSAGE": {
+                            type: Scratch.ArgumentType.STRING,
+                            defaultValue: "message"
+                        },
+                        "INPUT": {
+                            type: Scratch.ArgumentType.STRING,
+                            menu: "input_types"
+                        },
+                    }
                 },
 
             ],
             menus: {
+                "input_types": {
+                    acceptReporters: false,
+                    items: [
+                        {
+                            text: "Text",
+                            value: "string"
+                        },
+                        {
+                            text: "Number",
+                            value: "number"
+                        },
+                    ]
+                },
 
             },
 
@@ -29,8 +52,9 @@ class MyCoolAndAwesomeExtension {
 
     async opcode_name(args, util) {
 
-        await this.control_expandableIf({ BOOL1: await this.operator_trueBoolean({}, util), SUBSTACK1: await this.sensing_askandwait({ QUESTION: 'bbb' }, util), SUBSTACK2:  }, util);
+        await this.sensing_askandwait({ QUESTION: args.MESSAGE }, util);
 
+        return await this.sensing_answer({}, util);;
     }
 
 }
