@@ -17,7 +17,7 @@
         "arguments": {
             "DEFINITIONTYPE": {
                 "type": "STRING",
-                "menu": "argumentDropdownTypes"
+                "menu": "metaData"
             }
         }
     },
