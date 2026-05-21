@@ -84,7 +84,7 @@ async function buildBlocks(file_name, Scratch) {
          * This helper looks at the blocks snapped under the Hat
          * and turns them into a JS string.
          */
-        async transpile(currentId, target) {
+        transpile(currentId, target) {
             const allBlocks = target.blocks._blocks;
 
             let lines = [];
@@ -92,21 +92,6 @@ async function buildBlocks(file_name, Scratch) {
             while (currentId) {
                 const block = target.blocks.getBlock(currentId);
                 const opcode = block.opcode;
-                const opcodeWithoutExtension = opcode.replace(extension_id + '_', ''); // Remove the extension_id prefix from the opcode to get the base opcode name, which is used in the directory.json file to find the corresponding code block for this opcode. This allows us to reuse the same code blocks for multiple extensions without having to duplicate them in the directory.json file.
-
-                let code_directory = await fetchJson('directory', 'block_codes'); // This is a JSON file that contains the mapping of block opcodes to the code blocks that should be used to transpile them. This allows us to easily add new blocks and specify how they should be transpiled without having to edit the transpile function itself.
-                let code_path_name;
-                let i;
-                for (i in code_directory) { //find the correct file path conencted to the opcode in the directory.json file so we can use it to get the code block for that opcode. This allows us to easily organize our code blocks into different files and keep the transpile function clean and organized.
-                    if (code_directory) {
-                        if (code_directory[i].includes(opcodeWithoutExtension)) { // The replace here is to remove the extension_id prefix from the opcode so that we can match it to the entries in the directory.json file, which do not include the extension_id prefix. This allows us to reuse the same code blocks for multiple extensions without having to duplicate them in the directory.json file.
-                            code_path_name = i;
-                            break;
-                        }
-                    }
-                }
-
-                let code_json = await fetchJson(code_path_name, 'block_codes'); // This is the JSON file that contains the code blocks for each opcode. The code blocks are strings that can include placeholders for values from the blocks (e.g. ${VALUE} or ${ARGUMENTS}) which will be replaced with the actual values from the blocks when transpiling.
 
                 if (block.fields && block.fields.NUM) {
                     return block.fields.NUM.value; // Returns "2"
@@ -125,133 +110,99 @@ async function buildBlocks(file_name, Scratch) {
                 // Helper to get a clean value for any input
                 const getVal = (name) => this.resolveInput(block, name, target);
 
-                if (code_json && code_json[opcodeWithoutExtension]) {
-                    let code_block = code_json[opcodeWithoutExtension].code; // Get the code block for this opcode from the JSON file
-                    let i, codeToInsert = '';
+                switch (opcode) {
+                    case `${extension_id}_setMetaData`:
+                    case `${extension_id}_setMetaDataBlocks`:
+                        const tag = block.fields.METATAG.value;
+                        const val = getVal('VALUE');
+                        // Formatting for your JSON/Object view
+                        lines.push(`  ${tag}: ${val},`);
+                        break;
 
-                    for (i of code_block) { // Replace any placeholders in the code block with the actual values from the block
-                        let argValue;
+                    case `${extension_id}_createListItem`:
+                        lines.push(` {`);
+                        lines.push(`  text: ${getVal('NAME')},`);
+                        lines.push(`  value: ${getVal('VALUE')}`);
+                        lines.push(`},`);
+                        break;
 
-                        if (code_json[opcodeWithoutExtension].singleLine) { // If the code block is marked as singleLine, we want to replace all placeholders in the entire code block at once instead of line by line to avoid issues with values that need to be evaluated (e.g. reporter blocks) being split across multiple lines and not being evaluated correctly.
-                            if (i.includes('[') && i.includes(']')) { // This is a placeholder for a value from the block (e.g. [VALUE] or [ARGUMENTS])
-                                let argName = i.replaceAll('[', '').replaceAll(']', ''); // Get the name of the argument from the placeholder (e.g. "VALUE" from "[VALUE]")
-                                argValue = getVal(argName); // Get the value for this argument
-                                codeToInsert += argValue;
-                            } else {
-                                codeToInsert += i; // This is just a regular line of code that should be included as is in the generated code
-                            }
-                        } else {
-                            lines.push(i); // If the code block is not marked as singleLine, we can just add each line to the lines array and replace the placeholders line by line as we go.
+                    case `${extension_id}_returnResult`:
+                        lines.push(`return ${getVal('RESULT')};`); // This allows users to return a value from their block functions by using the "return result" block and specifying the value they want to return.
+                        break;
+
+                    case `${extension_id}_getArgumentValue`:
+                        const argName = getVal('NAME').replaceAll('"', ''); // Remove quotes if it's a string
+                        return `args.${argName}`; // This allows users to get the value of an argument in their code blocks by using the "get value of argument" block and specifying the argument name.
+                        break;
+
+                    case `${extension_id}_generateExtensionMetaData`:
+                        let blockHats = this.getAllHats('defineExtensionBlock', allBlocks); // Get all hats that define block functions
+                        let menuHats = this.getAllHats('defineExtensionMenus', allBlocks); // Get all hats that define block functions
+
+                        let blocks = this.getHatCode(blockHats, allBlocks, target);
+                        let menuBlocks = this.getHatCode(menuHats, allBlocks, target);
+
+                        let sendingCode = `blocks: [\n${blocks}\n],\nmenus: {\n${menuBlocks}\n},\n`; // This is the code that will be injected into the extension metadata. It includes both the blocks and the menus.
+                        this.buildDefinition(block.fields.DEFINITIONTYPE.value, lines, substackId, target, sendingCode);
+                        break;
+
+                    case `${extension_id}_generateBlockMetaData`:
+                        const definitionType = block.fields.DEFINITIONTYPE.value;
+
+                        this.buildDefinition(definitionType, lines, substackId, target);
+                        break;
+
+                    case `${extension_id}_generateMenu`:
+                        const menuName = getVal('MENUNAME');
+
+                        this.buildDefinition('menu', lines, substackId, target, menuName);
+                        break;
+
+                    case `${extension_id}_buildBlockType`:
+                        lines.push(block.fields.TYPE.value);
+                        break;
+
+                    case `${extension_id}_defineArguments`:
+                        let arg_type = block.fields.TYPE.value;
+                        let arg_default = getVal('DEFAULT');
+                        let arg_name = getVal('NAME');
+                        let type = block.fields.INPUT.value;
+
+                        lines.push(arg_name + `: {`);
+                        lines.push(`  type: ${arg_type},`);
+                        lines.push(`  ${type}: ${arg_default}`);
+                        lines.push(`},`);
+                        break;
+
+                    case `${extension_id}_checkFunctionAvailability`:
+                        const functionName = getVal('NAME');
+                        lines.push(`!String(this.runtime.getOpcodeFunction('${functionName}')) === 'undefined'\n`);
+                        break;
+
+                    case `${extension_id}_executeBranchBlocks`:
+                        const actionType = block.fields.ACTIONTYPE.value; // "loop" or "execute"
+                        const branchNumber = getVal('BRANCHNUMBER'); // 1, 2, or 3
+
+                        lines.push(`util.startBranch(${branchNumber}, ${actionType == 'loop'});`); // Start the specified branch
+
+                        break;
+
+                    case `dreamForgeJSTools_evalCode`:
+                    case `dreamForgeJSTools_evalCode_Reporter`:
+                        const codeToEval = getVal('CODE');
+                        lines.push(codeToEval.replaceAll('"', ''));
+                        break;
+                    default: //default to getting the VM refrence to the block if the block doesnt exist in the transpiler.
+                        const scratchVMTarget = Scratch.vm.runtime.getEditingTarget();
+
+                        // If the preset code already contains this opcode, skip it to avoid duplicates
+                        if (!this.presetCode.includes(`this.${opcode} =`)) {
+                            this.presetCode += `this.${opcode} = this.runtime.getOpcodeFunction('${opcode}');\n`;
                         }
-                    }
-
-                    if (codeToInsert) { // If there is code to insert that was generated from the placeholders, add it to the lines array. We do this after processing all lines of the code block to ensure that any values that need to be evaluated (e.g. reporter blocks) are fully generated before being inserted into the code.
-                        lines.push(codeToInsert); // Add the generated code for this block to the lines array
-                    }
-                } else {
-                    console.log('fallback')
-                    const scratchVMTarget = Scratch.vm.runtime.getEditingTarget();
-
-                    // If the preset code already contains this opcode, skip it to avoid duplicates
-                    if (!this.presetCode.includes(`this.${opcode}`)) {
-                        this.presetCode += `this.${opcode} = this.runtime.getOpcodeFunction('${opcode}');\n`;
-                    }
-                    // remove all "" so that functions will still work.
-                    lines.push(`await this.${opcode}(${this.getBlockArguments(block, target).replaceAll('"', ' ')}, util);`);
+                        console.log(this.runtime._primitives[opcode].toString() || this.runtime._primitives[opcode]);
+                        // remove all "" so that functions will still work.
+                        lines.push(`await this.${opcode}(${this.getBlockArguments(block, target).replaceAll('"', ' ')}, util);`);
                 }
-
-                // switch (opcode) {
-                //     case `${extension_id}_setMetaData`:
-                //     case `${extension_id}_setMetaDataBlocks`:
-                //         const tag = block.fields.METATAG.value;
-                //         const val = getVal('VALUE');
-                //         // Formatting for your JSON/Object view
-                //         lines.push(`  ${tag}: ${val},`);
-                //         break;
-
-                //     case `${extension_id}_createListItem`:
-                //         lines.push(` {`);
-                //         lines.push(`  text: ${getVal('NAME')},`);
-                //         lines.push(`  value: ${getVal('VALUE')}`);
-                //         lines.push(`},`);
-                //         break;
-
-                //     case `${extension_id}_returnResult`:
-                //         lines.push(`return ${getVal('RESULT')};`); // This allows users to return a value from their block functions by using the "return result" block and specifying the value they want to return.
-                //         break;
-
-                //     case `${extension_id}_getArgumentValue`:
-                //         const argName = getVal('NAME').replaceAll('"', ''); // Remove quotes if it's a string
-                //         return `args.${argName}`; // This allows users to get the value of an argument in their code blocks by using the "get value of argument" block and specifying the argument name.
-                //         break;
-
-                //     case `${extension_id}_generateExtensionMetaData`:
-                //         let blockHats = this.getAllHats('defineExtensionBlock', allBlocks); // Get all hats that define block functions
-                //         let menuHats = this.getAllHats('defineExtensionMenus', allBlocks); // Get all hats that define block functions
-
-                //         let blocks = this.getHatCode(blockHats, allBlocks, target);
-                //         let menuBlocks = this.getHatCode(menuHats, allBlocks, target);
-
-                //         let sendingCode = `blocks: [\n${blocks}\n],\nmenus: {\n${menuBlocks}\n},\n`; // This is the code that will be injected into the extension metadata. It includes both the blocks and the menus.
-                //         this.buildDefinition(block.fields.DEFINITIONTYPE.value, lines, substackId, target, sendingCode);
-                //         break;
-
-                //     case `${extension_id}_generateBlockMetaData`:
-                //         const definitionType = block.fields.DEFINITIONTYPE.value;
-
-                //         this.buildDefinition(definitionType, lines, substackId, target);
-                //         break;
-
-                //     case `${extension_id}_generateMenu`:
-                //         const menuName = getVal('MENUNAME');
-
-                //         this.buildDefinition('menu', lines, substackId, target, menuName);
-                //         break;
-
-                //     case `${extension_id}_buildBlockType`:
-                //         lines.push(block.fields.TYPE.value);
-                //         break;
-
-                //     case `${extension_id}_defineArguments`:
-                //         let arg_type = block.fields.TYPE.value;
-                //         let arg_default = getVal('DEFAULT');
-                //         let arg_name = getVal('NAME');
-                //         let type = block.fields.INPUT.value;
-
-                //         lines.push(arg_name + `: {`);
-                //         lines.push(`  type: ${arg_type},`);
-                //         lines.push(`  ${type}: ${arg_default}`);
-                //         lines.push(`},`);
-                //         break;
-
-                //     case `${extension_id}_checkFunctionAvailability`:
-                //         const functionName = getVal('NAME');
-                //         lines.push(`!String(this.runtime.getOpcodeFunction('${functionName}')) === 'undefined'\n`);
-                //         break;
-
-                //     case `${extension_id}_executeBranchBlocks`:
-                //         const actionType = block.fields.ACTIONTYPE.value; // "loop" or "execute"
-                //         const branchNumber = getVal('BRANCHNUMBER'); // 1, 2, or 3
-
-                //         lines.push(`util.startBranch(${branchNumber}, ${actionType == 'loop'});`); // Start the specified branch
-
-                //         break;
-
-                //     case `dreamForgeJSTools_evalCode`:
-                //     case `dreamForgeJSTools_evalCode_Reporter`:
-                //         const codeToEval = getVal('CODE');
-                //         lines.push(codeToEval.replaceAll('"', ''));
-                //         break;
-                //     default: //default to getting the VM refrence to the block if the block doesnt exist in the transpiler.
-                //         const scratchVMTarget = Scratch.vm.runtime.getEditingTarget();
-
-                //         // If the preset code already contains this opcode, skip it to avoid duplicates
-                //         if (!this.presetCode.includes(`this.${opcode} =`)) {
-                //             this.presetCode += `this.${opcode} = this.runtime.getOpcodeFunction('${opcode}');\n`;
-                //         }
-                //         // remove all "" so that functions will still work.
-                //         lines.push(`await this.${opcode}(${this.getBlockArguments(block, target).replaceAll('"', ' ')}, util);`);
-                // }
 
                 currentId = target.blocks.getNextBlock(currentId);
             }
@@ -492,13 +443,6 @@ async function buildBlocks(file_name, Scratch) {
 
         defineBlockFunction() {
             return false;
-        }
-
-        returnResult() {
-            const result = args.RESULT;
-            // Perform your logic here
-            console.log("Returning result:", result);
-            return; // COMMAND blocks typically don't return values
         }
 
     }
