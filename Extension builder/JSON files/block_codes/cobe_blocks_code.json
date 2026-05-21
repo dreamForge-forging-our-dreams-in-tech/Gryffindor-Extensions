@@ -5,5 +5,12 @@
             "args.",
             "[NAME]"
         ]
+    },
+    "returnResult": {
+        "singleLine": true,
+        "code": [
+            "return ",
+            "[VALUE]"
+        ]
     }
 }

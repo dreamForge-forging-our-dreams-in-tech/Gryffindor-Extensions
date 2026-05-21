@@ -97,11 +97,14 @@ async function buildBlocks(file_name, Scratch) {
                 let code_path_name;
                 let i;
                 for (i in code_directory) { //find the correct file path conencted to the opcode in the directory.json file so we can use it to get the code block for that opcode. This allows us to easily organize our code blocks into different files and keep the transpile function clean and organized.
-                    if (code_directory)
+                    if (code_directory) {
+                        console.log(i, opcode, code_directory[i])
                         if (code_directory[i].includes(opcode)) {
+                            console.log(i)
                             code_path_name = i;
                             break;
                         }
+                    }
                 }
 
                 let code_json = await fetchJson(code_path_name, 'block_codes'); // This is the JSON file that contains the code blocks for each opcode. The code blocks are strings that can include placeholders for values from the blocks (e.g. ${VALUE} or ${ARGUMENTS}) which will be replaced with the actual values from the blocks when transpiling.
@@ -123,11 +126,11 @@ async function buildBlocks(file_name, Scratch) {
                 // Helper to get a clean value for any input
                 const getVal = (name) => this.resolveInput(block, name, target);
 
-                if(code_json && code_json[opcode]) {
+                if (code_json && code_json[opcode]) {
                     let code_block = code_json[opcode].code; // Get the code block for this opcode from the JSON file
                     let i;
 
-                    for(i of code_block) { // Replace any placeholders in the code block with the actual values from the block
+                    for (i of code_block) { // Replace any placeholders in the code block with the actual values from the block
                         console.log(i)
                     }
                 }
@@ -221,7 +224,6 @@ async function buildBlocks(file_name, Scratch) {
                         if (!this.presetCode.includes(`this.${opcode} =`)) {
                             this.presetCode += `this.${opcode} = this.runtime.getOpcodeFunction('${opcode}');\n`;
                         }
-                        console.log(this.runtime._primitives[opcode].toString() || this.runtime._primitives[opcode]);
                         // remove all "" so that functions will still work.
                         lines.push(`await this.${opcode}(${this.getBlockArguments(block, target).replaceAll('"', ' ')}, util);`);
                 }
