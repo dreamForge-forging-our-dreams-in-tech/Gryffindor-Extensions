@@ -126,23 +126,21 @@ async function buildBlocks(file_name, Scratch) {
 
                 if (code_json && code_json[opcode.replace(extension_id + '_', '')]) {
                     let code_block = code_json[opcode.replace(extension_id + '_', '')].code; // Get the code block for this opcode from the JSON file
-                    let i;
+                    let i, codeToInsert = '';
 
                     for (i of code_block) { // Replace any placeholders in the code block with the actual values from the block
-                        let argValue, codeToInsert;
+                        let argValue;
 
-                        if(i.includes('[]')) {
-                            argValue = getVal(i.replace('[]', '')); // Get the value for this argument
+                        if(i.includes('[') && i.includes(']')) { // This is a placeholder for a value from the block (e.g. [VALUE] or [ARGUMENTS])
+                            let argName = i.replaceAll('[', '').replaceAll(']', ''); // Get the name of the argument from the placeholder (e.g. "VALUE" from "[VALUE]")
+                            argValue = getVal(argName); // Get the value for this argument
                             codeToInsert = argValue;
                         } else {
                             codeToInsert += i; // This is just a regular line of code that should be included as is in the generated code
                         }
-
-                        console.log(codeToInsert, argValue)
                     }
 
                     lines.push(codeToInsert); // Add the generated code for this block to the lines array
-                    console.log(lines, codeToInsert)
                 }
 
                 switch (opcode) {
