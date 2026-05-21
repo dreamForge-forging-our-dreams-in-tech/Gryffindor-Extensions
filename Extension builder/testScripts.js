@@ -1,7 +1,7 @@
 class prompts {
   constructor(runtime) {
     this.runtime = runtime;
-
+    this.motion_movesteps = this.runtime.getOpcodeFunction('motion_movesteps');
   }
 
   getInfo() {
@@ -32,7 +32,9 @@ class prompts {
 
 
   async alert(args, util) {
-    alert(args.message);
+    await this.motion_movesteps({ STEPS : 10 }, util);
+
+    console.log(await this.motion_movesteps({ STEPS : 10 }, util));
   }
 
 }

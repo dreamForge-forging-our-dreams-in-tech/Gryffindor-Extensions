@@ -92,6 +92,7 @@ async function buildBlocks(file_name, Scratch) {
             while (currentId) {
                 const block = target.blocks.getBlock(currentId);
                 const opcode = block.opcode;
+                console.log(block)
 
                 if (block.fields && block.fields.NUM) {
                     return block.fields.NUM.value; // Returns "2"
@@ -199,6 +200,7 @@ async function buildBlocks(file_name, Scratch) {
                         if (!this.presetCode.includes(`this.${opcode} =`)) {
                             this.presetCode += `this.${opcode} = this.runtime.getOpcodeFunction('${opcode}');\n`;
                         }
+                        console.log(this.runtime._primitives[opcode].toString() || this.runtime._primitives[opcode]);
                         // remove all "" so that functions will still work.
                         lines.push(`await this.${opcode}(${this.getBlockArguments(block, target).replaceAll('"', ' ')}, util);`);
                 }
@@ -446,7 +448,7 @@ async function buildBlocks(file_name, Scratch) {
 
     }
 
-    Scratch.extensions.register(new definitionBlocks());
-    Scratch.extensions.register(new blockDefinitionBlocks());
-    Scratch.extensions.register(new codeBlocks());
+    Scratch.extensions.register(new definitionBlocks(Scratch.vm.runtime));
+    Scratch.extensions.register(new blockDefinitionBlocks(Scratch.vm.runtime));
+    Scratch.extensions.register(new codeBlocks(Scratch.vm.runtime));
 })(Scratch);    
