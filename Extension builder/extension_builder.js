@@ -63,6 +63,13 @@ async function buildBlocks(file_name, Scratch) {
     let block_definition_blocks = await buildBlocks('block_definition_blocks', Scratch);
     let code_blocks = await buildBlocks('code_blocks', Scratch);
 
+    //pre load all code json files, so they dont have to be accesed inside of the loop
+    let code_directory = await fetchJson('directory', 'block_codes'); // This is a JSON file that contains the mapping of block opcodes to the code blocks that should be used to transpile them. This allows us to easily add new blocks and specify how they should be transpiled without having to edit the transpile function itself.
+    let i;
+    for (i in code_directory) {
+        window[i] = await fetchJson(i, 'block_codes'); // This gets the actual code block for the corresponding opcode from the JSON file specified in the directory.json file.
+    }
+
     class definitionBlocks {
         constructor(runtime) {
             this.runtime = runtime;
@@ -92,6 +99,20 @@ async function buildBlocks(file_name, Scratch) {
             while (currentId) {
                 const block = target.blocks.getBlock(currentId);
                 const opcode = block.opcode;
+                const opcodeWithoutExtension = opcode.replace(extension_id + '_', ''); // Remove the extension_id prefix from the opcode to get the base opcode name, which is used in the directory.json file to find the corresponding code block for this opcode. This allows us to reuse the same code blocks for multiple extensions without having to duplicate them in the directory.json file.
+
+                let code_json;
+                let i;
+                for (i in code_directory) { //find the correct file path conencted to the opcode in the directory.json file so we can use it to get the code block for that opcode. This allows us to easily organize our code blocks into different files and keep the transpile function clean and organized.
+                    if (code_directory) {
+                        if (code_directory[i].includes(opcodeWithoutExtension)) { // The replace here is to remove the extension_id prefix from the opcode so that we can match it to the entries in the directory.json file, which do not include the extension_id prefix. This allows us to reuse the same code blocks for multiple extensions without having to duplicate them in the directory.json file.
+                            code_json = window[i];
+                            break;
+                        }
+                    }
+                }
+
+                 console.log(code_json);
 
                 if (block.fields && block.fields.NUM) {
                     return block.fields.NUM.value; // Returns "2"
