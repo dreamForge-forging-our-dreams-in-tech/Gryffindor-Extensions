@@ -10,7 +10,7 @@
         "singleLine": true,
         "code": [
             "return ",
-            "[VALUE]"
+            "[RESULT]"
         ]
     }
 }

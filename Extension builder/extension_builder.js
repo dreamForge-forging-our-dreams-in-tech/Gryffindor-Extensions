@@ -124,13 +124,25 @@ async function buildBlocks(file_name, Scratch) {
                 // Helper to get a clean value for any input
                 const getVal = (name) => this.resolveInput(block, name, target);
 
-                if (code_json && code_json[opcode]) {
-                    let code_block = code_json[opcode].code; // Get the code block for this opcode from the JSON file
+                if (code_json && code_json[opcode.replace(extension_id + '_', '')]) {
+                    let code_block = code_json[opcode.replace(extension_id + '_', '')].code; // Get the code block for this opcode from the JSON file
                     let i;
 
                     for (i of code_block) { // Replace any placeholders in the code block with the actual values from the block
-                        console.log(i)
+                        let argValue, codeToInsert;
+
+                        if(i.includes('[]')) {
+                            argValue = getVal(i.replace('[]', '')); // Get the value for this argument
+                            codeToInsert = argValue;
+                        } else {
+                            codeToInsert += i; // This is just a regular line of code that should be included as is in the generated code
+                        }
+
+                        console.log(codeToInsert, argValue)
                     }
+
+                    lines.push(codeToInsert); // Add the generated code for this block to the lines array
+                    console.log(lines, codeToInsert)
                 }
 
                 switch (opcode) {
@@ -464,6 +476,10 @@ async function buildBlocks(file_name, Scratch) {
         }
 
         defineBlockFunction() {
+            return false;
+        }
+
+        returnResult() {
             return false;
         }
 
