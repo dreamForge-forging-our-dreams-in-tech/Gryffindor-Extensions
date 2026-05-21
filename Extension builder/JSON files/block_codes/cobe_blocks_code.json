@@ -1,0 +1,9 @@
+{
+    "getArgumentValue": {
+        "singleLine": true,
+        "code": [
+            "args.",
+            "NAME"
+        ]
+    }
+}

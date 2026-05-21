@@ -1,7 +1,7 @@
 let extension_id = 'dreamforgeturbowarpextensionbuilder';
 
 function fetchJson(file_name, folder = 'block_menus') {
-    return fetch(`https://raw.githubusercontent.com/dreamForge-forging-our-dreams-in-tech/Gryffindor-Extensions/refs/heads/main/Extension%20builder/${folder}/${file_name}.json`)
+    return fetch(`https://raw.githubusercontent.com/dreamForge-forging-our-dreams-in-tech/Gryffindor-Extensions/refs/heads/main/Extension%20builder/JSON%20files/${folder}/${file_name}.json`)
         .then(response => {
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
