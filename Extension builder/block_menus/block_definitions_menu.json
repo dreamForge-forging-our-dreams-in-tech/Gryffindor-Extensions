@@ -53,11 +53,11 @@
         "acceptReporters": false,
         "items": [
             {
-                "text": "Function",
+                "text": "Opcode",
                 "value": "opcode"
             },
             {
-                "text": "Type",
+                "text": "blockType",
                 "value": "blockType"
             },
             {
@@ -69,7 +69,7 @@
                 "value": "branchCount"
             },
             {
-                "text": "isTerminal",
+                "text": "Is Terminal",
                 "value": "isTerminal"
             }
         ]

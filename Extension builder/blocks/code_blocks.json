@@ -2,7 +2,7 @@
     {
         "opcode": "defineBlockFunction",
         "blockType": "HAT",
-        "text": "Define block opcode [OPCODENAME]",
+        "text": "Define opcode [OPCODENAME]",
         "arguments": {
             "OPCODENAME": {
                 "type": "STRING",
@@ -13,7 +13,7 @@
     {
         "opcode": "getArgumentValue",
         "blockType": "REPORTER",
-        "text": "get value of argument[NAME]",
+        "text": "get argument value [NAME]",
         "arguments": {
             "NAME": {
                 "type": "STRING",
@@ -24,11 +24,11 @@
     {
         "opcode": "checkFunctionAvailability",
         "blockType": "BOOLEAN",
-        "text": "check if function [NAME] is available",
+        "text": " is function [NAME] available?",
         "arguments": {
             "NAME": {
                 "type": "STRING",
-                "defaultValue": "ARGUMENTNAME"
+                "defaultValue": "motion_steps"
             }
         }
     },

@@ -3,12 +3,12 @@
         "acceptReporters": false,
         "items": [
             {
-                "text": "Loop",
-                "value": "loop"
-            },
-            {
                 "text": "Execute",
                 "value": "execute"
+            },
+            {
+                "text": "Loop",
+                "value": "loop"
             }
         ]
     }

@@ -92,7 +92,6 @@ async function buildBlocks(file_name, Scratch) {
             while (currentId) {
                 const block = target.blocks.getBlock(currentId);
                 const opcode = block.opcode;
-                console.log(block)
 
                 if (block.fields && block.fields.NUM) {
                     return block.fields.NUM.value; // Returns "2"

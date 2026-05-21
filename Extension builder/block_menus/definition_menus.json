@@ -11,12 +11,17 @@
                 "value": "name"
             },
             {
-                "text": "Block Color",
+                "text": "Primary Color",
                 "value": "color1"
             },
             {
-                "text": "Hover Color",
+                "text": "Secondairy Color",
                 "value": "color2"
+            }
+            ,
+            {
+                "text": "Tertiary Color",
+                "value": "color3"
             }
         ]
     },

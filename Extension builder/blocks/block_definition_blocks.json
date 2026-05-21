@@ -2,12 +2,12 @@
     {
         "opcode": "defineExtensionBlock",
         "blockType": "HAT",
-        "text": "define extension block"
+        "text": "define block"
     },
     {
         "opcode": "defineExtensionMenus",
         "blockType": "HAT",
-        "text": "define extension menus"
+        "text": "define menus"
     },
     {
         "opcode": "generateBlockMetaData",
@@ -59,7 +59,7 @@
     {
         "opcode": "buildBlockType",
         "blockType": "REPORTER",
-        "text": "block type[TYPE]",
+        "text": "blockType [TYPE]",
         "arguments": {
             "TYPE": {
                 "type": "STRING",
@@ -85,15 +85,15 @@
     {
         "opcode": "createListItem",
         "blockType": "COMMAND",
-        "text": "create item with [NAME] and value [VALUE]",
+        "text": "create menu with [NAME] and [VALUE]",
         "arguments": {
             "NAME": {
                 "type": "STRING",
-                "defaultValue": "Item Name"
+                "defaultValue": "Item"
             },
             "VALUE": {
                 "type": "STRING",
-                "defaultValue": "Default Value"
+                "defaultValue": "Value"
             }
         }
     }
