@@ -1,4 +1,12 @@
+# blocks
+
+### defining the block or argument type
+Block/Argument types are no longer defined using Scratch.blockType or Scratch.argumentType but instead are now jsut a upper case string of the type you want e.g. "HAT" or "STRING"
+
 # block_codes
+
+## The directory.json file
+The directory.json file tells the compiler where the code for each opcode is located, the key is the file name and the value is an array wit hal lthe opcodes inside of that file.
 
 ## defining the opcode
 
@@ -24,7 +32,7 @@ The extension builder compiler builds your code from a simple array, in this arr
         "singleline": true,
         "code": [
             "args.",
-            "NAME" <--- Argument name
+            "[NAME]" <--- Argument name with brackets to tell the system its an argument
         ]
     }
 }

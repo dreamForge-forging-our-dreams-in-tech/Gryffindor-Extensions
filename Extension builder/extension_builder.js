@@ -84,7 +84,7 @@ async function buildBlocks(file_name, Scratch) {
          * This helper looks at the blocks snapped under the Hat
          * and turns them into a JS string.
          */
-        transpile(currentId, target) {
+        async transpile(currentId, target) {
             const allBlocks = target.blocks._blocks;
 
             let lines = [];
@@ -92,6 +92,19 @@ async function buildBlocks(file_name, Scratch) {
             while (currentId) {
                 const block = target.blocks.getBlock(currentId);
                 const opcode = block.opcode;
+
+                let code_directory = await fetchJson('directory', 'block_codes'); // This is a JSON file that contains the mapping of block opcodes to the code blocks that should be used to transpile them. This allows us to easily add new blocks and specify how they should be transpiled without having to edit the transpile function itself.
+                let code_path_name;
+                let i;
+                for (i in code_directory) { //find the correct file path conencted to the opcode in the directory.json file so we can use it to get the code block for that opcode. This allows us to easily organize our code blocks into different files and keep the transpile function clean and organized.
+                    if (code_directory)
+                        if (code_directory[i].includes(opcode)) {
+                            code_path_name = i;
+                            break;
+                        }
+                }
+
+                let code_json = await fetchJson(code_path_name, 'block_codes'); // This is the JSON file that contains the code blocks for each opcode. The code blocks are strings that can include placeholders for values from the blocks (e.g. ${VALUE} or ${ARGUMENTS}) which will be replaced with the actual values from the blocks when transpiling.
 
                 if (block.fields && block.fields.NUM) {
                     return block.fields.NUM.value; // Returns "2"
@@ -109,6 +122,15 @@ async function buildBlocks(file_name, Scratch) {
 
                 // Helper to get a clean value for any input
                 const getVal = (name) => this.resolveInput(block, name, target);
+
+                if(code_json && code_json[opcode]) {
+                    let code_block = code_json[opcode].code; // Get the code block for this opcode from the JSON file
+                    let i;
+
+                    for(i of code_block) { // Replace any placeholders in the code block with the actual values from the block
+                        console.log(i)
+                    }
+                }
 
                 switch (opcode) {
                     case `${extension_id}_setMetaData`:
@@ -190,7 +212,7 @@ async function buildBlocks(file_name, Scratch) {
                     case `dreamForgeJSTools_evalCode`:
                     case `dreamForgeJSTools_evalCode_Reporter`:
                         const codeToEval = getVal('CODE');
-                        lines.push(codeToEval.replaceAll('"', '')); 
+                        lines.push(codeToEval.replaceAll('"', ''));
                         break;
                     default: //default to getting the VM refrence to the block if the block doesnt exist in the transpiler.
                         const scratchVMTarget = Scratch.vm.runtime.getEditingTarget();
