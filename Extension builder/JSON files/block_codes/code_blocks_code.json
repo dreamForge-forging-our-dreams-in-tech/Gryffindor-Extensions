@@ -12,5 +12,15 @@
             "return ",
             "[RESULT]"
         ]
+    },
+    "executeBranchBlocks": {
+        "singleLine": true,
+        "code": [
+            "util.startBranch(",
+            "[BRANCHNUMBER]",
+            ", ",
+            "[ACTIONTYPE]",
+            " == 'loop']);"
+        ]
     }
 }
