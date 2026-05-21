@@ -153,7 +153,6 @@ async function buildBlocks(file_name, Scratch) {
                         lines.push(codeToInsert); // Add the generated code for this block to the lines array
                     }
                 } else {
-                    console.log('fallback')
                     const scratchVMTarget = Scratch.vm.runtime.getEditingTarget();
 
                     // If the preset code already contains this opcode, skip it to avoid duplicates
@@ -256,9 +255,6 @@ async function buildBlocks(file_name, Scratch) {
                 //         // remove all "" so that functions will still work.
                 //         lines.push(`await this.${opcode}(${this.getBlockArguments(block, target).replaceAll('"', ' ')}, util);`);
                 // }
-
-                currentId = target.blocks.getNextBlock(currentId);
-
 
                 currentId = target.blocks.getNextBlock(currentId);
             }
