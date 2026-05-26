@@ -27,7 +27,6 @@
         "code": [
             "[NAME]",
             ": {",
-            "  type: '",
             "[TYPE]",
             "  : ",
             "'[DEFAULT]'",
