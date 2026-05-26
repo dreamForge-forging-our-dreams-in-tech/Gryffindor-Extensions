@@ -2,8 +2,9 @@
     "getArgumentValue": {
         "singleLine": true,
         "code": [
-            "args.",
-            "[NAME]"
+            "args[",
+            "[NAME]",
+            "]"
         ]
     },
     "returnResult": {

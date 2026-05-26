@@ -130,7 +130,6 @@ async function buildBlocks(file_name, Scratch) {
                 const getVal = (name) => {
                     let result = this.resolveInput(block, name, target);
                     if (result === 'null') { // needs to be a string since its returned as a string
-                        console.log(name)
                         result = block.fields[name].value
                     }
                     return result;
