@@ -19,7 +19,7 @@
             "util.startBranch(",
             "[BRANCHNUMBER]",
             ", ",
-            "[ACTIONTYPE]",
+            "'[ACTIONTYPE]'",
             " == 'loop']);"
         ]
     },

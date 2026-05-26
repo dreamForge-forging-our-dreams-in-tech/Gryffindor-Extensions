@@ -371,7 +371,7 @@ async function buildBlocks(file_name, Scratch) {
             return false;
         }
 
-        generateBlockMetaData() {
+        setMetaDataBlocks() {
             return false; // The actual generation of the block meta data is handled in the generated code, this block just serves as a trigger for users to indicate they want to generate block meta data and to specify which type of meta data they want to generate.
         }
 
