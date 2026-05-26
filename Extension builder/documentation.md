@@ -1,8 +1,8 @@
 # extension builder blocks
 
 # requirements
-Must run unsandboxed and the compiler should be disabled!
-If above settings are not applied the extension wont be able to render or compile your extension correctly.
+Must run unsandboxed!
+If not ran unsandboxed the extension wont be able to render or compile your extension correctly.
 
 Must have some understanding of turbowarp [extensions](https://docs.turbowarp.org/development/extensions/introduction)
 
@@ -101,15 +101,8 @@ Once you pressed the green flag every change you made will automatically b e gen
 # FAQ
 
 ## my blocks are still not appearing
-* Have you checked whether the name provided in the block meta tags opcode value actually exists? IF it doesnt exist turbowarp will not render your block!
+* Have you checked whether the name provided in the block meta tags Function value actually exists? IF it doesnt exist turbowarp will not render your block!
 
 ## I want to use JS in my extensions
 This is absolutely possible!
 The extension builder has built in support for the ASD blocks extension which allows you to use JS code inside of your extensions and the best part is that this will work even when the user doesnt have the ASD blocks extension installed!
-
-## The compiler stops generating code and i get undefined block errors
-Try and disable the turbowarp compiler in the advanced settings tab, if the compiler is disabled the code should still generate even if turbowarp throws errors.
-
-# Why does this happen?
-Good Guestion! i don't know!
-During debugging of this very frustrating issue i have not been able to find out why it happens, my theory right now is that turbowarp stops all scripts once an error occurs or has a bug where it is unable to read block definitions because this even occurs when the block does have a opcode defined!

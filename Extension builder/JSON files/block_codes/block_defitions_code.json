@@ -4,7 +4,8 @@
         "code": [
             "[METATAG]",
             ": ",
-            "[VALUE],"
+            "[VALUE]",
+            ","
         ]
     },
     "generateBlockMetaData": {
