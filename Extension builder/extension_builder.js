@@ -127,7 +127,13 @@ async function buildBlocks(file_name, Scratch) {
                 }
 
                 // Helper to get a clean value for any input
-                const getVal = (name) => this.resolveInput(block, name, target);
+                const getVal = (name) => {
+                    const result = this.resolveInput(block, name, target);
+                    if(result === null) {
+                        result = block.fields[name].value
+                    }
+                    return result;
+                };
 
                 if (code_json && code_json[opcodeWithoutExtension]) {
                     let code_block = code_json[opcodeWithoutExtension].code; // Get the code block for this opcode from the JSON file
@@ -175,26 +181,6 @@ async function buildBlocks(file_name, Scratch) {
                     lines.push(`await this.${opcode}(${this.getBlockArguments(block, target).replaceAll('"', ' ')}, util);`);
                 }
 
-                // switch (opcode) {
-
-                //     case `${extension_id}_defineArguments`:
-                //         let arg_type = block.fields.TYPE.value;
-                //         let arg_default = getVal('DEFAULT');
-                //         let arg_name = getVal('NAME');
-                //         let type = block.fields.INPUT.value;
-
-                //         lines.push(arg_name + `: {`);
-                //         lines.push(`  type: ${arg_type},`);
-                //         lines.push(`  ${type}: ${arg_default}`);
-                //         lines.push(`},`);
-                //         break;
-
-                //     case `dreamForgeJSTools_evalCode`:
-                //     case `dreamForgeJSTools_evalCode_Reporter`:
-                //         const codeToEval = getVal('CODE');
-                //         lines.push(codeToEval.replaceAll('"', ''));
-                //}
-
                 currentId = target.blocks.getNextBlock(currentId);
             }
             return lines.join('\n');
@@ -230,21 +216,6 @@ async function buildBlocks(file_name, Scratch) {
                 }
             }
             return JSON.stringify(args); // Convert the args object to a string for code generation
-        }
-
-        // injectionBlocks is a string that contains the code for the blocks that should be injected into the extension metadata or anywhere else.
-
-        buildDefinition(definitionType, lines, substackId, target, injectionBlocks = '') {
-            switch (definitionType) {
-                case 'bargs':
-                    lines.push(`arguments: {`);
-                    if (substackId) lines.push(this.transpile(substackId, target));
-                    lines.push(`}`);
-                    break;
-
-                default:
-                    lines.push(`// Unknown definition type: ${definitionType}`);
-            }
         }
 
         resolveInput(parentBlock, inputName, target) {
