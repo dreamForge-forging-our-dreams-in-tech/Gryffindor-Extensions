@@ -129,7 +129,7 @@ async function buildBlocks(file_name, Scratch) {
                 // Helper to get a clean value for any input
                 const getVal = (name) => {
                     const result = this.resolveInput(block, name, target);
-                    if(result === null) {
+                    if(result === 'null') { // needs to be a string since its returned as a string
                         result = block.fields[name].value
                     }
                     return result;
