@@ -146,7 +146,7 @@ async function buildBlocks(file_name, Scratch) {
                             if (i.includes('[') && i.includes(']')) { // This is a placeholder for a value from the block (e.g. [VALUE] or [ARGUMENTS])
                                 let argName = i.replaceAll('[', '').replaceAll(']', ''); // Get the name of the argument from the placeholder (e.g. "VALUE" from "[VALUE]")
                                 argValue = getVal(argName); // Get the value for this argument
-                                codeToInsert += argValue.replaceAll('"', ''); // Insert the value into the code block, removing any quotes to avoid issues in the generated code when "" are removed. This allows users to write blocks that return values without worrying about quotes breaking their code.
+                                codeToInsert += argValue // Insert the value into the code block, removing any quotes to avoid issues in the generated code when "" are removed. This allows users to write blocks that return values without worrying about quotes breaking their code.
                             } else {
                                 codeToInsert += i; // This is just a regular line of code that should be included as is in the generated code
                             }
@@ -160,7 +160,7 @@ async function buildBlocks(file_name, Scratch) {
 
                                 let argName = i.replaceAll('[', '').replaceAll(']', ''); // Get the name of the argument from the placeholder (e.g. "VALUE" from "[VALUE]")
                                 argValue = getVal(argName); // Get the value for this argument
-                                lines.push(argValue.replaceAll('"', '')); // Insert the value into the code block, removing any quotes to avoid issues in the generated code when "" are removed. This allows users to write blocks that return values without worrying about quotes breaking their code.
+                                lines.push(argValue); // Insert the value into the code block, removing any quotes to avoid issues in the generated code when "" are removed. This allows users to write blocks that return values without worrying about quotes breaking their code.
                             } else {
                                 lines.push(i + '\n'); // If the code block is not marked as singleLine, we can just add each line to the lines array and replace the placeholders line by line as we go.
                             }

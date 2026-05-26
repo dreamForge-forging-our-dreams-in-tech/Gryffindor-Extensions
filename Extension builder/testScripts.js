@@ -1,25 +1,20 @@
-class prompts {
+class MyCoolAndAwesomeExtension {
   constructor(runtime) {
     this.runtime = runtime;
-    this.motion_movesteps = this.runtime.getOpcodeFunction('motion_movesteps');
+    this.dreamforgeturbowarpextensionbuilder_buildBlockType = this.runtime.getOpcodeFunction('dreamforgeturbowarpextensionbuilder_buildBlockType');
+
   }
 
   getInfo() {
     return {
-      id: "promptExtensionForTurbowarp",
-      name: "Prompts",
+      id: "test",
+      name: "test",
       color1: "#008dcd",
       blocks: [
         {
-          opcode: "alert",
-          blockType: Scratch.BlockType.COMMAND,
-          text: "Show [message]",
-          arguments: {
-            "message": {
-              type: Scratch.ArgumentType.STRING,
-              defaultValue: "message"
-            },
-          }
+          opcode: "opcode_name"
+blockType: await this.dreamforgeturbowarpextensionbuilder_buildBlockType({}, util);
+          text: "test code"
         },
 
       ],
@@ -27,15 +22,13 @@ class prompts {
 
       },
 
-    };
+    }
   }
 
 
-  async alert(args, util) {
-    await this.motion_movesteps({ STEPS : 10 }, util);
+  async opcode_name(args, util) {
 
-    console.log(await this.motion_movesteps({ STEPS : 10 }, util));
   }
 
 }
-Scratch.extensions.register(new prompts(Scratch.vm.runtime));
+Scratch.extensions.register(new MyCoolAndAwesomeExtension(Scratch.vm.runtime));
