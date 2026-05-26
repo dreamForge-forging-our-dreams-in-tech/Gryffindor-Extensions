@@ -4,7 +4,7 @@
         "code": [
             "[METATAG]",
             ": ",
-            "[VALUE]"
+            "[VALUE],"
         ]
     },
     "generateBlockMetaData": {
@@ -24,7 +24,8 @@
     "defineArguments": {
         "singleLine": true,
         "code": [
-            "[NAME]: {",
+            "[NAME]",
+            ": {",
             "  type: '[TYPE]',",
             "[TYPE]",
             "  : '[DEFAULT]'",

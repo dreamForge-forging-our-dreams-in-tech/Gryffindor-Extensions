@@ -129,7 +129,8 @@ async function buildBlocks(file_name, Scratch) {
                 // Helper to get a clean value for any input
                 const getVal = (name) => {
                     let result = this.resolveInput(block, name, target);
-                    if(result === 'null') { // needs to be a string since its returned as a string
+                    if (result === 'null') { // needs to be a string since its returned as a string
+                        console.log(name)
                         result = block.fields[name].value
                     }
                     return result;
@@ -144,6 +145,12 @@ async function buildBlocks(file_name, Scratch) {
 
                         if (code_json[opcodeWithoutExtension].singleLine) { // If the code block is marked as singleLine, we want to replace all placeholders in the entire code block at once instead of line by line to avoid issues with values that need to be evaluated (e.g. reporter blocks) being split across multiple lines and not being evaluated correctly.
                             if (i.includes('[') && i.includes(']')) { // This is a placeholder for a value from the block (e.g. [VALUE] or [ARGUMENTS])
+                                if (i == '[TRANSPILE]') {
+                                    let substackCode = this.transpile(substackId, target); // Recursively transpile the substack blocks to get the code for the substack and insert it into the code block. This allows users to write blocks that include substacks and have the code for those substacks be included in the generated code correctly.
+                                    lines.push(substackCode); // Insert the transpiled substack code into the lines array so it will be included in the generated code.
+                                    continue; // Skip the rest of the loop for this iteration since we've already handled this placeholder
+                                }
+
                                 let argName = i.replaceAll('[', '').replaceAll(']', ''); // Get the name of the argument from the placeholder (e.g. "VALUE" from "[VALUE]")
                                 argValue = getVal(argName); // Get the value for this argument
                                 codeToInsert += argValue // Insert the value into the code block, removing any quotes to avoid issues in the generated code when "" are removed. This allows users to write blocks that return values without worrying about quotes breaking their code.
@@ -276,10 +283,10 @@ async function buildBlocks(file_name, Scratch) {
 
             // check if the block or menu blocks are empty, if so dont include them in the final code.
             let sendingCode = '';
-            if(blocks !== '') {
+            if (blocks !== '') {
                 sendingCode += `blocks: [\n${blocks}\n],\n `;
             }
-            if(menuBlocks !== '') {
+            if (menuBlocks !== '') {
                 sendingCode += `menus: {\n${menuBlocks}\n},\n`;
             }
 
