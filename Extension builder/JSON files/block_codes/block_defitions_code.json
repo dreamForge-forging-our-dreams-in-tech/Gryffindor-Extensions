@@ -1,0 +1,34 @@
+{
+    "setMetaDataBlocks": {
+        "singleLine": true,
+        "code": [
+            "[METATAG]",
+            ": ",
+            "[VALUE]"
+        ]
+    },
+    "generateBlockMetaData": {
+        "singleLine": false,
+        "code": [
+            "arguments: {",
+            "[TRANSPILE]",
+            "},"
+        ]
+    },
+    "buildBlockType": {
+        "singleLine": true,
+        "code": [
+            "[TYPE]"
+        ]
+    },
+    "defineArguments": {
+        "singleLine": true,
+        "code": [
+            "[NAME]: {",
+            "  type: '[TYPE]',",
+            "[TYPE]",
+            "  : '[DEFAULT]'",
+            "},"
+        ]
+    }
+}

@@ -140,12 +140,24 @@ async function buildBlocks(file_name, Scratch) {
                             if (i.includes('[') && i.includes(']')) { // This is a placeholder for a value from the block (e.g. [VALUE] or [ARGUMENTS])
                                 let argName = i.replaceAll('[', '').replaceAll(']', ''); // Get the name of the argument from the placeholder (e.g. "VALUE" from "[VALUE]")
                                 argValue = getVal(argName); // Get the value for this argument
-                                codeToInsert += argValue;
+                                codeToInsert += argValue.replaceAll('"', ''); // Insert the value into the code block, removing any quotes to avoid issues in the generated code when "" are removed. This allows users to write blocks that return values without worrying about quotes breaking their code.
                             } else {
                                 codeToInsert += i; // This is just a regular line of code that should be included as is in the generated code
                             }
                         } else {
-                            lines.push(i); // If the code block is not marked as singleLine, we can just add each line to the lines array and replace the placeholders line by line as we go.
+                            if (i.includes('[') && i.includes(']')) { // This is a placeholder for a value from the block (e.g. [VALUE] or [ARGUMENTS])
+                                if (i == '[TRANSPILE]') {
+                                    let substackCode = this.transpile(substackId, target); // Recursively transpile the substack blocks to get the code for the substack and insert it into the code block. This allows users to write blocks that include substacks and have the code for those substacks be included in the generated code correctly.
+                                    lines.push(substackCode); // Insert the transpiled substack code into the lines array so it will be included in the generated code.
+                                    continue; // Skip the rest of the loop for this iteration since we've already handled this placeholder
+                                }
+
+                                let argName = i.replaceAll('[', '').replaceAll(']', ''); // Get the name of the argument from the placeholder (e.g. "VALUE" from "[VALUE]")
+                                argValue = getVal(argName); // Get the value for this argument
+                                lines.push(argValue.replaceAll('"', '')); // Insert the value into the code block, removing any quotes to avoid issues in the generated code when "" are removed. This allows users to write blocks that return values without worrying about quotes breaking their code.
+                            } else {
+                                lines.push(i + '\n'); // If the code block is not marked as singleLine, we can just add each line to the lines array and replace the placeholders line by line as we go.
+                            }
                         }
                     }
 
@@ -164,56 +176,6 @@ async function buildBlocks(file_name, Scratch) {
                 }
 
                 // switch (opcode) {
-                //     case `${extension_id}_setMetaData`:
-                //     case `${extension_id}_setMetaDataBlocks`:
-                //         const tag = block.fields.METATAG.value;
-                //         const val = getVal('VALUE');
-                //         // Formatting for your JSON/Object view
-                //         lines.push(`  ${tag}: ${val},`);
-                //         break;
-
-                //     case `${extension_id}_createListItem`:
-                //         lines.push(` {`);
-                //         lines.push(`  text: ${getVal('NAME')},`);
-                //         lines.push(`  value: ${getVal('VALUE')}`);
-                //         lines.push(`},`);
-                //         break;
-
-                //     case `${extension_id}_returnResult`:
-                //         lines.push(`return ${getVal('RESULT')};`); // This allows users to return a value from their block functions by using the "return result" block and specifying the value they want to return.
-                //         break;
-
-                //     case `${extension_id}_getArgumentValue`:
-                //         const argName = getVal('NAME').replaceAll('"', ''); // Remove quotes if it's a string
-                //         return `args.${argName}`; // This allows users to get the value of an argument in their code blocks by using the "get value of argument" block and specifying the argument name.
-                //         break;
-
-                //     case `${extension_id}_generateExtensionMetaData`:
-                //         let blockHats = this.getAllHats('defineExtensionBlock', allBlocks); // Get all hats that define block functions
-                //         let menuHats = this.getAllHats('defineExtensionMenus', allBlocks); // Get all hats that define block functions
-
-                //         let blocks = this.getHatCode(blockHats, allBlocks, target);
-                //         let menuBlocks = this.getHatCode(menuHats, allBlocks, target);
-
-                //         let sendingCode = `blocks: [\n${blocks}\n],\nmenus: {\n${menuBlocks}\n},\n`; // This is the code that will be injected into the extension metadata. It includes both the blocks and the menus.
-                //         this.buildDefinition(block.fields.DEFINITIONTYPE.value, lines, substackId, target, sendingCode);
-                //         break;
-
-                //     case `${extension_id}_generateBlockMetaData`:
-                //         const definitionType = block.fields.DEFINITIONTYPE.value;
-
-                //         this.buildDefinition(definitionType, lines, substackId, target);
-                //         break;
-
-                //     case `${extension_id}_generateMenu`:
-                //         const menuName = getVal('MENUNAME');
-
-                //         this.buildDefinition('menu', lines, substackId, target, menuName);
-                //         break;
-
-                //     case `${extension_id}_buildBlockType`:
-                //         lines.push(block.fields.TYPE.value);
-                //         break;
 
                 //     case `${extension_id}_defineArguments`:
                 //         let arg_type = block.fields.TYPE.value;
@@ -227,34 +189,11 @@ async function buildBlocks(file_name, Scratch) {
                 //         lines.push(`},`);
                 //         break;
 
-                //     case `${extension_id}_checkFunctionAvailability`:
-                //         const functionName = getVal('NAME');
-                //         lines.push(`!String(this.runtime.getOpcodeFunction('${functionName}')) === 'undefined'\n`);
-                //         break;
-
-                //     case `${extension_id}_executeBranchBlocks`:
-                //         const actionType = block.fields.ACTIONTYPE.value; // "loop" or "execute"
-                //         const branchNumber = getVal('BRANCHNUMBER'); // 1, 2, or 3
-
-                //         lines.push(`util.startBranch(${branchNumber}, ${actionType == 'loop'});`); // Start the specified branch
-
-                //         break;
-
                 //     case `dreamForgeJSTools_evalCode`:
                 //     case `dreamForgeJSTools_evalCode_Reporter`:
                 //         const codeToEval = getVal('CODE');
                 //         lines.push(codeToEval.replaceAll('"', ''));
-                //         break;
-                //     default: //default to getting the VM refrence to the block if the block doesnt exist in the transpiler.
-                //         const scratchVMTarget = Scratch.vm.runtime.getEditingTarget();
-
-                //         // If the preset code already contains this opcode, skip it to avoid duplicates
-                //         if (!this.presetCode.includes(`this.${opcode} =`)) {
-                //             this.presetCode += `this.${opcode} = this.runtime.getOpcodeFunction('${opcode}');\n`;
-                //         }
-                //         // remove all "" so that functions will still work.
-                //         lines.push(`await this.${opcode}(${this.getBlockArguments(block, target).replaceAll('"', ' ')}, util);`);
-                // }
+                //}
 
                 currentId = target.blocks.getNextBlock(currentId);
             }
@@ -297,32 +236,6 @@ async function buildBlocks(file_name, Scratch) {
 
         buildDefinition(definitionType, lines, substackId, target, injectionBlocks = '') {
             switch (definitionType) {
-                case 'emd':
-                    lines.push(`  getInfo() {`);
-                    lines.push(`    return {`);
-                    if (substackId) lines.push(this.transpile(substackId, target));
-
-                    lines.push(injectionBlocks); // Add the generated blocks code to the extension metadata
-
-                    lines.push(`    };`);
-                    lines.push(`  }`);
-                    break;
-
-                case 'bmd':
-                    lines.push(`{`);
-                    if (substackId) lines.push(this.transpile(substackId, target));
-                    lines.push(`}`);
-                    break;
-
-                case 'menu':
-                    lines.push(injectionBlocks + ` :{`); // reuse injectionBlocks here just for menu names.
-                    lines.push('acceptReporters: false,'); // Allows users to drop a round block into the menu
-                    lines.push(`items: [`);
-                    if (substackId) lines.push(this.transpile(substackId, target));
-                    lines.push(`]`);
-                    lines.push(`}`);
-                    break;
-
                 case 'bargs':
                     lines.push(`arguments: {`);
                     if (substackId) lines.push(this.transpile(substackId, target));
@@ -383,6 +296,15 @@ async function buildBlocks(file_name, Scratch) {
             const nameBlockId = allBlocks[hatId].inputs.NAME.block;
             const extensionName = allBlocks[nameBlockId].fields.TEXT.value || "MyExtension";
 
+            // get code for all hat blocks and put them in the correct place in the generated code
+            let blockHats = this.getAllHats('defineExtensionBlock', allBlocks); // Get all hats that define block functions
+            let menuHats = this.getAllHats('defineExtensionMenus', allBlocks); // Get all hats that define block menus
+
+            let blocks = this.getHatCode(blockHats, allBlocks, target);
+            let menuBlocks = this.getHatCode(menuHats, allBlocks, target);
+
+            let sendingCode = `blocks: [\n${blocks}\n],\n menus: {\n${menuBlocks}\n},\n`; // This is the code that will be injected into the extension metadata. It includes both the blocks and the menus.
+
             // 3. Generate the class string
             const body = this.transpile(target.blocks.getNextBlock(hatId), target); // pass the hat id here instead of in the transpile function so we ca nreuse the transpile function
 
@@ -395,7 +317,12 @@ async function buildBlocks(file_name, Scratch) {
             ${this.presetCode}
             }
 
+            getInfo() {
+            return {
             ${body}
+            ${sendingCode}
+            }
+            }
               
             ${opcode_body}
             }
@@ -428,7 +355,11 @@ async function buildBlocks(file_name, Scratch) {
                     code += `\n async ${opcode_name} (args, util) {\n${hat_body}\n  }\n`;
                 } catch (e) {
                     const hat_body = this.transpile(target.blocks.getNextBlock(hatId), target);
-                    code += hat_body + ',\n';
+                    if (hatId.opcode === `${extension_id}_defineExtensionMenus`) {
+                        code += hat_body + ',\n';
+                    } else {
+                        code += "{\n" + hat_body + "\n},\n";
+                    }
                 }
             });
 

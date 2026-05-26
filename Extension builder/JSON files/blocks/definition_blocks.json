@@ -11,18 +11,6 @@
         }
     },
     {
-        "opcode": "generateExtensionMetaData",
-        "blockType": "CONDITIONAL",
-        "text": "Define [DEFINITIONTYPE]",
-        "branchCount": 1,
-        "arguments": {
-            "DEFINITIONTYPE": {
-                "type": "STRING",
-                "menu": "definitionTypes"
-            }
-        }
-    },
-    {
         "opcode": "setMetaData",
         "blockType": "COMMAND",
         "text": "set [METATAG] to [VALUE]",
@@ -34,6 +22,38 @@
             "VALUE": {
                 "type": "STRING",
                 "defaultValue": "Default Value"
+            }
+        }
+    },
+    {
+        "opcode": "defineExtensionMenus",
+        "blockType": "HAT",
+        "text": "define menus"
+    },
+    {
+        "opcode": "generateMenu",
+        "blockType": "CONDITIONAL",
+        "text": "Define [MENUNAME]",
+        "branchCount": 1,
+        "arguments": {
+            "MENUNAME": {
+                "type": "STRING",
+                "defaultValue": "Menu Name"
+            }
+        }
+    },
+    {
+        "opcode": "createListItem",
+        "blockType": "COMMAND",
+        "text": "create menu with [NAME] and [VALUE]",
+        "arguments": {
+            "NAME": {
+                "type": "STRING",
+                "defaultValue": "Item"
+            },
+            "VALUE": {
+                "type": "STRING",
+                "defaultValue": "Value"
             }
         }
     }

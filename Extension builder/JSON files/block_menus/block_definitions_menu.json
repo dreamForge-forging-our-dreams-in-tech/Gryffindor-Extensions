@@ -91,10 +91,6 @@
         "acceptReporters": false,
         "items": [
             {
-                "text": "Block meta data",
-                "value": "bmd"
-            },
-            {
                 "text": "Block arguments",
                 "value": "bargs"
             }

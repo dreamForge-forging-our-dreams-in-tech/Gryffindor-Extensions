@@ -5,11 +5,6 @@
         "text": "define block"
     },
     {
-        "opcode": "defineExtensionMenus",
-        "blockType": "HAT",
-        "text": "define menus"
-    },
-    {
         "opcode": "generateBlockMetaData",
         "blockType": "CONDITIONAL",
         "text": "Define [DEFINITIONTYPE]",
@@ -18,18 +13,6 @@
             "DEFINITIONTYPE": {
                 "type": "STRING",
                 "menu": "definitionTypes"
-            }
-        }
-    },
-    {
-        "opcode": "generateMenu",
-        "blockType": "CONDITIONAL",
-        "text": "Define [MENUNAME]",
-        "branchCount": 1,
-        "arguments": {
-            "MENUNAME": {
-                "type": "STRING",
-                "defaultValue": "Menu Name"
             }
         }
     },
@@ -79,21 +62,6 @@
             "VALUE": {
                 "type": "STRING",
                 "defaultValue": "Default Value"
-            }
-        }
-    },
-    {
-        "opcode": "createListItem",
-        "blockType": "COMMAND",
-        "text": "create menu with [NAME] and [VALUE]",
-        "arguments": {
-            "NAME": {
-                "type": "STRING",
-                "defaultValue": "Item"
-            },
-            "VALUE": {
-                "type": "STRING",
-                "defaultValue": "Value"
             }
         }
     }

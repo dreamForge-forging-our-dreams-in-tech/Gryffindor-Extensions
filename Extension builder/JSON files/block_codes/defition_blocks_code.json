@@ -1,0 +1,32 @@
+{
+    "setMetaData": {
+        "singleLine": true,
+        "code": [
+            "[METATAG]",
+            ": ",
+            "[VALUE]"
+        ]
+    }, 
+    "createListItem": {
+        "singleLine": true,
+        "code": [
+            "{ text: ",
+            "[NAME]",
+            ", value: ",
+            "[VALUE]",
+            "},"
+        ]
+    },
+    "generateMenu": {
+        "singleLine": false,
+        "code": [
+            "[MENUNAME]",
+            ": {",
+            "acceptReporters: false,",
+            "items: [",
+            "[TRANSPILE]",
+            "]",
+            "}"
+        ]
+    }
+}

@@ -32,14 +32,14 @@ The extension builder compiler builds your code from a simple array, in this arr
         "singleline": true,
         "code": [
             "args.",
-            "[NAME]" <--- Argument name with brackets to tell the system its an argument
+            "[NAME]" <--- Argument name with brackets to tell the system its an argument, do not call it [TRANSPILE] as this tells the compiler it should transpile the next blocks.
         ]
     }
 }
 
 ### compiling singleLine code
 
-Due to readability issues the compiler can sometimes make single line code become multi line code or vice versa, to solve this you can use the singleLine property in the json to explicity tell the compiler to compile the current batch as a single line,
+Due to readability issues the compiler can sometimes make single line code become multi line code or vice versa, to solve this you can use the singleLine property in the json to explicity tell the compiler to compile the current batch as a single line, by default this is false (multiline), if its set to false the compiler automatically appends a newline at the end of each line of code to create a more readable code structure.
 
 {
     "getArgumentValue": {

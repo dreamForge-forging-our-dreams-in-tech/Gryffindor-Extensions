@@ -22,5 +22,13 @@
             "[ACTIONTYPE]",
             " == 'loop']);"
         ]
+    },
+    "checkFunctionAvailability": {
+        "singleLine": true,
+        "code": [
+            "!String(this.runtime.getOpcodeFunction('",
+            "[NAME]",
+            "')) === 'undefined'\n"
+        ]
     }
 }
