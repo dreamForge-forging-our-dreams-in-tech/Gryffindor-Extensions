@@ -184,7 +184,7 @@ async function buildBlocks(file_name, Scratch) {
                         this.presetCode += `this.${opcode} = this.runtime.getOpcodeFunction('${opcode}');\n`;
                     }
                     // remove all "" so that functions will still work.
-                    lines.push(`await this.${opcode}(${this.getBlockArguments(block, target).replaceAll('"', ' ')}, util);`);
+                    lines.push(`await this.${opcode}(${this.getBlockArguments(block, target)}, util);`);
                 }
 
                 currentId = target.blocks.getNextBlock(currentId);
@@ -221,7 +221,7 @@ async function buildBlocks(file_name, Scratch) {
                     args[inputName] = transpiledCode.replace(';', ''); // remove semicolons to avoid issues in the generated code when ";" are removed. This is a bit hacky but it allows users to write blocks that return values without worrying about semicolons breaking their code.
                 }
             }
-            return JSON.stringify(args); // Convert the args object to a string for code generation
+            return JSON.stringify(args).replace(/\\/g, ''); // Convert the args object to a string for code generation and remove backslashes
         }
 
         resolveInput(parentBlock, inputName, target) {
