@@ -274,7 +274,14 @@ async function buildBlocks(file_name, Scratch) {
             let blocks = this.getHatCode(blockHats, allBlocks, target);
             let menuBlocks = this.getHatCode(menuHats, allBlocks, target);
 
-            let sendingCode = `blocks: [\n${blocks}\n],\n menus: {\n${menuBlocks}\n},\n`; // This is the code that will be injected into the extension metadata. It includes both the blocks and the menus.
+            // check if the block or menu blocks are empty, if so dont include them in the final code.
+            let sendingCode = '';
+            if(blocks !== '') {
+                sendingCode += `blocks: [\n${blocks}\n],\n `;
+            }
+            if(menuBlocks !== '') {
+                sendingCode += `menus: {\n${menuBlocks}\n},\n`;
+            }
 
             // 3. Generate the class string
             const body = this.transpile(target.blocks.getNextBlock(hatId), target); // pass the hat id here instead of in the transpile function so we ca nreuse the transpile function
