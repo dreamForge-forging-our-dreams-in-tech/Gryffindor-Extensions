@@ -50,3 +50,9 @@ Due to readability issues the compiler can sometimes make single line code becom
         ]
     }
 }
+
+# extension support
+Are you a extension developer and you want to bring support for the extension builder and your extension? Then this section is for you!
+
+## file structure
+By default all code for the blocks is placed inside of the JSON files folder then inside of that folder is another folder placed called block_codes, inside this folder you place a directory.json file (used by the compiler to find where the code is located)
