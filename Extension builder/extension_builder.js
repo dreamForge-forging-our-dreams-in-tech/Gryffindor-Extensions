@@ -299,7 +299,7 @@ async function buildBlocks(file_name, Scratch) {
                 sendingCode += `blocks: [\n${blocks}\n],\n `;
             }
             if (menuBlocks !== '') {
-                sendingCode += `menus: {\n${menuBlocks}\n},\n`;
+                sendingCode += `menus: \n${menuBlocks}\n`; // keep {} away as they are automatically added by the getHatCode function
             }
 
             // 3. Generate the class string
@@ -352,11 +352,7 @@ async function buildBlocks(file_name, Scratch) {
                     code += `\n async ${opcode_name} (args, util) {\n${hat_body}\n  }\n`;
                 } catch (e) {
                     const hat_body = this.transpile(target.blocks.getNextBlock(hatId), target);
-                    if (hatId.opcode === `${extension_id}_defineExtensionMenus`) {
-                        code += hat_body + ',\n';
-                    } else {
                         code += "{\n" + hat_body + "\n},\n";
-                    }
                 }
             });
 
