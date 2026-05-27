@@ -10,6 +10,7 @@ class ASD_COMMAND {
             name: 'ASD',
             color1: '#0088ff', // Main block color
             color2: '#0066cc', // Hover/Outline color
+            directoryUrl: 'https://raw.githubusercontent.com/Gryffindor-Extensions/Gryffindor-Extensions/main/ASD%20blocks/', // Directory where your block icons are stored
             blocks: [
                 {
                     opcode: 'evalCode',

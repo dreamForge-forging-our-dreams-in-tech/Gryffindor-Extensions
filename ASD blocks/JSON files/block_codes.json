@@ -1,0 +1,15 @@
+{
+    "evalCode": {
+        "singleLine": false,
+        "code": [
+            "[CODE]"
+        ]
+    },
+    "evalCode_Reporter": {
+        "singleLine": false,
+        "code": [
+            "return ",
+            "[CODE]"
+        ]
+    }
+}
