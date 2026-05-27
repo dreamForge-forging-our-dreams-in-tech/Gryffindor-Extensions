@@ -58,5 +58,10 @@
                 "defaultValue": "result"
             }
         }
+    },
+    {
+        "opcode": "runningUnsandboxed",
+        "blockType": "BOOLEAN",
+        "text": "is unsandboxed?"
     }
 ]

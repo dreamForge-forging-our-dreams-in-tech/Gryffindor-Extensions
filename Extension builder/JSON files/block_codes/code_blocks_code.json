@@ -31,5 +31,11 @@
             "[NAME]",
             "')) === 'undefined'\n"
         ]
+    },
+    "runningUnsandboxed": {
+        "singleLine": true,
+        "code": [
+            "Scratch.extensions.unsandboxed"
+        ]
     }
 }
