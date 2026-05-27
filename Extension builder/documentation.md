@@ -71,27 +71,34 @@ now that you have defined your arguments for the block you can tell turbowarp wh
 You do this by using [ARGUMENTNAME] in the blocks "text" definition, you can type this anywhere and as many times in your block.
 ![alt text](image-18.png)
 
-## defining the blocks opcode code
+# defining the blocks opcode code
 Custom blocks always need to know what to do, custom javascript functions are connected to them via the set opcode in the blocks meta tag field, however you still need to define this opcode, to do so you can use the "Define block opcode" hat.
 Just enter the corresponding opcode name and attach any block you like to give it a functionality.
 You can use all the build in blocks and any installed extension (aslong as the user also installs them!)
 ![alt text](image-19.png)
 
-### accesing argument values in the opcode hat
+## accesing argument values in the opcode hat
 You can acces the value a user has entered into the arguments with the "get value of argument [NAME]" block.
 ![alt text](image-20.png)
 
-### checking if a function exists (for if the user hasnt installed the extension or its missing functions)
+## checking if a function exists (for if the user hasnt installed the extension or its missing functions)
 Using the "check if function [FUNCTIONNAME] is available block you can check if certain blocks are available inside of the users project, it returns true if available and false if unavailable.
 
 The name entered must be the block id that turbowarp or scratch provided the blocks with, e.g. move(10)steps = motion_movesteps
 ![alt text](image-22.png)
 
-### executing branches in blocks
+## executing branches in blocks
 To execute or loop branches you can use the [LOOP/EXECUTE] branch [BRANCHNUMBER]'s blocks
 This blocks tells the Scratch VM to run the blocks placed inside of the specified branch.
 NOTE: branches will only work if your block type is CONDITIONAL!
 ![alt text](image-23.png)
+
+# using turbowarp extensions inside of your extension
+There are two ways of using turbowrp extensions inside of your extension.
+You can either use supported extensions that require no install on the users end or use unsupported extensions that require a installation of the extension on the users end.
+
+## using unsupport extensions
+Using unsupported extensions is easy to do *BUT* unsupported extensions require your extension to run unsandboxed if you want to have the user install them.
 
 # generating and viewing extension code
 During the development of your extension you can preview a live view of the code, any change you make is updated and you can manually update the code view by clicking the green flag or the "Define turbowarp extension" block.
