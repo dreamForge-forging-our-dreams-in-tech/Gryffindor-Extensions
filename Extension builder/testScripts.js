@@ -1,7 +1,6 @@
 class MyCoolAndAwesomeExtension {
   constructor(runtime) {
     this.runtime = runtime;
-    this.dreamforgeturbowarpextensionbuilder_runningUnsandboxed = this.runtime.getOpcodeFunction('dreamforgeturbowarpextensionbuilder_runningUnsandboxed');
 
   }
 
@@ -12,7 +11,7 @@ class MyCoolAndAwesomeExtension {
       color1: "#008dcd",
       blocks: [
         {
-          opcode: "Default Value",
+          opcode: "sandboxed",
           blockType: Scratch.BlockType.BOOLEAN,
           text: "is sandboxed?",
         },
@@ -24,8 +23,8 @@ class MyCoolAndAwesomeExtension {
 
 
   async sandboxed(args, util) {
-    return await this.dreamforgeturbowarpextensionbuilder_runningUnsandboxed({}, util);
+    return Scratch.extensions.unsandboxed;
   }
 
 }
-Scratch.extensions.register(new MyCoolAndAwesomeExtension(Scratch.vm.runtime));
+Scratch.extensions.register(new MyCoolAndAwesomeExtension(Scratch.vm.runtime ? Scratch.vm.runtime : {}));

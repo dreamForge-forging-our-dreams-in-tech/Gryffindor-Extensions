@@ -310,7 +310,7 @@ async function buildBlocks(file_name, Scratch) {
               
             ${opcode_body}
             }
-            Scratch.extensions.register(new ${extensionName}(Scratch.vm.runtime));`;
+            Scratch.extensions.register(new ${extensionName}(Scratch.vm.runtime || {}));`;
 
             if (pre_production_code === this.generatedCode) return; // If the generated code is the same as the previous generated code, don't log it again to avoid spamming the console with duplicate code.
 

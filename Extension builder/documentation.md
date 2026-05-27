@@ -100,7 +100,7 @@ You can either use supported extensions that require no install on the users end
 ## using unsupport extensions
 Using unsupported extensions is easy to do *BUT* unsupported extensions require your extension to run unsandboxed if you want to have the user install them.
 
-Because installing extensions requires for the extension to run unsandboxed we recommend that you use the "is unsandboxed?" block to detect if the extension is unsandboxed, from there you can ask the user to install the extension.
+Because installing extensions requires for the extension to run unsandboxed we recommend that you use the "is unsandboxed?" block to detect if the extension is unsandboxed, from there you can ask the user to install the extension with a prompt, we recommend that you also point out in this popup that the developer can bring official support for the turbowarp extension builder.
 
 # generating and viewing extension code
 During the development of your extension you can preview a live view of the code, any change you make is updated and you can manually update the code view by clicking the green flag or the "Define turbowarp extension" block.
