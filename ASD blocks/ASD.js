@@ -4,13 +4,23 @@
 // COMMAND executes a piece of code and returns nothing, while REPORTER executes a piece of code and returns a value.
 
 class ASD_COMMAND {
+    constructor(runtime) {
+        this.runtime = runtime;
+
+        try { // check if the registery is available and prevent crashes if not
+            window.extensionBuilder["dreamForgeJSTools"] = 'https://raw.githubusercontent.com/dreamForge-forging-our-dreams-in-tech/Gryffindor-Extensions/refs/heads/main/ASD%20blocks/';
+        } catch (e) {
+            window.extensionBuilder = { // feel free to initialize it yourself too, helps if the user installs your extension first before the builder
+                "dreamForgeJSTools": 'https://raw.githubusercontent.com/dreamForge-forging-our-dreams-in-tech/Gryffindor-Extensions/refs/heads/main/ASD%20blocks/'
+            }
+        }
+    }
     getInfo() {
         return {
             id: 'dreamForgeJSTools', // Ensure this is lowercase/no symbols
             name: 'ASD',
             color1: '#0088ff', // Main block color
             color2: '#0066cc', // Hover/Outline color
-            directoryUrl: 'https://raw.githubusercontent.com/Gryffindor-Extensions/Gryffindor-Extensions/main/ASD%20blocks/', // Directory where your block icons are stored
             blocks: [
                 {
                     opcode: 'evalCode',

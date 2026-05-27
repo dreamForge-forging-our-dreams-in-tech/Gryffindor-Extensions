@@ -1,14 +1,30 @@
 {
     "evalCode": {
-        "singleLine": false,
+        "singleLine": true,
         "code": [
-            "[CODE]"
+            "try {",
+            "const fn = new Function('a', `return ",
+            "[CODE]",
+            ");",
+            "return fn(); // keep return statement because reporter reuses the same function",
+            "} catch (e) {",
+            "return `Error: ${e.message}`;",
+            "}"
         ]
     },
     "evalCode_Reporter": {
-        "singleLine": false,
+        "singleLine": true,
         "code": [
-            "[CODE]"
+            "() => {",
+            "try {",
+            "const fn = new Function('a', `return ",
+            "[CODE]",
+            ");",
+            "return fn(); // keep return statement because reporter reuses the same function",
+            "} catch (e) {",
+            "return `Error: ${e.message}`;",
+            "}",
+            "}"
         ]
     }
 }
