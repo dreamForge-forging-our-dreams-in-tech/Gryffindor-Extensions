@@ -24,7 +24,7 @@
             "[MENUNAME]",
             ": {",
             "acceptReporters: ",
-            "[ACCEPT]",
+            "[REPORTERS]",
             ", items: [",
             "[TRANSPILE]",
             "]",

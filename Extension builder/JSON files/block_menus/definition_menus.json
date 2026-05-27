@@ -17,8 +17,7 @@
             {
                 "text": "Secondairy Color",
                 "value": "color2"
-            }
-            ,
+            },
             {
                 "text": "Tertiary Color",
                 "value": "color3"
@@ -31,6 +30,19 @@
             {
                 "text": "Extension meta data",
                 "value": "emd"
+            }
+        ]
+    },
+    "Reporters": {
+        "acceptReporters": false,
+        "items": [
+            {
+                "text": "Accept Reporter Blocks",
+                "value": "true"
+            },
+            {
+                "text": "Deny Reporter Blocks",
+                "value": "false"
             }
         ]
     }
