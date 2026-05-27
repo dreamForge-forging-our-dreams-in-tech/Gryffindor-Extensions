@@ -70,7 +70,6 @@ async function buildBlocks(file_name, Scratch) {
         window[i] = await fetchJson(i, 'block_codes'); // This gets the actual code block for the corresponding opcode from the JSON file specified in the directory.json file.
     }
 
-    // loops can be merged into 1 function
     let registerySize = 0;
     let extensionChecks = window.setInterval(async () => { // check every 5 seconds if a new extension was installed
         if (Object.keys(window.extensionBuilder).length > registerySize) {

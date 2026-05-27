@@ -33,12 +33,16 @@
     {
         "opcode": "generateMenu",
         "blockType": "CONDITIONAL",
-        "text": "Define [MENUNAME]",
+        "text": "Define [MENUNAME] and acceptReporters [ACCEPT]",
         "branchCount": 1,
         "arguments": {
             "MENUNAME": {
                 "type": "STRING",
                 "defaultValue": "Menu Name"
+            },
+            "ACCEPT": {
+                "type": "BOOLEAN",
+                "defaultValue": true
             }
         }
     },

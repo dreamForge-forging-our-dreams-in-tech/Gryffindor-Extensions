@@ -7,7 +7,7 @@
             "[VALUE]",
             ","
         ]
-    }, 
+    },
     "createListItem": {
         "singleLine": true,
         "code": [
@@ -23,8 +23,9 @@
         "code": [
             "[MENUNAME]",
             ": {",
-            "acceptReporters: false,",
-            "items: [",
+            "acceptReporters: ",
+            "[ACCEPT]",
+            ", items: [",
             "[TRANSPILE]",
             "]",
             "}"
