@@ -162,8 +162,8 @@ async function buildBlocks(file_name, Scratch) {
                             let i;
                             for (i of dependencies) {
                                 const item = dependency_registery[i];
-                                
-                                if (item && this.codeDependencies.includes(item)) {
+
+                                if (item && !this.codeDependencies.includes(item)) {
                                     this.codeDependencies.push(item);
                                 }
                             }
@@ -205,6 +205,11 @@ async function buildBlocks(file_name, Scratch) {
                     }
                 } else {
                     const scratchVMTarget = Scratch.vm.runtime.getEditingTarget();
+
+                    //check for the runtime dependency, if its there dont add the dependency else add it since its required to access the turbowarp blocks.
+                    if (!this.codeDependencies.includes(dependency_registery['runtime'])) {
+                        this.codeDependencies.push(dependency_registery['runtime']);
+                    }
 
                     // If the preset code already contains this opcode, skip it to avoid duplicates
                     if (!this.presetCode.includes(`this.${opcode}`)) {
@@ -279,6 +284,7 @@ async function buildBlocks(file_name, Scratch) {
             let pre_production_code = '';
 
             this.presetCode = ''; // Reset preset code on each update to avoid duplicates
+            this.codeDependencies = []; // remove all dependencies with every recompile.
 
             // 1. Find our "Define" Hat block in the workspace
             let hatId = null;
