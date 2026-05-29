@@ -216,7 +216,7 @@ async function buildBlocks(file_name, Scratch) {
                         this.presetCode += `this.${opcode} = this.runtime.getOpcodeFunction('${opcode}');\n`;
                     }
                     // remove all "" so that functions will still work.
-                    lines.push(`await this.${opcode}(${this.getBlockArguments(block, target)}, util);`);
+                    lines.push(`await this.${opcode}(${this.getBlockArguments(block, target).replaceAll('"', ' ')}, util);`);
                 }
 
                 currentId = target.blocks.getNextBlock(currentId);
@@ -237,7 +237,6 @@ async function buildBlocks(file_name, Scratch) {
             const args = {};
             for (const inputName in block.inputs) {
                 const input = block.inputs[inputName];
-
                 // Check if the input is a simple value (shadow) or another block (reporter)
                 if (input.shadow && !input.block) {
                     // It's a direct value like a number or string
@@ -246,7 +245,7 @@ async function buildBlocks(file_name, Scratch) {
                 } else if (input.block) {
                     // It's a nested reporter block (e.g., 'distance to mouse')
                     // You would recursively call a 'generateCode' function here
-                    let transpiledCode = this.transpile(input.block, target).replaceAll('\n', '').trim(); // Recursively transpile the nested block and clean up the code
+                    let transpiledCode = this.transpile(input.block, target);// Recursively transpile the nested block
                     if (transpiledCode[0] === '"' && transpiledCode[transpiledCode.length - 1] === '"') {
                         transpiledCode = transpiledCode.replaceAll('"', "'"); // Convert double quotes to single quotes for string literals to avoid issues in the generated code when "" are removed
                     }
