@@ -51,6 +51,25 @@ Due to readability issues the compiler can sometimes make single line code becom
     }
 }
 
+### compiling with dependencies
+By default a extension is compiled with no dependencies, however it may turn out that your block has depenencies, it for example needs to have access to the runtime object of scratch.
+If your block has dependencies you can pass on a depencies key with an array with the name of your depenencies as described bellow.
+
+    "checkFunctionAvailability": {
+        "singleLine": true,
+        "dependencies" :["runtime"], <--- tells the compiler the block needs to access the runtime object
+        "code": [
+            "!String(this.runtime.getOpcodeFunction('",
+            "[NAME]",
+            "')) === 'undefined'\n"
+        ]
+    },
+
+
+| Name       | Description |
+| ---------------| -------- |
+| runtime             | Tells the compiler the block needs access to the runtime object of scratch. |
+
 # extension support
 Are you a extension developer and you want to bring support for the extension builder and your extension? Then this section is for you!
 

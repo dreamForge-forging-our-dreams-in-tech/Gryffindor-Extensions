@@ -26,6 +26,7 @@
     },
     "checkFunctionAvailability": {
         "singleLine": true,
+        "dependencies" :["runtime"],
         "code": [
             "!String(this.runtime.getOpcodeFunction('",
             "[NAME]",
