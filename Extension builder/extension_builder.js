@@ -173,7 +173,7 @@ async function buildBlocks(file_name, Scratch) {
                         if (i.substring(0, 1) === '[' && i.substring(i.length - 1) === ']') { // This is a placeholder for a value from the block (e.g. [VALUE] or [ARGUMENTS])
                             if (i == '[TRANSPILE]') {
                                 let substackCode = this.transpile(substackId, target); // Recursively transpile the substack blocks to get the code for the substack and insert it into the code block. This allows users to write blocks that include substacks and have the code for those substacks be included in the generated code correctly.
-                                lines.push(substackCode); // Insert the transpiled substack code into the lines array so it will be included in the generated code.
+                                codeToInsert += substackCode; // Insert the transpiled substack code into the lines array so it will be included in the generated code.
                                 continue; // Skip the rest of the loop for this iteration since we've already handled this placeholder
                             }
 

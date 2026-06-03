@@ -46,6 +46,26 @@
             {
                 "text": "Boolean",
                 "value": "Scratch.ArgumentType.BOOLEAN"
+            },
+            {
+                "Angle": "Angle",
+                "value": "Scratch.ArgumentType.ANGLE"
+            },
+            {
+                "Color": "Color",
+                "value": "Scratch.ArgumentType.COLOR"
+            },
+            {
+                "Matrix": "Matrix",
+                "value": "Scratch.ArgumentType.MATRIX"
+            },
+            {
+                "Note": "Note",
+                "value": "Scratch.ArgumentType.NOTE"
+            },
+            {
+                "Image": "Image",
+                "value": "Scratch.ArgumentType.IMAGE"
             }
         ]
     },
