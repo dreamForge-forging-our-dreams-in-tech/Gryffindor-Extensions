@@ -179,7 +179,7 @@ async function buildBlocks(file_name, Scratch) {
                             }
 
                             let argName = i.replaceAll('[', '').replaceAll(']', ''); // Get the name of the argument from the placeholder (e.g. "VALUE" from "[VALUE]")
-                            argValue = getVal(argName); // Get the value for this argument
+                            argValue = getVal(argName).replaceAll('"', "`"); // Get the value for this argument and turn any "" strings into `` strings
                             codeToInsert += argValue // Insert the value into the code block, removing any quotes to avoid issues in the generated code when "" are removed. This allows users to write blocks that return values without worrying about quotes breaking their code.
                         } else {
                             codeToInsert += i; // This is just a regular line of code that should be included as is in the generated code
