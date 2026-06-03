@@ -120,6 +120,7 @@ async function buildBlocks(file_name, Scratch) {
                 let i;
                 for (i in code_directory) { //find the correct file path conencted to the opcode in the directory.json file so we can use it to get the code block for that opcode. This allows us to easily organize our code blocks into different files and keep the transpile function clean and organized.
                     if (code_directory) {
+                        console.log(opcodeWithoutExtension);
                         if (code_directory[i].includes(opcodeWithoutExtension)) { // The replace here is to remove the extension_id prefix from the opcode so that we can match it to the entries in the directory.json file, which do not include the extension_id prefix. This allows us to reuse the same code blocks for multiple extensions without having to duplicate them in the directory.json file.
                             code_json = window[i];
                             break;
@@ -144,7 +145,6 @@ async function buildBlocks(file_name, Scratch) {
                 // Helper to get a clean value for any input
                 const getVal = (name) => {
                     let result = this.resolveInput(block, name, target);
-                    console.log(name)
                     if (result === 'null') { // needs to be a string since its returned as a string
                         result = block.fields[name].value
                     }

@@ -1,5 +1,5 @@
 {
-    "control_repeat": {
+    "repeat": {
         "code": [
             "for (let i = 0; i < ",
             "[TIMES]",
@@ -8,14 +8,14 @@
             "}"
         ]
     },
-    "control_forever": {
+    "forever": {
         "code": [
             "while (true) {",
             "[TRANSPILE]",
             "}"
         ]
     },
-    "control_if": {
+    "if": {
         "code": [
             "if (",
             "[CONDITION]",
@@ -24,7 +24,7 @@
             "}"
         ]
     },
-    "control_if_else": {
+    "if_else": {
         "code": [
             "if (",
             "[CONDITION]",
@@ -35,7 +35,7 @@
             "}"
         ]
     },
-    "control_repeat_until": {
+    "repeat_until": {
         "code": [
             "while (!(",
             "[CONDITION]",
@@ -44,7 +44,7 @@
             "}"
         ]
     },
-    "control_while": {
+    "while": {
         "code": [
             "while (",
             "[CONDITION]",
