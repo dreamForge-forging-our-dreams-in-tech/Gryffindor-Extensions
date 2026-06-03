@@ -2,6 +2,7 @@
 class MyCoolAndAwesomeExtension {
   constructor(runtime = {}) {
     this.runtime = runtime;
+    this.control_repeat = this.runtime.getOpcodeFunction('control_repeat');
 
   }
 
@@ -14,10 +15,8 @@ class MyCoolAndAwesomeExtension {
 
 
   async opcode_name(args, util) {
-    try {
-      new Function('a', `return "alert()"`.replace(/[      ]+/g, ' '));
-    } catch (e) { return `Error: ${e.message}`; }
-  }
-
+    await this.control_repeat({ TIMES: 10, SUBSTACK: util.startBranch(1, '[ACTIONTYPE]' == 'loop'])nreturn `result` }, util);
 }
-Scratch.extensions.register(new MyCoolAndAwesomeExtension());
+
+            }
+Scratch.extensions.register(new MyCoolAndAwesomeExtension(Scratch.vm.runtime));

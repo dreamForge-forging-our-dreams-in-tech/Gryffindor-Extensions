@@ -1,0 +1,11 @@
+{
+    "control_repeat": {
+        "code": [
+            "for (let i = 0; i < ",
+            "[TIMES]",
+            "; i++) {",
+            "[TRANSPILE]",
+            "}"
+        ]
+    }
+}

@@ -1,5 +1,6 @@
 {
     "code_blocks_code": ["getArgumentValue", "returnResult", "executeBranchBlocks", "checkFunctionAvailability", "runningUnsandboxed"],
     "block_defitions_code": ["setMetaDataBlocks", "generateBlockMetaData", "buildBlockType", "defineArguments"],
-    "defition_blocks_code": ["setMetaData", "createListItem", "generateMenu"]
+    "defition_blocks_code": ["setMetaData", "createListItem", "generateMenu"],
+    "scratch_blocks": ["control_repeat"]
 }
