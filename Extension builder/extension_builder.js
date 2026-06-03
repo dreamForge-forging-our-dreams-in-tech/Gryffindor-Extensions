@@ -216,7 +216,7 @@ async function buildBlocks(file_name, Scratch) {
                         this.presetCode += `this.${opcode} = this.runtime.getOpcodeFunction('${opcode}');\n`;
                     }
                     // remove all "" so that functions will still work.
-                    lines.push(`await this.${opcode}(${this.getBlockArguments(block, target).replaceAll('"', ' ')}, util);`);
+                    lines.push(`await this.${opcode}(${this.getBlockArguments(block, target).replaceAll('"', " ")}, util);`);
                 }
 
                 currentId = target.blocks.getNextBlock(currentId);
@@ -235,6 +235,7 @@ async function buildBlocks(file_name, Scratch) {
 
         getBlockArguments(block, target) {
             const args = {};
+            
             for (const inputName in block.inputs) {
                 const input = block.inputs[inputName];
                 // Check if the input is a simple value (shadow) or another block (reporter)
@@ -247,7 +248,7 @@ async function buildBlocks(file_name, Scratch) {
                     // You would recursively call a 'generateCode' function here
                     let transpiledCode = this.transpile(input.block, target);// Recursively transpile the nested block
                     if (transpiledCode[0] === '"' && transpiledCode[transpiledCode.length - 1] === '"') {
-                        transpiledCode = transpiledCode.replaceAll('"', "'"); // Convert double quotes to single quotes for string literals to avoid issues in the generated code when "" are removed
+                        transpiledCode = transpiledCode.replaceAll('"', "`"); // Convert double quotes to single quotes for string literals to avoid issues in the generated code when "" are removed
                     }
                     args[inputName] = transpiledCode.replace(';', ''); // remove semicolons to avoid issues in the generated code when ";" are removed. This is a bit hacky but it allows users to write blocks that return values without worrying about semicolons breaking their code.
                 }

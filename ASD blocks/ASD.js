@@ -37,7 +37,7 @@ class ASD_COMMAND {
                 {
                     opcode: 'evalCode_Reporter',
                     blockType: Scratch.BlockType.REPORTER,
-                    text: 'Evaluate [CODE] and return result',
+                    text: "Evaluate [CODE] and return it's result",
                     arguments: {
                         CODE: {
                             type: Scratch.ArgumentType.STRING,

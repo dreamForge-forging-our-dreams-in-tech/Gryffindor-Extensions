@@ -13,7 +13,7 @@
     {
         "opcode": "setMetaData",
         "blockType": "COMMAND",
-        "text": "set [METATAG] to [VALUE]",
+        "text": "set extension [METATAG] to [VALUE]",
         "arguments": {
             "METATAG": {
                 "type": "STRING",
