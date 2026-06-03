@@ -48,23 +48,23 @@
                 "value": "Scratch.ArgumentType.BOOLEAN"
             },
             {
-                "Angle": "Angle",
+                "text": "Angle",
                 "value": "Scratch.ArgumentType.ANGLE"
             },
             {
-                "Color": "Color",
+                "text": "Color",
                 "value": "Scratch.ArgumentType.COLOR"
             },
             {
-                "Matrix": "Matrix",
+                "text": "Matrix",
                 "value": "Scratch.ArgumentType.MATRIX"
             },
             {
-                "Note": "Note",
+                "text": "Note",
                 "value": "Scratch.ArgumentType.NOTE"
             },
             {
-                "Image": "Image",
+                "text": "Image",
                 "value": "Scratch.ArgumentType.IMAGE"
             }
         ]
