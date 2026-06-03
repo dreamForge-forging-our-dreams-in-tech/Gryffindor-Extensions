@@ -7,5 +7,50 @@
             "[TRANSPILE]",
             "}"
         ]
+    },
+    "control_forever": {
+        "code": [
+            "while (true) {",
+            "[TRANSPILE]",
+            "}"
+        ]
+    },
+    "control_if": {
+        "code": [
+            "if (",
+            "[CONDITION]",
+            ") {",
+            "[TRANSPILE]",
+            "}"
+        ]
+    },
+    "control_if_else": {
+        "code": [
+            "if (",
+            "[CONDITION]",
+            ") {",
+            "[TRANSPILE]",
+            "} else {",
+            "[TRANSPILE]",
+            "}"
+        ]
+    },
+    "control_repeat_until": {
+        "code": [
+            "while (!(",
+            "[CONDITION]",
+            ")) {",
+            "[TRANSPILE]",
+            "}"
+        ]
+    },
+    "control_while": {
+        "code": [
+            "while (",
+            "[CONDITION]",
+            ") {",
+            "[TRANSPILE]",
+            "}"
+        ]
     }
 }
