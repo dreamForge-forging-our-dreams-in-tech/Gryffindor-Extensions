@@ -1,5 +1,6 @@
 {
     "repeat": {
+        "singleLine": true,
         "code": [
             "for (let i = 0; i < ",
             "[TIMES]",
@@ -9,6 +10,7 @@
         ]
     },
     "forever": {
+        "singleLine": false,
         "code": [
             "while (true) {",
             "[TRANSPILE]",
@@ -16,6 +18,7 @@
         ]
     },
     "if": {
+        "singleLine": true,
         "code": [
             "if (",
             "[CONDITION]",
@@ -25,6 +28,7 @@
         ]
     },
     "if_else": {
+        "singleLine": true,
         "code": [
             "if (",
             "[CONDITION]",
@@ -36,6 +40,7 @@
         ]
     },
     "repeat_until": {
+        "singleLine": true,
         "code": [
             "while (!(",
             "[CONDITION]",
@@ -45,6 +50,7 @@
         ]
     },
     "while": {
+        "singleLine": true,
         "code": [
             "while (",
             "[CONDITION]",
