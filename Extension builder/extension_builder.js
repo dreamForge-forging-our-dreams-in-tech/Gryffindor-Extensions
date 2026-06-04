@@ -211,7 +211,7 @@ async function buildBlocks(file_name, Scratch) {
                         this.presetCode += `this.${opcode} = this.runtime.getOpcodeFunction('${opcode}');\n`;
                     }
                     // remove all "" so that functions will still work.
-                    lines.push(`await this.${opcode}(${this.getBlockArguments(block, target).replaceAll('"', " ")}, util);`);
+                    lines.push(`await this.${opcode}(${this.getBlockArguments(block, target).replaceAll('"', " ")}, util)`);
                 }
 
                 currentId = target.blocks.getNextBlock(currentId);

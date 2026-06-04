@@ -53,7 +53,7 @@
     {
         "opcode": "setMetaDataBlocks",
         "blockType": "COMMAND",
-        "text": "set [METATAG] to [VALUE]",
+        "text": "set block [METATAG] to [VALUE]",
         "arguments": {
             "METATAG": {
                 "type": "STRING",
