@@ -12,7 +12,11 @@ class MyCoolAndAwesomeExtension {
         {
           opcode: 'opcode_name',
           blockType: Scratch.BlockType.COMMAND,
-          blockType: 'test',
+          text: 'test [ARG]',
+          arguments: {
+            'ARG': { type: Scratch.ArgumentType.STRING, defaultValue: 'Default Value' },
+          },
+
         },
 
       ],
@@ -22,7 +26,7 @@ class MyCoolAndAwesomeExtension {
 
 
   async opcode_name(args, util) {
-    try { new Function('a', `return 'alert()'`.replaceAll(`'`, ``))(); } catch (e) { console.error(`Error: ${e.message}`); }
+    try { new Function('a', `return 'alert(${args.ARG})'`.replaceAll(`'`, ``))(); } catch (e) { console.error(`Error: ${e.message}`); }
   }
 
 }

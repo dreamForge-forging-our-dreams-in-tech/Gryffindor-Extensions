@@ -62,10 +62,6 @@
             {
                 "text": "Note",
                 "value": "Scratch.ArgumentType.NOTE"
-            },
-            {
-                "text": "Image",
-                "value": "Scratch.ArgumentType.IMAGE"
             }
         ]
     },
