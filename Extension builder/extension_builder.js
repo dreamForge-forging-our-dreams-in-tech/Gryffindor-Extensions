@@ -50,6 +50,32 @@ async function buildBlocks(file_name, Scratch) {
     return json;
 }
 
+// Function to set or remove warning comments when certain conditions are met
+function setWarnings(args, util, condition, message) {
+    // Veiligheidscheck: bestaat de Scratch/Blockly runtime wel in deze context?
+    if (typeof Blockly !== 'undefined' && util && util.thread && util.thread.peekStack()) {
+
+        // 2. Haal het huidige blok-ID op uit de Scratch runtime util
+        const blockId = util.thread.peekStack();
+        const workspace = Blockly.getMainWorkspace();
+
+        if (workspace) {
+            // Zoek het daadwerkelijke Blockly-blok op
+            const block = workspace.getBlockById(blockId);
+
+            if (block) {
+                if (condition) {
+                    // 3. Voeg een comment toe (or verander de tekst)
+                    block.setCommentText(message);
+                } else {
+                    // Verwijder de comment door er 'null' of een lege string in te zetten
+                    block.setCommentText(null);
+                }
+            }
+        }
+    }
+}
+
 (async function (Scratch) {
     'use strict';
 
@@ -101,6 +127,14 @@ async function buildBlocks(file_name, Scratch) {
                 blocks: definition_blocks,
                 menus: definition_block_menus,
             };
+        }
+
+        setMetaData(args, util) {
+            let condition;
+            if (args.METATAG === 'id') {
+                condition = /[A-Z]/.test(args.VALUE) || /-/.test(args.VALUE) || /_/.test(args.VALUE || / /.test(args.VALUE)); // Check if the ID contains uppercase letters, dashes, or underscores, which are not allowed in extension IDs.
+            }
+            setWarnings(args, util, condition, 'Incorrect typing conventions used: only lowercase and numbers are allowed.');
         }
 
         /**
