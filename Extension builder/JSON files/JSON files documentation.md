@@ -70,6 +70,15 @@ If your block has dependencies you can pass on a depencies key with an array wit
 | ---------------| -------- |
 | runtime             | Tells the compiler the block needs access to the runtime object of scratch. |
 
+
+### Argument names
+By default all argument names can follow any typing convention you want, however there are several conventions you can follow if you want the compiler to do a certain thing with the argument value.
+These conventions must be in the argument name and cannot be defined anywhere else.
+
+| Name       | Description |
+| ---------------| -------- |
+| RAW_             | If your argument name starts with RAW_<argumentname> then the compiler will return the output as a raw unmodifed object, it isnt stringified or turned into a number. |
+
 # extension support
 Are you a extension developer and you want to bring support for the extension builder and your extension? Then this section is for you!
 

@@ -98,9 +98,10 @@ There are two ways of using turbowrp extensions inside of your extension.
 You can either use supported extensions that require no install on the users end or use unsupported extensions that require a installation of the extension on the users end.
 
 ## using unsupport extensions
-Using unsupported extensions is easy to do *BUT* unsupported extensions require your extension to run unsandboxed if you want to have the user install them.
+Using unsupported extensions is easy to do *BUT* unsupported extensions require your users to install the extension!
 
-Because installing extensions requires for the extension to run unsandboxed we recommend that you use the "is unsandboxed?" block to detect if the extension is unsandboxed, from there you can ask the user to install the extension with a prompt, we recommend that you also point out in this popup that the developer can bring official support for the turbowarp extension builder.
+## suporting a extension
+If you are a developer and want to support our extension builder with your extension please take a look at the documentation(JSON files documentation)
 
 # generating and viewing extension code
 During the development of your extension you can preview a live view of the code, any change you make is updated and you can manually update the code view by clicking the green flag or the "Define turbowarp extension" block.
