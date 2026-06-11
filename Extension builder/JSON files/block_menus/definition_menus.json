@@ -11,6 +11,10 @@
                 "value": "name"
             },
             {
+                "text": "Extension icon",
+                "value": "blockIconURI"
+            },
+            {
                 "text": "Primary Color",
                 "value": "color1"
             },
