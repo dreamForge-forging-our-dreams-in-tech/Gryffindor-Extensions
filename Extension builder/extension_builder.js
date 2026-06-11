@@ -178,7 +178,10 @@ function setWarnings(args, util, condition, message) {
                 // Helper to get a clean value for any input
                 const getVal = (name) => {
                     let result = this.resolveInput(block, name, target);
-                    if (result === 'null') { // needs to be a string since its returned as a string
+                    if (name.startsWith('RAW_')) {
+                        return result.substring(1, -1); // remove the quotes added by JSON.stringify for raw code inputs since we want to insert the raw code directly into the generated code without quotes around it. This allows users to write blocks that return values without worrying about quotes breaking their code.
+                    }
+                    if (result === 'null') { // null needs to be a string since its returned as a string
                         result = block.fields[name].value
                     }
                     return result.replaceAll("'", '&#39;'); // replace all backticks by a safer backtick that html will display as a backtick but wont break the code.

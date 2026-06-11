@@ -5,7 +5,7 @@
             "try {",
             "new Function('a', `return ",
             "[RAW_CODE]",
-            "`.replaceAll(`'`, ``))();",
+            "`)();",
             "} catch (e) {",
             "console.error(`Error: ${e.message}`);",
             "}"
@@ -18,7 +18,7 @@
             "try {",
             "return new Function('a', `return ",
             "[RAW_CODE]",
-            "`.replaceAll(`'`, ``))();",
+            "`)();",
             "} catch (e) {",
             "console.error(`Error: ${e.message}`);",
             "}",
