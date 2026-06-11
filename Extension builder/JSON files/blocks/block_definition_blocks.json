@@ -49,11 +49,11 @@
                 "defaultValue": "Argument Name"
             },
             "WIDTH": {
-                "type": "NUM",
+                "type": "NUMBER",
                 "defaultValue": 100
             },
             "HEIGHT": {
-                "type": "NUM",
+                "type": "NUMBER",
                 "defaultValue": 100
             },
             "IMAGE": {
