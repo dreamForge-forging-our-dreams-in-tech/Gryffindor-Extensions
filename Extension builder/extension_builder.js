@@ -102,6 +102,7 @@ function setWarnings(args, util, condition, message) {
         if (Object.keys(window.extensionBuilder).length > registerySize) {
             for (a in window.extensionBuilder) {
                 let directory = await fetchJson('directory', 'block_codes', window.extensionBuilder[a]); // log the code json for the new extension to verify it was loaded correctly. This also serves as a way to easily access the code json for each extension in the global registery.
+
                 for (j in directory) {
                     code_directory[j] = directory[j]; // add the code blocks from the new extension to the code_directory so they can be used in the transpile function. This allows us to easily add new blocks and specify how they should be transpiled without having to edit the transpile function itself.
                     window[j] = await fetchJson(j, 'block_codes', window.extensionBuilder[a]); // This gets the actual code block for the corresponding opcode from the JSON file specified in the directory.json file.

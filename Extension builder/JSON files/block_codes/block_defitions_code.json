@@ -35,5 +35,27 @@
             "[DEFAULT]",
             "},"
         ]
+    },
+    "defineImageArguments": {
+        "singleLine": true,
+        "code": [
+            "[NAME]",
+            ": {",
+            "  type: ",
+            "Scratch.ArgumentType.IMAGE",
+            ", ",
+            "  data: ",
+            "[IMAGE]",
+            ", ",
+            "  width: ",
+            "[WIDTH]",
+            ", ",
+            "  height: ",
+            "[HEIGHT]",
+            ", ",
+            "  alt: ",
+            "[ALT]",
+            "},"
+        ]
     }
 }

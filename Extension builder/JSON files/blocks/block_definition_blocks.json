@@ -40,6 +40,33 @@
         }
     },
     {
+        "opcode": "defineImageArguments",
+        "blockType": "COMMAND",
+        "text": "Define image argument [NAME] with iamge [IMAGE] size [WIDTH] x [HEIGHT] altText [ALT]",
+        "arguments": {
+            "NAME": {
+                "type": "STRING",
+                "defaultValue": "Argument Name"
+            },
+            "WIDTH": {
+                "type": "NUM",
+                "defaultValue": 100
+            },
+            "HEIGHT": {
+                "type": "NUM",
+                "defaultValue": 100
+            },
+            "IMAGE": {
+                "type": "STRING",
+                "defaultValue": "Image URL"
+            },
+            "ALT": {
+                "type": "STRING",
+                "defaultValue": "Alt Text"
+            }
+        }
+    },
+    {
         "opcode": "buildBlockType",
         "blockType": "REPORTER",
         "text": "blockType [TYPE]",
