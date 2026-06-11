@@ -65,6 +65,19 @@
             }
         ]
     },
+    "flipRTL": {
+        "acceptReporters": false,
+        "items": [
+            {
+                "text": "True",
+                "value": "true"
+            },
+            {
+                "text": "False",
+                "value": "false"
+            }
+        ]
+    },
     "metaData": {
         "acceptReporters": false,
         "items": [
