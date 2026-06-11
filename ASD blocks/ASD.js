@@ -25,9 +25,9 @@ class ASD_COMMAND {
                 {
                     opcode: 'evalCode',
                     blockType: Scratch.BlockType.COMMAND,
-                    text: 'Evaluate [CODE]',
+                    text: 'Evaluate [RAW_CODE]',
                     arguments: {
-                        CODE: {
+                        RAW_CODE: {
                             type: Scratch.ArgumentType.STRING,
                             defaultValue: '2 * 2'
                         },
@@ -37,9 +37,9 @@ class ASD_COMMAND {
                 {
                     opcode: 'evalCode_Reporter',
                     blockType: Scratch.BlockType.REPORTER,
-                    text: "Evaluate [CODE] and return it's result",
+                    text: "Evaluate [RAW_CODE] and return it's result",
                     arguments: {
-                        CODE: {
+                        RAW_CODE: {
                             type: Scratch.ArgumentType.STRING,
                             defaultValue: '2 * 2'
                         },
@@ -57,7 +57,7 @@ class ASD_COMMAND {
 
     evalCode(args) {
         try {
-            const fn = new Function('a', `return ${args.CODE}`);
+            const fn = new Function('a', `return ${args.RAW_CODE}`);
             return fn(); // keep return statement because reporter reuses the same function
         } catch (e) {
             return `Error: ${e.message}`;
