@@ -76,6 +76,18 @@ function setWarnings(args, util, condition, message) {
     }
 }
 
+//function for registering extensions with a url to the files of the extensions wanting to be registered
+window.registerExtension = async (url = 'https://raw.githubusercontent.com/dreamForge-forging-our-dreams-in-tech/Gryffindor-Extensions/refs/heads/main/Extension%20builder/') => {
+    let j;
+
+    let fetched_directory = await fetchJson('directory', 'block_codes', url); // log the code json for the new extension to verify it was loaded correctly. This also serves as a way to easily access the code json for each extension in the global registery.
+
+    for (j in fetched_directory) {
+        window.code_directory[j] = fetched_directory[j]; // add the code blocks from the new extension to the code_directory so they can be used in the transpile function. This allows us to easily add new blocks and specify how they should be transpiled without having to edit the transpile function itself.
+        window[j] = await fetchJson(j, 'block_codes', url); // This gets the actual code block for the corresponding opcode from the JSON file specified in the directory.json file.
+    }
+}
+
 (async function (Scratch) {
     'use strict';
 
@@ -91,26 +103,8 @@ function setWarnings(args, util, condition, message) {
     let code_blocks = await buildBlocks('code_blocks', Scratch);
 
     //pre load all code json files, so they dont have to be accesed inside of the loop
-    let code_directory = await fetchJson('directory', 'block_codes'); // This is a JSON file that contains the mapping of block opcodes to the code blocks that should be used to transpile them. This allows us to easily add new blocks and specify how they should be transpiled without having to edit the transpile function itself.
-    let i, j, a;
-    for (i in code_directory) {
-        window[i] = await fetchJson(i, 'block_codes'); // This gets the actual code block for the corresponding opcode from the JSON file specified in the directory.json file.
-    }
-
-    let registerySize = 0;
-    let extensionChecks = window.setInterval(async () => { // check every 5 seconds if a new extension was installed
-        if (Object.keys(window.extensionBuilder).length > registerySize) {
-            for (a in window.extensionBuilder) {
-                let directory = await fetchJson('directory', 'block_codes', window.extensionBuilder[a]); // log the code json for the new extension to verify it was loaded correctly. This also serves as a way to easily access the code json for each extension in the global registery.
-
-                for (j in directory) {
-                    code_directory[j] = directory[j]; // add the code blocks from the new extension to the code_directory so they can be used in the transpile function. This allows us to easily add new blocks and specify how they should be transpiled without having to edit the transpile function itself.
-                    window[j] = await fetchJson(j, 'block_codes', window.extensionBuilder[a]); // This gets the actual code block for the corresponding opcode from the JSON file specified in the directory.json file.
-                }
-            }
-            registerySize = Object.keys(window.extensionBuilder).length;
-        }
-    }, 5000);
+    window.code_directory = {};
+    await window.registerExtension();
 
     class definitionBlocks {
         constructor(runtime) {
@@ -153,9 +147,9 @@ function setWarnings(args, util, condition, message) {
                 const opcodeWithoutExtension = opcode.substring(opcode.indexOf('_') + 1, opcode.length); // Remove the extension_id prefix from the opcode to get the base opcode name, which is used in the directory.json file to find the corresponding code block for this opcode. This allows us to reuse the same code blocks for multiple extensions without having to duplicate them in the directory.json file.
                 let code_json;
                 let i;
-                for (i in code_directory) { //find the correct file path conencted to the opcode in the directory.json file so we can use it to get the code block for that opcode. This allows us to easily organize our code blocks into different files and keep the transpile function clean and organized.
-                    if (code_directory) {
-                        if (code_directory[i].includes(opcodeWithoutExtension)) { // The replace here is to remove the extension_id prefix from the opcode so that we can match it to the entries in the directory.json file, which do not include the extension_id prefix. This allows us to reuse the same code blocks for multiple extensions without having to duplicate them in the directory.json file.
+                for (i in window.code_directory) { //find the correct file path conencted to the opcode in the directory.json file so we can use it to get the code block for that opcode. This allows us to easily organize our code blocks into different files and keep the transpile function clean and organized.
+                    if (window.code_directory) {
+                        if (window.code_directory[i].includes(opcodeWithoutExtension)) { // The replace here is to remove the extension_id prefix from the opcode so that we can match it to the entries in the directory.json file, which do not include the extension_id prefix. This allows us to reuse the same code blocks for multiple extensions without having to duplicate them in the directory.json file.
                             code_json = window[i];
                             break;
                         }
