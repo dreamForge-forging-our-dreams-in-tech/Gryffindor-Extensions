@@ -80,7 +80,7 @@ function setWarnings(args, util, condition, message) {
 window.registerExtension = async (url) => {
     let j;
 
-    let fetched_directory = await fetchJson('directory', 'block_codes', url); // log the code json for the new extension to verify it was loaded correctly. This also serves as a way to easily access the code json for each extension in the global registery.
+    let fetched_directory = await fetchJson('directory', 'block_codes', url); // fetch the coode directory so we can fetch the files with the json codes
 
     for (j in fetched_directory) {
         window.code_directory[j] = fetched_directory[j]; // add the code blocks from the new extension to the code_directory so they can be used in the transpile function. This allows us to easily add new blocks and specify how they should be transpiled without having to edit the transpile function itself.

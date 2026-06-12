@@ -24,7 +24,7 @@
     {
         "opcode": "checkFunctionAvailability",
         "blockType": "BOOLEAN",
-        "text": " is function [NAME] available?",
+        "text": " is opcode [NAME] available?",
         "arguments": {
             "NAME": {
                 "type": "STRING",
