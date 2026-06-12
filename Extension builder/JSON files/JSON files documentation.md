@@ -96,7 +96,7 @@ Eventually you should have something like this as your file structure: ![alt tex
 
 ## telling the compiler the location of your file
 
-The compiler doesnt automatically know where you're json files are located; the compiler will only be able if you provide the url to your json files, you can do so by calling towards the global registeryFunction and passing the url location of your JSON files to it
+The compiler doesnt automatically know where you're json files are located; the compiler will only be able if you provide the url to your json files, you can do so by calling towards the window.registerExtension and passing the url location of your JSON files to it
 
 This registery is only available if the extension has been installed else it'll crash, so be sure to wrap it in a extra check because extensions wont load if it crashes because the registery is not available.
 Extensions laoded before installing the extension builder will not be registered either!

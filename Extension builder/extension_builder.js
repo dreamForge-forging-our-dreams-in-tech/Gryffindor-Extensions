@@ -77,7 +77,7 @@ function setWarnings(args, util, condition, message) {
 }
 
 //function for registering extensions with a url to the files of the extensions wanting to be registered
-window.registerExtension = async (url = 'https://raw.githubusercontent.com/dreamForge-forging-our-dreams-in-tech/Gryffindor-Extensions/refs/heads/main/Extension%20builder/') => {
+window.registerExtension = async (url) => {
     let j;
 
     let fetched_directory = await fetchJson('directory', 'block_codes', url); // log the code json for the new extension to verify it was loaded correctly. This also serves as a way to easily access the code json for each extension in the global registery.
