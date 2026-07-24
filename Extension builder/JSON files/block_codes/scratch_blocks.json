@@ -58,5 +58,13 @@
             "[TRANSPILE]",
             "}"
         ]
+    },
+    "data_setvariableto": {
+        "singleLine": true,
+        "code": [
+            "window.[VARIABLE] = ",
+            "[VALUE]",
+            ";"
+        ]
     }
 }
