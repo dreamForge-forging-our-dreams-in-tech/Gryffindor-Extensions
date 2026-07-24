@@ -62,7 +62,9 @@
     "data_setvariableto": {
         "singleLine": true,
         "code": [
-            "window.[VARIABLE] = ",
+            "window['",
+            "[VARIABLE]",
+            "'] = ",
             "[VALUE]",
             ";"
         ]
