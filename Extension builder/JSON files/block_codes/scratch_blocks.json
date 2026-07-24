@@ -1,5 +1,5 @@
 {
-    "repeat": {
+    "control_repeat": {
         "singleLine": true,
         "code": [
             "for (let i = 0; i < ",
@@ -9,7 +9,7 @@
             "}"
         ]
     },
-    "forever": {
+    "control_forever": {
         "singleLine": false,
         "code": [
             "while (true) {",
@@ -17,7 +17,7 @@
             "}"
         ]
     },
-    "if": {
+    "control_if": {
         "singleLine": true,
         "code": [
             "if (",
@@ -27,7 +27,7 @@
             "}"
         ]
     },
-    "if_else": {
+    "control_if_else": {
         "singleLine": true,
         "code": [
             "if (",
@@ -39,7 +39,7 @@
             "}"
         ]
     },
-    "repeat_until": {
+    "control_repeat_until": {
         "singleLine": true,
         "code": [
             "while (!(",
@@ -49,7 +49,7 @@
             "}"
         ]
     },
-    "while": {
+    "control_while": {
         "singleLine": true,
         "code": [
             "while (",
@@ -67,6 +67,24 @@
             "'] = ",
             "[VALUE]",
             ";"
+        ]
+    },
+    "data_changevariableby": {
+        "singleLine": true,
+        "code": [
+            "window['",
+            "[VARIABLE]",
+            "'] += ",
+            "[VALUE]",
+            ";"
+        ]
+    },
+    "data_variable": {
+        "singleLine": true,
+        "code": [
+            "window['",
+            "[VARIABLE]",
+            "']"
         ]
     }
 }

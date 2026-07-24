@@ -144,9 +144,11 @@ window.registerExtension = async (url) => {
             while (currentId) {
                 const block = target.blocks.getBlock(currentId);
                 const opcode = block.opcode;
-                const opcodeWithoutExtension = opcode.replaceAll(window.extension_id + '_', ''); // Remove the extension_id prefix from the opcode to get the base opcode name, which is used in the directory.json file to find the corresponding code block for this opcode. This allows us to reuse the same code blocks for multiple extensions without having to duplicate them in the directory.json file.
+                const opcodeWithoutExtension = opcode.replaceAll(extension_id + '_', ''); // Remove the extension_id prefix from the opcode to get the base opcode name, which is used in the directory.json file to find the corresponding code block for this opcode. This allows us to reuse the same code blocks for multiple extensions without having to duplicate them in the directory.json file.
                 let code_json;
                 let i;
+
+                console.log(opcodeWithoutExtension);
 
                 for (i in window.code_directory) { //find the correct file path conencted to the opcode in the directory.json file so we can use it to get the code block for that opcode. This allows us to easily organize our code blocks into different files and keep the transpile function clean and organized.
 
