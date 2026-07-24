@@ -20,7 +20,8 @@
             "util.startBranch(",
             "[BRANCHNUMBER]",
             ", ",
-            "[ACTIONTYPE]"
+            "[ACTIONTYPE]",
+            ");"
         ]
     },
     "checkFunctionAvailability": {
