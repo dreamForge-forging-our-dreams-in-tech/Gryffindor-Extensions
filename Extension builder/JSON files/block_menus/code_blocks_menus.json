@@ -4,11 +4,11 @@
         "items": [
             {
                 "text": "Execute",
-                "value": "execute"
+                "value": "false"
             },
             {
                 "text": "Loop",
-                "value": "loop"
+                "value": "true"
             }
         ]
     }
