@@ -17,7 +17,7 @@ You can define the opcode in a json file by simply putting the Opcode in it, the
 ### opcode name
 
 {
-    "getArgumentValue": { <--- the name of the opcode
+    "getArgumentValue": { <--- the name of the opcode, if you are a third party extension builder then use the full name that turbowarp returns e.g. dreamForgeJSTools_evalCode
         "singleline": true,
         "code": [
             "args.",
