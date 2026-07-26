@@ -21,7 +21,7 @@
     "generateMenu": {
         "singleLine": false,
         "code": [
-            "[MENUNAME]",
+            "[RAW_MENUNAME]",
             ": {",
             "acceptReporters: ",
             "[REPORTERS]",

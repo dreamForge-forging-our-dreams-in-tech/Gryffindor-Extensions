@@ -36,7 +36,7 @@
         "text": "Define [MENUNAME] and [REPORTERS]",
         "branchCount": 1,
         "arguments": {
-            "MENUNAME": {
+            "RAW_MENUNAME": {
                 "type": "STRING",
                 "defaultValue": "Menu Name"
             },

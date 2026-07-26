@@ -21,7 +21,7 @@
         "blockType": "COMMAND",
         "text": "Define argument [NAME] as [TYPE] with [INPUT] [DEFAULT]",
         "arguments": {
-            "NAME": {
+            "RAW_NAME": {
                 "type": "STRING",
                 "defaultValue": "Argument Name"
             },
