@@ -16,8 +16,8 @@ class debuggingtools {
           blockType: Scratch.BlockType.COMMAND,
           text: /Log [type] [message] to browser console./.source,
           arguments: {
-            ul: { type: Scratch.ArgumentType.STRING, menu: /logTypes/.source },
-            ul: { type: Scratch.ArgumentType.STRING, defaultValue: /Message/.source },
+            type: { type: Scratch.ArgumentType.STRING, menu: /logTypes/.source },
+            message: { type: Scratch.ArgumentType.STRING, defaultValue: /Message/.source },
           },
 
         },
