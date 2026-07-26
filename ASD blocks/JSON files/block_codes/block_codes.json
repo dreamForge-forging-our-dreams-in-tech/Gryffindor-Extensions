@@ -1,5 +1,5 @@
 {
-    "evalCode": {
+    "dreamForgeJSTools_evalCode": {
         "singleLine": true,
         "code": [
             "try {",
@@ -11,7 +11,7 @@
             "}"
         ]
     },
-    "evalCode_Reporter": {
+    "dreamForgeJSTools_evalCode_Reporter": {
         "singleLine": true,
         "code": [
             "() => {",

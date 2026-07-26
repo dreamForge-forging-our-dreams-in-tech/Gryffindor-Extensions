@@ -151,6 +151,7 @@ window.registerExtension = async (url) => {
                 for (i in window.code_directory) { //find the correct file path conencted to the opcode in the directory.json file so we can use it to get the code block for that opcode. This allows us to easily organize our code blocks into different files and keep the transpile function clean and organized.
 
                     if (window.code_directory) {
+                        console.log(window.code_directory[i].includes(opcodeWithoutExtension), opcodeWithoutExtension)
                         if (window.code_directory[i].includes(opcodeWithoutExtension)) { // The replace here is to remove the extension_id prefix from the opcode so that we can match it to the entries in the directory.json file, which do not include the extension_id prefix. This allows us to reuse the same code blocks for multiple extensions without having to duplicate them in the directory.json file.
                             code_json = window[i];
                             break;
@@ -177,7 +178,6 @@ window.registerExtension = async (url) => {
                     let result = this.resolveInput(block, name, target);
 
                     if (name.startsWith('RAW_')) {
-                        console.log(result.substring(1, result.length - 1), result)
                         return result.substring(1, result.length - 1); // remove the quotes added by JSON.stringify for raw code inputs since we want to insert the raw code directly into the generated code without quotes around it. This allows users to write blocks that return values without worrying about quotes breaking their code.
                     }
                     if (result === 'null') { // null needs to be a string since its returned as a string
