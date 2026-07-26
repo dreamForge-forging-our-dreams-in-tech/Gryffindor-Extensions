@@ -33,7 +33,7 @@
     {
         "opcode": "generateMenu",
         "blockType": "CONDITIONAL",
-        "text": "Define [MENUNAME] and [REPORTERS]",
+        "text": "Define [RAW_MENUNAME] and [REPORTERS]",
         "branchCount": 1,
         "arguments": {
             "RAW_MENUNAME": {

@@ -177,6 +177,7 @@ window.registerExtension = async (url) => {
                     let result = this.resolveInput(block, name, target);
 
                     if (name.startsWith('RAW_')) {
+                        console.log(result.substring(1, result.length - 1), result)
                         return result.substring(1, result.length - 1); // remove the quotes added by JSON.stringify for raw code inputs since we want to insert the raw code directly into the generated code without quotes around it. This allows users to write blocks that return values without worrying about quotes breaking their code.
                     }
                     if (result === 'null') { // null needs to be a string since its returned as a string

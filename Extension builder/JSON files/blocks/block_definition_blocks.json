@@ -19,7 +19,7 @@
     {
         "opcode": "defineArguments",
         "blockType": "COMMAND",
-        "text": "Define argument [NAME] as [TYPE] with [INPUT] [DEFAULT]",
+        "text": "Define argument [RAW_NAME] as [TYPE] with [INPUT] [DEFAULT]",
         "arguments": {
             "RAW_NAME": {
                 "type": "STRING",
