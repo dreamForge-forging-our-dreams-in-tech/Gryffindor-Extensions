@@ -74,6 +74,7 @@
         "opcode": "buildBlockType",
         "blockType": "REPORTER",
         "text": "blockType [TYPE]",
+        "disableMonitor": true,
         "arguments": {
             "TYPE": {
                 "type": "STRING",
