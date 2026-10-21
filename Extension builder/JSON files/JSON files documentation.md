@@ -35,7 +35,7 @@ The extension builder compiler builds your code from a simple array, in this arr
         "singleline": true,
         "code": [
             "args.",
-            "[NAME]" <--- Argument name with brackets to tell the system its an argument, only call it [TRANSPILE] if you want to tell the compiler to transpile the next blocks.
+            "[NAME]" <--- Argument name with brackets to tell the system its an argument, only call it [SUBSTACK] if you want to tell the compiler to transpile blocks inside of a substack, substack 1 = SUBSTACK, 2 = SUBSTACK2 etc.
         ]
     }
 }

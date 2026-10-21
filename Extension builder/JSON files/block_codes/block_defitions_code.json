@@ -12,7 +12,7 @@
         "singleLine": false,
         "code": [
             "arguments: {",
-            "[TRANSPILE]",
+            "[SUBSTACK]",
             "},"
         ]
     },

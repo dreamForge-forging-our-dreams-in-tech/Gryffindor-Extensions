@@ -76,6 +76,15 @@ function setWarnings(args, util, condition, message) {
     }
 }
 
+function getSubstacks(substack, block, opcode) { // returns the code for substacks inside of a block.
+    try {
+        return block.inputs[substack] ? block.inputs[substack].block : null;
+    } catch (e) {
+        console.error(`Error processing block ${opcode}:`, e);
+        return;
+    }
+}
+
 //function for registering extensions with a url to the files of the extensions wanting to be registered
 window.registerExtension = async (url) => {
     let j;
@@ -165,13 +174,6 @@ window.registerExtension = async (url) => {
                     return `"${block.fields.TEXT.value}"`; // Returns "Hello"
                 }
 
-                let substackId = null;
-                try {
-                    substackId = block.inputs.SUBSTACK ? block.inputs.SUBSTACK.block : null;
-                } catch (e) {
-                    console.error(`Error processing block ${opcode}:`, e);
-                }
-
                 // Helper to get a clean value for any input
                 const getVal = (name) => {
                     let result = this.resolveInput(block, name, target);
@@ -211,8 +213,9 @@ window.registerExtension = async (url) => {
 
                         //generate code for arguments or for blocks only
                         if (i.substring(0, 1) === '[' && i.substring(i.length - 1) === ']') { // This is a placeholder for a value from the block (e.g. [VALUE] or [ARGUMENTS])
-                            if (i == '[TRANSPILE]') {
-                                let substackCode = this.transpile(substackId, target); // Recursively transpile the substack blocks to get the code for the substack and insert it into the code block. This allows users to write blocks that include substacks and have the code for those substacks be included in the generated code correctly.
+                            if (i.includes('SUBSTACK')) {
+                                
+                                let substackCode = this.transpile(getSubstacks(i, block, opcode), target); // Recursively transpile the substack blocks to get the code for the substack and insert it into the code block. This allows users to write blocks that include substacks and have the code for those substacks be included in the generated code correctly.
 
                                 if (code_json[opcodeWithoutExtension].singleLine) {
                                     codeToInsert += '\n'; //make sure transpiled substacks are actually on a new line even if newline is set to true

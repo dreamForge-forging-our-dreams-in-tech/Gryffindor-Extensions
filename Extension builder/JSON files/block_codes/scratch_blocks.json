@@ -5,7 +5,7 @@
             "for (let i = 0; i < ",
             "[TIMES]",
             "; i++) {",
-            "[TRANSPILE]",
+            "[SUBSTACK]",
             "}"
         ]
     },
@@ -13,7 +13,7 @@
         "singleLine": false,
         "code": [
             "while (true) {",
-            "[TRANSPILE]",
+            "[SUBSTACK]",
             "}"
         ]
     },
@@ -23,7 +23,7 @@
             "if (",
             "[CONDITION]",
             ") {",
-            "[TRANSPILE]",
+            "[SUBSTACK]",
             "}"
         ]
     },
@@ -33,9 +33,9 @@
             "if (",
             "[CONDITION]",
             ") {",
-            "[TRANSPILE]",
+            "[SUBSTACK]",
             "} else {",
-            "[TRANSPILE]",
+            "[SUBSTACK2]",
             "}"
         ]
     },
@@ -45,7 +45,7 @@
             "while (!(",
             "[CONDITION]",
             ")) {",
-            "[TRANSPILE]",
+            "[SUBSTACK]",
             "}"
         ]
     },
@@ -55,7 +55,7 @@
             "while (",
             "[CONDITION]",
             ") {",
-            "[TRANSPILE]",
+            "[SUBSTACK]",
             "}"
         ]
     },

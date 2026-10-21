@@ -48,7 +48,7 @@
             "acceptReporters: ",
             "[REPORTERS]",
             ", items: [",
-            "[TRANSPILE]",
+            "[SUBSTACK]",
             "]",
             "}"
         ]
