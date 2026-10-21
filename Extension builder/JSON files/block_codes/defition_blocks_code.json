@@ -1,6 +1,28 @@
 {
     "setMetaData": {
         "singleLine": true,
+        "debuggingConditions": [
+            {
+                "type": "Error",
+                "message": "Incorrect typing conventions used: only lowercase and numbers are allowed.",
+                "trigger": [
+                    "[METATAG]",
+                    " == ",
+                    "'id'"
+                ],
+                "condition": [
+                    "/[A-Z]/.test(",
+                    "[VALUE]",
+                    ") || /-/.test(",
+                    "[VALUE]",
+                    ") || /_/.test(",
+                    "[VALUE]",
+                    "|| / /.test(",
+                    "[VALUE]",
+                    "))"
+                ]
+            }
+        ],
         "code": [
             "[METATAG]",
             ": ",

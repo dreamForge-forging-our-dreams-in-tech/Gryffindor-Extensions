@@ -182,7 +182,7 @@ window.registerExtension = async (url) => {
                     if (result === 'null') { // null needs to be a string since its returned as a string
                         result = block.fields[name].value
                     }
-                    if(result.startsWith('"') && result.endsWith('"')) {
+                    if (result.startsWith('"') && result.endsWith('"')) {
                         result = result.substring(1, result.length - 1); // remove the quotes added by JSON.stringify for string inputs since we want to insert the string directly into the generated code without quotes around it. This allows users to write blocks that return values without worrying about quotes breaking their code.
                         return String('/' + result + '/.source'); // replace all backticks by a safer backtick that html will display as a backtick but wont break the code.
                     }
@@ -242,9 +242,8 @@ window.registerExtension = async (url) => {
                     const scratchVMTarget = Scratch.vm.runtime.getEditingTarget();
 
                     //check for the runtime dependency, if its there dont add the dependency else add it since its required to access the turbowarp blocks.
-                    if (!this.codeDependencies.includes(dependency_registery['runtime'])) {
-                        this.codeDependencies.push(dependency_registery['runtime']);
-                    }
+                    let dep_reg = dependency_registery['runtime']; // dependency register
+                    !this.codeDependencies.includes(dep_reg) && this.codeDependencies.push(dep_reg);
 
                     // If the preset code already contains this opcode, skip it to avoid duplicates
                     if (!this.presetCode.includes(`this.${opcode}`)) {

@@ -1,6 +1,6 @@
 # The Debugging tools extension.
 
-The primary goal of this extension is to add extra tools for debugging projects, it adds various things such as acces to the console, this extension has also been used to debug the extension builder, because of that the source code inside of turbowarp is also availalbe.
+The primary goal of this extension is to add extra tools for debugging projects, it adds various things such as acces to the console, this extension has also been used to debug the extension builder, because of that the source code inside of turbowarp is also availalbe and this extension may break occasionally.
 
 ## logging, warning and erros to the console.
 

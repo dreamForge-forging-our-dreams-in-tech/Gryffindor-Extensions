@@ -82,6 +82,33 @@ If your block has dependencies you can pass on a depencies key with an array wit
 | ---------------| -------- |
 | runtime             | Tells the compiler the block needs access to the runtime object of scratch. |
 
+### Adding erros and warnings
+
+The extension builder allows 3rd party develoeprs to supply their own errors and warnings to the extension builder, it uses the same familiar approach to build code and checks used for constructing code.
+
+"debuggingConditions": [ <--- An array object containing a list of objects (all errors and warnings)
+            {
+                "type": "Error", <--- The type of message, can be Warning or Error, if its set to Error then the compiler wil lstop compiling when the trigger is met to execute a condition check.
+                "message": "Incorrect typing conventions used: only lowercase and numbers are allowed.", <--- the message that is shown when the condition check hasnt passed.
+                "trigger": [ <--- the trigger code for when it should do a condition check.
+                    "[METATAG]",
+                    " == ",
+                    "'id'"
+                ],
+                "condition": [ <--- the condition code thats constructed and executed when a trigger has been met.
+                    "/[A-Z]/.test(",
+                    "[VALUE]",
+                    ") || /-/.test(",
+                    "[VALUE]",
+                    ") || /_/.test(",
+                    "[VALUE]",
+                    "|| / /.test(",
+                    "[VALUE]",
+                    "))"
+                ]
+            }
+        ],
+
 # extension support
 
 Are you a extension developer and you want to bring support for the extension builder and your extension? Then this section is for you!
