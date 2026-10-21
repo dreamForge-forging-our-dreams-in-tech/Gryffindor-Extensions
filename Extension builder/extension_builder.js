@@ -213,9 +213,10 @@ window.registerExtension = async (url) => {
 
                         //generate code for arguments or for blocks only
                         if (i.substring(0, 1) === '[' && i.substring(i.length - 1) === ']') { // This is a placeholder for a value from the block (e.g. [VALUE] or [ARGUMENTS])
+
                             if (i.includes('SUBSTACK')) {
-                                
-                                let substackCode = this.transpile(getSubstacks(i, block, opcode), target); // Recursively transpile the substack blocks to get the code for the substack and insert it into the code block. This allows users to write blocks that include substacks and have the code for those substacks be included in the generated code correctly.
+
+                                let substackCode = this.transpile(getSubstacks(i.substring(1, i.length - 1), block, opcode), target); // Recursively transpile the substack blocks to get the code for the substack and insert it into the code block. This allows users to write blocks that include substacks and have the code for those substacks be included in the generated code correctly.
 
                                 if (code_json[opcodeWithoutExtension].singleLine) {
                                     codeToInsert += '\n'; //make sure transpiled substacks are actually on a new line even if newline is set to true
