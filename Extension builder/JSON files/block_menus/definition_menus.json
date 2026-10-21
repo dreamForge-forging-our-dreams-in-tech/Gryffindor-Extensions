@@ -25,6 +25,10 @@
             {
                 "text": "Tertiary Color",
                 "value": "color3"
+            },
+            {
+                "text": "Documentation Link",
+                "value": "docsURI"
             }
         ]
     },

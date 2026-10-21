@@ -98,12 +98,16 @@
                 "value": "branchCount"
             },
             {
-                "text": "Is Terminal",
+                "text": "Is Terminal?",
                 "value": "isTerminal"
             },
             {
                 "text": "Block icon",
                 "value": "blockIconURI"
+            },
+            {
+                "text": "Monitor Disabled?",
+                "value": "disableMonitor"
             }
         ]
     },
