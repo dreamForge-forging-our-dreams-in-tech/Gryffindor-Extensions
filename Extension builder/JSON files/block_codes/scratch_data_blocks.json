@@ -1,0 +1,40 @@
+{
+    "data_setvariableto": {
+        "singleLine": true,
+        "code": [
+            "window['",
+            "[VARIABLE]",
+            "'] = ",
+            "[VALUE]",
+            ";"
+        ]
+    },
+    "data_changevariableby": {
+        "singleLine": true,
+        "code": [
+            "window['",
+            "[VARIABLE]",
+            "'] += ",
+            "[VALUE]",
+            ";"
+        ]
+    },
+    "data_variable": {
+        "singleLine": true,
+        "code": [
+            "window['",
+            "[VARIABLE]",
+            "']"
+        ]
+    },
+    "data_addtolist": {
+        "singleLine": true,
+        "code": [
+            "window[",
+            "[LIST",
+            "].push(",
+            "[ITEM]",
+            ")"
+        ]
+    }
+}

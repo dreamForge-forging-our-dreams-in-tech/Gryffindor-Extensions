@@ -58,33 +58,5 @@
             "[SUBSTACK]",
             "}"
         ]
-    },
-    "data_setvariableto": {
-        "singleLine": true,
-        "code": [
-            "window['",
-            "[VARIABLE]",
-            "'] = ",
-            "[VALUE]",
-            ";"
-        ]
-    },
-    "data_changevariableby": {
-        "singleLine": true,
-        "code": [
-            "window['",
-            "[VARIABLE]",
-            "'] += ",
-            "[VALUE]",
-            ";"
-        ]
-    },
-    "data_variable": {
-        "singleLine": true,
-        "code": [
-            "window['",
-            "[VARIABLE]",
-            "']"
-        ]
     }
 }
