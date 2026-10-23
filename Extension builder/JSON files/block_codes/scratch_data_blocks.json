@@ -30,9 +30,9 @@
     "data_addtolist": {
         "singleLine": true,
         "code": [
-            "window[",
+            "window['",
             "[LIST]",
-            "].push(",
+            "'].push(",
             "[ITEM]",
             ")"
         ]
@@ -40,9 +40,9 @@
     "data_deleteoflist": {
         "singleLine": true,
         "code": [
-            "window[",
+            "window['",
             "[LIST]",
-            "].splice(",
+            "'].splice(",
             "[INDEX]",
             ", 1)"
         ]
@@ -50,17 +50,17 @@
     "data_deletealloflist": {
         "singleLine": true,
         "code": [
-            "window[",
+            "window['",
             "[LIST]",
-            "] = []"
+            "'] = []"
         ]
     },
     "data_insertatlist": {
         "singleLine": true,
         "code": [
-            "window[",
+            "window['",
             "[LIST]",
-            "].splice(",
+            "'].splice(",
             "[INDEX]",
             ", 0,",
             "[ITEM]",
@@ -70,9 +70,9 @@
     "data_replaceitemoflist": {
         "singleLine": true,
         "code": [
-            "window[",
+            "window['",
             "[LIST]",
-            "].splice(",
+            "'].splice(",
             "[INDEX]",
             ", 1,",
             "[ITEM]",
@@ -82,9 +82,9 @@
     "data_itemoflist": {
         "singleLine": true,
         "code": [
-            "window[",
+            "window['",
             "[LIST]",
-            "][",
+            "'][",
             "[INDEX]",
             "]"
         ]
@@ -92,9 +92,9 @@
     "data_itemnumoflist": {
         "singleLine": true,
         "code": [
-            "window[",
+            "window['",
             "[LIST]",
-            "].indexOf(",
+            "'].indexOf(",
             "[ITEM]",
             ")"
         ]
@@ -102,19 +102,27 @@
     "data_lengthoflist": {
         "singleLine": true,
         "code": [
-            "window[",
+            "window['",
             "[LIST]",
-            "].length"
+            "'].length"
         ]
     },
     "data_listcontainsitem": {
         "singleLine": true,
         "code": [
-            "window[",
+            "window['",
             "[LIST]",
-            "].includes(",
+            "'].includes(",
             "[ITEM]",
             ")"
+        ]
+    },
+    "data_listcontents": {
+        "singleLine": true,
+        "code": [
+            "window['",
+            "[LIST]",
+            "']"
         ]
     }
 }
