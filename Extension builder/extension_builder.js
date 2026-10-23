@@ -179,13 +179,13 @@ window.registerExtension = async (url) => {
                     let result = this.resolveInput(block, name, target);
 
                     if (name.startsWith('RAW_')) {
-                        return result.substring(1, result.length - 1); // remove the quotes added by JSON.stringify for raw code inputs since we want to insert the raw code directly into the generated code without quotes around it. This allows users to write blocks that return values without worrying about quotes breaking their code.
+                        return result.slice(1, -1); // remove the quotes added by JSON.stringify for raw code inputs since we want to insert the raw code directly into the generated code without quotes around it. This allows users to write blocks that return values without worrying about quotes breaking their code.
                     }
                     if (result === 'null') { // null needs to be a string since its returned as a string
                         result = block.fields[name].value
                     }
                     if (result.startsWith('"') && result.endsWith('"')) {
-                        result = result.substring(1, result.length - 1); // remove the quotes added by JSON.stringify for string inputs since we want to insert the string directly into the generated code without quotes around it. This allows users to write blocks that return values without worrying about quotes breaking their code.
+                        result = result.slice(1, -1); // remove the quotes added by JSON.stringify for string inputs since we want to insert the string directly into the generated code without quotes around it. This allows users to write blocks that return values without worrying about quotes breaking their code.
                         return String('Scratch.Cast.toString(`' + result + '`)'); // replace all backticks by a safer backtick that html will display as a backtick but wont break the code.
                     }
 
@@ -197,7 +197,7 @@ window.registerExtension = async (url) => {
                     let i, codeToInsert = '';
 
                     for (i of code_block) { // Replace any placeholders in the code block with the actual values from the block
-                        let argValue;
+                        let argValue = null;
                         let dependencies = code_json[opcodeWithoutExtension].dependencies;
 
                         if (dependencies) {
@@ -212,11 +212,11 @@ window.registerExtension = async (url) => {
                         }
 
                         //generate code for arguments or for blocks only
-                        if (i.substring(0, 1) === '[' && i.substring(i.length - 1) === ']') { // This is a placeholder for a value from the block (e.g. [VALUE] or [ARGUMENTS])
+                        if (i.startsWith('[') && i.endsWith(']')) { // This is a placeholder for a value from the block (e.g. [VALUE] or [ARGUMENTS])
 
                             if (i.includes('SUBSTACK')) {
 
-                                let substackCode = this.transpile(getSubstacks(i.substring(1, i.length - 1), block, opcode), target); // Recursively transpile the substack blocks to get the code for the substack and insert it into the code block. This allows users to write blocks that include substacks and have the code for those substacks be included in the generated code correctly.
+                                let substackCode = this.transpile(getSubstacks(i.slice(1, -1), block, opcode), target); // Recursively transpile the substack blocks to get the code for the substack and insert it into the code block. This allows users to write blocks that include substacks and have the code for those substacks be included in the generated code correctly.
 
                                 if (code_json[opcodeWithoutExtension].singleLine) {
                                     codeToInsert += '\n'; //make sure transpiled substacks are actually on a new line even if newline is set to true
@@ -227,12 +227,11 @@ window.registerExtension = async (url) => {
                                 continue; // Skip the rest of the loop for this iteration since we've already handled this placeholder
                             }
 
-                            let argName = i.replaceAll('[', '').replaceAll(']', ''); // Get the name of the argument from the placeholder (e.g. "VALUE" from "[VALUE]")
+                            let argName = i.slice(1, -1); // Get the name of the argument from the placeholder (e.g. "VALUE" from "[VALUE]")
                             argValue = getVal(argName).replaceAll('"', "'"); // Get the value for this argument and turn any "" strings into `` strings
-                            codeToInsert += argValue // Insert the value into the code block, removing any quotes to avoid issues in the generated code when "" are removed. This allows users to write blocks that return values without worrying about quotes breaking their code.
-                        } else {
-                            codeToInsert += i; // This is just a regular line of code that should be included as is in the generated code
                         }
+
+                        codeToInsert += argValue || i; // insert the final code into the insertedCode, if its a regular code append that else append the value of a argument.
 
                         if (!code_json[opcodeWithoutExtension].singleLine) {
                             codeToInsert += '\n'; // Add a space at the end of the line to separate it from the next line since we are combining all lines into one line for singleLine code blocks.
