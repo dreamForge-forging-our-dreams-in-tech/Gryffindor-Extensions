@@ -93,7 +93,7 @@ This blocks tells the Scratch VM to run the blocks placed inside of the specifie
 NOTE: branches will only work if your block type is CONDITIONAL!
 ![alt text](image-23.png)
 
-## using variables
+## using variables and lists
 
 Turbowarp variables can seamlessly be used with the extension builder, any variable block that is seen by the compiler will be turned into native js code, variables used within the extension builder can only be accesed inside of the extension builder with turbowarp blocks, installing the final extension wont expose your variables to turbowarp blocks, variables can still be accesed via js or the console.
 
