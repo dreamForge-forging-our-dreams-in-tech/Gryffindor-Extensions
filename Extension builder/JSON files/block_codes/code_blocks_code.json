@@ -26,7 +26,9 @@
     },
     "checkFunctionAvailability": {
         "singleLine": true,
-        "dependencies" :["runtime"],
+        "dependencies": [
+            "runtime"
+        ],
         "code": [
             "!String(this.runtime.getOpcodeFunction('",
             "[NAME]",
@@ -37,6 +39,12 @@
         "singleLine": true,
         "code": [
             "Scratch.extensions.unsandboxed"
+        ]
+    },
+    "boolean": {
+        "singleLine": true,
+        "code": [
+            "[BOOL]"
         ]
     }
 }
