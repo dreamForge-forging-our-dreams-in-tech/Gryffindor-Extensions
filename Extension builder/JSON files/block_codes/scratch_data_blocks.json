@@ -30,9 +30,9 @@
     "data_addtolist": {
         "singleLine": true,
         "code": [
-            "window['",
+            "(window['",
             "[LIST]",
-            "'].push(",
+            "'] ??= []).push(",
             "[ITEM]",
             ")"
         ]
@@ -58,9 +58,9 @@
     "data_insertatlist": {
         "singleLine": true,
         "code": [
-            "window['",
+            "(window['",
             "[LIST]",
-            "'].splice(",
+            "'] ??= []).splice(",
             "[INDEX]",
             ", 0,",
             "[ITEM]",
@@ -70,9 +70,9 @@
     "data_replaceitemoflist": {
         "singleLine": true,
         "code": [
-            "window['",
+            "(window['",
             "[LIST]",
-            "'].splice(",
+            "'] ??= []).splice(",
             "[INDEX]",
             ", 1,",
             "[ITEM]",
