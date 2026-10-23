@@ -76,5 +76,21 @@
                 "menu": "bool"
             }
         }
+    },
+    {
+        "opcode": "scratch_cast",
+        "blockType": "reporter",
+        "text": "convert [VALUE] to [CAST]",
+        "disableMonitor": true,
+        "arguments": {
+            "VALUE": {
+                "type": "STRING",
+                "defaultValue": "VALUE"
+            },
+            "CAST": {
+                "type": "STRING",
+                "menu": "cast"
+            }
+        }
     }
 ]

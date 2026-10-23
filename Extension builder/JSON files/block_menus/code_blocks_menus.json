@@ -24,5 +24,23 @@
                 "value": "true"
             }
         ]
+    },
+    "cast": {
+        "acceptReporters": false,
+        "items": [
+            {
+                "text": "String",
+                "value": "toString"
+            },
+            {
+                "text": "Number",
+                "value": "toNumber"
+            }
+            ,
+            {
+                "text": "Boolean",
+                "value": "toBoolean"
+            }
+        ]
     }
 }
