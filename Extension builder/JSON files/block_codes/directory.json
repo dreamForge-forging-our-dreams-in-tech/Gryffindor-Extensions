@@ -1,5 +1,5 @@
 {
-    "code_blocks_code": ["getArgumentValue", "returnResult", "executeBranchBlocks", "checkFunctionAvailability", "runningUnsandboxed"],
+    "code_blocks_code": ["getArgumentValue", "returnResult", "executeBranchBlocks", "checkFunctionAvailability", "runningUnsandboxed", "boolean"],
     "block_defitions_code": ["setMetaDataBlocks", "generateBlockMetaData", "buildBlockType", "defineArguments", "defineImageArguments"],
     "defition_blocks_code": ["setMetaData", "createListItem", "generateMenu"],
     "scratch_blocks": ["control_repeat", "control_forever", "control_if", "control_if_else", "control_repeat_until", "control_while", "data_setvariableto", "data_changevariableby", "data_variable"]
