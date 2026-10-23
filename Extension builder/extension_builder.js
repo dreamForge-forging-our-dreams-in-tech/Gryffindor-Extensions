@@ -186,7 +186,7 @@ window.registerExtension = async (url) => {
                     }
                     if (result.startsWith('"') && result.endsWith('"')) {
                         result = result.substring(1, result.length - 1); // remove the quotes added by JSON.stringify for string inputs since we want to insert the string directly into the generated code without quotes around it. This allows users to write blocks that return values without worrying about quotes breaking their code.
-                        return String('/' + result + '/.source'); // replace all backticks by a safer backtick that html will display as a backtick but wont break the code.
+                        return String('Scratch.Cast.toString(`' + result + '`)'); // replace all backticks by a safer backtick that html will display as a backtick but wont break the code.
                     }
 
                     return result;
