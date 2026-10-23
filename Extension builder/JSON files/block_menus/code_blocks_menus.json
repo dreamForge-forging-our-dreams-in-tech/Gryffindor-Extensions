@@ -11,5 +11,18 @@
                 "value": "true"
             }
         ]
+    },
+    "bool": {
+        "acceptReporters": false,
+        "items": [
+            {
+                "text": "False",
+                "value": "false"
+            },
+            {
+                "text": "True",
+                "value": "true"
+            }
+        ]
     }
 }

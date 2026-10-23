@@ -64,5 +64,17 @@
         "blockType": "BOOLEAN",
         "disableMonitor": true,
         "text": "is unsandboxed?"
+    },
+    {
+        "opcode": "boolean",
+        "blockType": "BOOLEAN",
+        "text": "[BOOL]",
+        "disableMonitor": true,
+        "arguments": {
+            "BOOL": {
+                "type": "STRING",
+                "menu": "bool"
+            }
+        }
     }
 ]
