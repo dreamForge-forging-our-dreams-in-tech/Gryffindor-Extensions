@@ -22,6 +22,14 @@
             {
                 "text": "True",
                 "value": "true"
+            },
+            {
+                "text": "Null",
+                "value": "null"
+            },
+            {
+                "text": "Undefined",
+                "value": "undefined"
             }
         ]
     },
@@ -35,8 +43,7 @@
             {
                 "text": "Number",
                 "value": "toNumber"
-            }
-            ,
+            },
             {
                 "text": "Boolean",
                 "value": "toBoolean"
