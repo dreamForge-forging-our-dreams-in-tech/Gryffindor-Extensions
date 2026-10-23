@@ -36,5 +36,85 @@
             "[ITEM]",
             ")"
         ]
+    },
+    "data_deleteoflist": {
+        "singleLine": true,
+        "code": [
+            "window[",
+            "[LIST]",
+            "].splice(",
+            "[INDEX]",
+            ", 1)"
+        ]
+    },
+    "data_deletealloflist": {
+        "singleLine": true,
+        "code": [
+            "window[",
+            "[LIST]",
+            "] = []"
+        ]
+    },
+    "data_insertatlist": {
+        "singleLine": true,
+        "code": [
+            "window[",
+            "[LIST]",
+            "].splice(",
+            "[INDEX]",
+            ", 0,",
+            "[ITEM]",
+            ")"
+        ]
+    },
+    "data_replaceitemoflist": {
+        "singleLine": true,
+        "code": [
+            "window[",
+            "[LIST]",
+            "].splice(",
+            "[INDEX]",
+            ", 1,",
+            "[ITEM]",
+            ")"
+        ]
+    },
+    "data_itemoflist": {
+        "singleLine": true,
+        "code": [
+            "window[",
+            "[LIST]",
+            "][",
+            "[INDEX]",
+            "]"
+        ]
+    },
+    "data_itemnumoflist": {
+        "singleLine": true,
+        "code": [
+            "window[",
+            "[LIST]",
+            "].indexOf(",
+            "[ITEM]",
+            ")"
+        ]
+    },
+    "data_lengthoflist": {
+        "singleLine": true,
+        "code": [
+            "window[",
+            "[LIST]",
+            "].length"
+        ]
+    },
+    "data_listcontainsitem": {
+        "singleLine": true,
+        "code": [
+            "window[",
+            "[LIST]",
+            "].includes(",
+            "[ITEM]",
+            ")"
+        ]
     }
 }
