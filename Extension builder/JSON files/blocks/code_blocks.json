@@ -79,7 +79,7 @@
     },
     {
         "opcode": "scratch_cast",
-        "blockType": "reporter",
+        "blockType": "REPORTER",
         "text": "convert [VALUE] to [CAST]",
         "disableMonitor": true,
         "arguments": {
