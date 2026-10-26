@@ -427,7 +427,7 @@ window.registerExtension = async (url) => {
 
         getInfo() {
             return {
-                id: extension_id,
+                id: extension_id.concat('_blocks'),
                 name: 'Extension Block Definitions Blocks',
                 color1: '#5c9ba5', // Main block color
                 blocks: block_definition_blocks,
@@ -458,7 +458,7 @@ window.registerExtension = async (url) => {
 
         getInfo() {
             return {
-                id: extension_id,
+                id: extension_id.concat('_code'),
                 name: 'Extension Code Blocks',
                 color1: '#725ca5', // Main block color
                 blocks: code_blocks,
