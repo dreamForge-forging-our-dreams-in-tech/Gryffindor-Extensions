@@ -150,7 +150,8 @@ window.registerExtension = async (url) => {
             while (currentId) {
                 const block = target.blocks.getBlock(currentId);
                 const opcode = block.opcode;
-                const opcodeWithoutExtension = opcode.replaceAll(extension_id + '_', ''); // Remove the extension_id prefix from the opcode to get the base opcode name, which is used in the directory.json file to find the corresponding code block for this opcode. This allows us to reuse the same code blocks for multiple extensions without having to duplicate them in the directory.json file.
+                const prefixes = [extension_id, extension_id_blocks, extension_id_code].map(id => id + '_');
+                const opcodeWithoutExtension = opcode.replace(new RegExp(prefixes.join('|'), 'g'), '');
                 let code_json;
                 let i;
 
