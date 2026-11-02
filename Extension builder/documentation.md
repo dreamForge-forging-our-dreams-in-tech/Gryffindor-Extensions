@@ -120,3 +120,9 @@ Once you pressed the green flag every change you made will automatically b e gen
 ## I want to use JS in my extensions
 This is absolutely possible!
 The extension builder has built in support for the ASD blocks extension which allows you to use JS code inside of your extensions and the best part is that this will work even when the user doesnt have the ASD blocks extension installed!
+
+## How can i make my extensions safely updated when they're used in the extension builder?
+
+Good question!
+
+Simply use the same code we use in the extension_installer.js and replace the github url with the hosted url of your extension, user can isntall that file and whenever you update your extensions its automatically updated and compatible.
