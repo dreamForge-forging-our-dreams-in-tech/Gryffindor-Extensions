@@ -1,4 +1,7 @@
 let extension_id = 'dreamforgeturbowarpextensionbuilder';
+let extension_id_blocks = 'dreamforgeturbowarpextensionbuilderblocks';
+let extension_id_code = 'dreamforgeturbowarpextensionbuildercode';
+
 window.extensionBuilder = window.extensionBuilder || {}; // init the global registery for extensions
 
 function fetchJson(file_name, folder = 'block_menus', url = 'https://raw.githubusercontent.com/dreamForge-forging-our-dreams-in-tech/Gryffindor-Extensions/refs/heads/main/Extension%20builder/') {
@@ -64,13 +67,7 @@ function setWarnings(args, util, condition, message) {
             const block = workspace.getBlockById(blockId);
 
             if (block) {
-                if (condition) {
-                    // 3. Voeg een comment toe (or verander de tekst)
-                    block.setCommentText(message);
-                } else {
-                    // Verwijder de comment door er 'null' of een lege string in te zetten
-                    block.setCommentText(null);
-                }
+                block.setCommentText(condition ? message : null);
             }
         }
     }
@@ -427,7 +424,7 @@ window.registerExtension = async (url) => {
 
         getInfo() {
             return {
-                id: extension_id.concat('_blocks'),
+                id: extension_id_blocks,
                 name: 'Extension Block Definitions Blocks',
                 color1: '#5c9ba5', // Main block color
                 blocks: block_definition_blocks,
@@ -458,7 +455,7 @@ window.registerExtension = async (url) => {
 
         getInfo() {
             return {
-                id: extension_id.concat('_code'),
+                id: extension_id_code,
                 name: 'Extension Code Blocks',
                 color1: '#725ca5', // Main block color
                 blocks: code_blocks,
