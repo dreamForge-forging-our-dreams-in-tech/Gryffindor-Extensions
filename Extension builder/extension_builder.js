@@ -341,6 +341,8 @@ window.registerExtension = async (url) => {
             const nameBlockId = allBlocks[hatId].inputs.NAME.block;
             const extensionName = allBlocks[nameBlockId].fields.TEXT.value || "MyExtension";
 
+            const constructor_code = this.transpile(allBlocks[hatId], target);
+
             // get code for all hat blocks and put them in the correct place in the generated code
             let blockHats = this.getAllHats('defineExtensionBlock', allBlocks); // Get all hats that define block functions
             let menuHats = this.getAllHats('defineExtensionMenus', allBlocks); // Get all hats that define block menus
@@ -367,6 +369,8 @@ window.registerExtension = async (url) => {
             constructor(runtime = {}) {
             this.runtime = runtime;
             ${this.presetCode}
+
+            ${constructor_code}
             }
 
             getInfo() {

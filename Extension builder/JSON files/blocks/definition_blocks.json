@@ -2,7 +2,8 @@
     {
         "opcode": "defineExtensionHat",
         "blockType": "HAT",
-        "text": "define extension [NAME]",
+        "text": ["define extension [NAME]", "constructor"],
+        "branchCount": 1,
         "arguments": {
             "NAME": {
                 "type": "STRING",
