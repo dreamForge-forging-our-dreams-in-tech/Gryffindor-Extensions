@@ -388,8 +388,9 @@ window.registerExtension = async (url) => {
 
         getAllHats(opcode, allBlocks) { // gets all hats with the specified opcode
             let hats = [];
+            const extensionIds = [extension_id, extension_id_blocks, extension_id_code];
             for (const id in allBlocks) {
-                if (allBlocks[id].opcode === `${extension_id}_${opcode}`) {
+                if (extensionIds.some(extensionId => allBlocks[id].opcode === `${extensionId}_${opcode}`)) {
                     hats.push(id);
                 }
             }
