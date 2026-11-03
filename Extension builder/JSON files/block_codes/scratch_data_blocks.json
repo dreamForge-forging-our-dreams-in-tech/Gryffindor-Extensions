@@ -34,7 +34,7 @@
             "[LIST]",
             "'] ??= []).push(",
             "[ITEM]",
-            ")"
+            ");"
         ]
     },
     "data_deleteoflist": {
@@ -44,7 +44,7 @@
             "[LIST]",
             "'].splice(",
             "[INDEX]",
-            ", 1)"
+            ", 1);"
         ]
     },
     "data_deletealloflist": {
@@ -52,7 +52,7 @@
         "code": [
             "window['",
             "[LIST]",
-            "'] = []"
+            "'] = [];"
         ]
     },
     "data_insertatlist": {
@@ -64,7 +64,7 @@
             "[INDEX]",
             ", 0,",
             "[ITEM]",
-            ")"
+            ");"
         ]
     },
     "data_replaceitemoflist": {
@@ -76,7 +76,7 @@
             "[INDEX]",
             ", 1,",
             "[ITEM]",
-            ")"
+            ");"
         ]
     },
     "data_itemoflist": {

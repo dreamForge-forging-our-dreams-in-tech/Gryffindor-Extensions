@@ -2,7 +2,7 @@
     {
         "opcode": "defineExtensionHat",
         "blockType": "HAT",
-        "text": ["define extension [NAME]", "constructor"],
+        "text": "define extension [NAME]",
         "branchCount": 1,
         "arguments": {
             "NAME": {

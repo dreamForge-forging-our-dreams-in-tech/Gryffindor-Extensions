@@ -337,11 +337,14 @@ window.registerExtension = async (url) => {
                 return;
             }
 
+            const hatBlock = target.blocks.getBlock(hatId);
+
             // 2. Get the name from the hat block's inputs
-            const nameBlockId = allBlocks[hatId].inputs.NAME.block;
+            const nameBlockId = hatBlock.inputs.NAME.block;
             const extensionName = allBlocks[nameBlockId].fields.TEXT.value || "MyExtension";
 
-            const constructor_code = this.transpile(allBlocks[hatId], target);
+            const firstBranchBlockId = hatBlock.inputs.SUBSTACK?.block ?? null;
+            const constructor_code = this.transpile(firstBranchBlockId, target);
 
             // get code for all hat blocks and put them in the correct place in the generated code
             let blockHats = this.getAllHats('defineExtensionBlock', allBlocks); // Get all hats that define block functions

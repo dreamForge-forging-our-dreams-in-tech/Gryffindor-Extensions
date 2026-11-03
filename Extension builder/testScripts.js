@@ -1,50 +1,33 @@
-class debuggingtools {
+class MyCoolAndAwesomeExtension {
   constructor(runtime = {}) {
     this.runtime = runtime;
-    this.dreamForgeJSTools_evalCode = this.runtime.getOpcodeFunction('dreamForgeJSTools_evalCode');
 
+
+    (window['test'] ??= []).push(Scratch.Cast.toString(`text1`));
+      (window['test'] ??= []).push(Scratch.Cast.toString(`text2`));
   }
 
   getInfo() {
     return {
-      id: /debuggingtools/.source,
-      name: /Debugging Tools/.source,
-      color1: /#898989/.source,
+      id: Scratch.Cast.toString(`test`),
+      name: Scratch.Cast.toString(`test`),
       blocks: [
         {
-          opcode: /consoleLogs/.source,
+          opcode: Scratch.Cast.toString(`opcode_name`),
           blockType: Scratch.BlockType.COMMAND,
-          text: /Log [type] [message] to browser console./.source,
-          arguments: {
-            type: { type: Scratch.ArgumentType.STRING, menu: /logTypes/.source },
-            message: { type: Scratch.ArgumentType.STRING, defaultValue: /Message/.source },
-          },
-
+          branchCount: Scratch.Cast.toString(`2`),
+          text: window['test'],
         },
 
       ],
-      menus:
-      {
-        ul
-          : {
-          acceptReporters:
-            false
-          , items: [
-            { text: /Message/.source, value: /log/.source },
-            { text: /Warning/.source, value: /warn/.source },
-            { text: /Error/.source, value: /error/.source },]
-        }
-
-      },
-
 
     }
   }
 
 
-  async consoleLogs(args, util) {
-    await this.dreamForgeJSTools_evalCode({ RAW_CODE: `console['${args.type}']('${args.message}')` }, util)
+  async opcode_name(args, util) {
+
   }
 
 }
-Scratch.extensions.register(new debuggingtools(Scratch.vm.runtime));
+Scratch.extensions.register(new MyCoolAndAwesomeExtension());
