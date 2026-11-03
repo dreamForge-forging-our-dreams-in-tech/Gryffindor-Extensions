@@ -19,6 +19,18 @@ class ASD_COMMAND {
             name: 'ASD',
             color1: '#0088ff', // Main block color
             color2: '#0066cc', // Hover/Outline color
+            menus:
+            {
+                event_objects
+                    : {
+                    acceptReporters:
+                        false
+                    , items: [
+                        { text: Scratch.Cast.toString(`Stage`), value: Scratch.Cast.toString(`stage`) },
+                        { text: Scratch.Cast.toString(`Sprite`), value: Scratch.Cast.toString(`sprite`) },
+                    ]
+                }
+            },
             blocks: [
                 {
                     opcode: 'evalCode',
@@ -63,4 +75,4 @@ class ASD_COMMAND {
     }
 }
 
-Scratch.extensions.register(new ASD_COMMAND());
+Scratch.extensions.register(new ASD_COMMAND(Scratch.vm.runtime));
