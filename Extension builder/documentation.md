@@ -47,6 +47,18 @@ Repeat step 2 and 3 to create multiple blocks
 | Branch Count (number)   | Adds branches to the block, a branch is the c shaped part of a block where you can put other blocks into, its often called a substack |
 | ![A forever loop with 1 branch](image-21.png) | A block with 1 Substack/C shaped block part/Branch
 
+## setting block texts when using branches.
+When your block uses branches you sometimes want to add a text to each branch, this can be done using lists.
+
+Create a list and add the texts you want to appear to them via the constructor, the first item is the first branch text, second for the second bracnh etc.
+
+![alt text](image-24.png)
+
+Then simply refer to the list when using the set block [text] to block
+![alt text](image-25.png)
+
+Now compile your code, install your extension and see the result.
+
 ## setting block types
 You can set the type of the block using to block type reporter block.
 ![alt text](image-7.png)
