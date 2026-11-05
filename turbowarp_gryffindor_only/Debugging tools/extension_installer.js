@@ -1,5 +1,5 @@
 (async function () {
-    const remoteVersionUrl = "https://dreamforge-forging-our-dreams-in-tech.github.io/Gryffindor-Extensions/Debugging%20tools/debugging_tools.js";
+    const remoteVersionUrl = "https://dreamforge-forging-our-dreams-in-tech.github.io/Lucy/Debugging%20tools/debugging_tools.js";
 
     try {
         const response = await fetch(remoteVersionUrl);
