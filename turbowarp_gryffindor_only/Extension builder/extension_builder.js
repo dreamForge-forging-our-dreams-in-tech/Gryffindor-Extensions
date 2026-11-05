@@ -4,7 +4,7 @@ let extension_id_code = 'dreamforgeturbowarpextensionbuildercode';
 
 window.extensionBuilder = window.extensionBuilder || {}; // init the global registery for extensions
 
-function fetchJson(file_name, folder = 'block_menus', url = 'https://raw.githubusercontent.com/dreamForge-forging-our-dreams-in-tech/Gryffindor-Extensions/refs/heads/main/Extension%20builder/') {
+function fetchJson(file_name, folder = 'block_menus', url = 'https://dreamforge-forging-our-dreams-in-tech.github.io/Lucy/turbowarp_gryffindor_only/Extension%20builder/') {
     return fetch(`${url}JSON%20files/${folder}/${file_name}.json`)
         .then(response => {
             if (!response.ok) {

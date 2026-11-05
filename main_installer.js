@@ -1,6 +1,7 @@
 let urls = [
-    'https://cdn.jsdelivr.net/gh/dreamForge-forging-our-dreams-in-tech/Gryffindor-Extensions@main/turbowarp_gryffindor_only/Extension%20builder/extension_builder.js'
+    'https://dreamforge-forging-our-dreams-in-tech.github.io/Lucy/turbowarp_gryffindor_only/Extension%20builder/extension_builder.js'
 ];
+
 function loadScript(url) {
     return new Promise((resolve, reject) => {
         const script = document.createElement("script");
