@@ -8,7 +8,7 @@ class ASD_COMMAND {
         this.runtime = runtime;
 
         try { // check if the registery is available and prevent crashes if not
-            window.registerExtension('https://raw.githubusercontent.com/dreamForge-forging-our-dreams-in-tech/Gryffindor-Extensions/refs/heads/main/ASD%20blocks/');
+            window.registerExtension('https://dreamforge-forging-our-dreams-in-tech.github.io/Lucy/turbowarp_gryffindor_only/ASD%20blocks/');
         } catch (e) {
             console.warn('Extension registry not found, skipping extension registration. please install the extension builder first if you plan to use this extension with the extension builder.');
         }
