@@ -1,5 +1,5 @@
 let urls = [
-    'https://dreamforge-forging-our-dreams-in-tech.github.io/Lucy/turbowarp_gryffindor_only/Extension%20builder/extension_builder.js'
+    'https://dreamforge-forging-our-dreams-in-tech.github.io/Lucy/filepicker/filepicker.js'
 ];
 
 function loadScript(url) {

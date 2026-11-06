@@ -17,6 +17,9 @@
             console.error('Scratch runtime setup failed:', error);
             throw error;
         }
+
+        let filePicker = new filepicker();
+        filePicker.select_file();
     </script>
 </body>
 
