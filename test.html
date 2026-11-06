@@ -9,17 +9,18 @@
 
 <body>
     <script type="module">
-        import 'https://dreamforge-forging-our-dreams-in-tech.github.io/Lucy/main_installer.js';
+        import '/main_installer.js';
 
         try {
-            await window.scratchRuntimeReady;
+            await window.mainInstallerReady;
         } catch (error) {
             console.error('Scratch runtime setup failed:', error);
             throw error;
         }
 
-        let filePicker = new filepicker();
-        filePicker.select_file();
+        window.onclick = function () {
+            Lucy.filepicker.select_file();
+        }
     </script>
 </body>
 
